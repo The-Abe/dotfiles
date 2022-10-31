@@ -1,0 +1,93 @@
+set nocompatible
+syntax on
+filetype plugin indent on
+set history=10000
+set autoread
+set scrolloff=2
+set hid
+set backspace=eol,start,indent
+set smartcase
+set hlsearch
+set incsearch
+set magic
+set encoding=utf8
+set ffs=unix,dos,mac
+set autoindent
+set smartindent
+set nowrap
+set smarttab
+set relativenumber
+set number
+set linebreak
+set shiftround
+set textwidth=80
+set formatoptions=qrn1j
+set background=dark
+set modeline
+set modelines=5
+set omnifunc=syntaxcomplete#Complete
+set mouse= 
+set termguicolors
+set nobackup
+set nowb
+set noswapfile
+set expandtab
+set shiftwidth=2
+set tabstop=2
+set path=.,,
+set spelllang=nl,en
+set wildmenu
+set wildmode=longest:full
+set hidden
+set updatetime=300
+set shortmess+=c
+let mapleader=" "
+colorscheme evening
+
+" Return to last edit position when opening files
+autocmd BufReadPost *
+  \ if line("'\"") > 0 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
+
+" also  make gf  work with non-existsing files
+nnoremap gf :e <cfile><CR>
+
+" Make c-c behave exactly like esc
+inoremap <c-c> <esc>
+
+" H/L for really fast end and home
+nnoremap H ^
+nnoremap L $
+vnoremap H ^
+vnoremap L $
+
+" Indentation
+nnoremap <a-h> mM<<`M2h
+nnoremap <a-l> mM>>`M2l
+inoremap <a-h> <c-o>mM<c-o><<<c-o>`M<c-o>2h
+inoremap <a-l> <c-o>mM<c-o>>><c-o>`M<c-o>2l
+vnoremap <a-h> < gv
+vnoremap <a-l> > gv
+
+" Move lines
+nnoremap <a-k> :move-2<cr>
+nnoremap <a-j> :move+<cr>
+vnoremap <a-k> :move-2<cr>gv
+vnoremap <a-j> :move'>+<cr>gv
+
+" Toggle common options
+nnoremap <leader>th :set hlsearch!<cr>:set hlsearch?<cr>
+nnoremap <leader>tp :set paste!<cr>
+nnoremap <leader>tw :set wrap!<cr>:set wrap?<cr>
+
+" Close temp screens with q
+au FileType help nnoremap q :q!<cr>
+au FileType qf nnoremap q :q!<cr>
+
+" Buffer navigation
+nnoremap <c-l> :bn<cr>
+nnoremap <c-h> :bp<cr>
+
+" Spelling
+nnoremap <f9> :set spell!<cr>
