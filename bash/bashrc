@@ -34,6 +34,7 @@ alias tmux="env TERM=xterm-256color tmux"
 alias editbash="$EDITOR ~/.bashrc; source ~/.bashrc"
 alias etodo="$EDITOR ~/.todo.md"
 alias st="git status 2>/dev/null || hg status 2>/dev/null || true"
+alias vim="nvim 2>/dev/null || vim"
 
 function todo() {
 	if [ -z $1 ]; then
