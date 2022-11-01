@@ -19,6 +19,9 @@ ln -sf vim/vimrc ~/.vimrc
 ln -sf tmux/tmux.conf ~/.tmux.conf
 echo "Make sure to reload TMUX if you're already in a session."
 
+ln -sf bash/bashrc ~/.bashrc
+source ~/.bashrc
+
 # Install NerdFonts
 mkdir -p ~/.local/share/fonts
 cd ~/.local/share/fonts

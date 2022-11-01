@@ -1,0 +1,125 @@
+# Set vars and options
+HISTCONTROL=ignoredups:ignorespace
+HISTSIZE=100000
+HISTFILESIZE=2000000
+export TERM=xterm-256color
+export EDITOR=/usr/bin/vim
+shopt -s histappend
+shopt -s checkwinsize
+shopt -s globstar
+
+# Colours for grep and ls
+if [ -x /usr/bin/dircolors ]; then
+    alias ls='ls --color=auto'
+    alias grep='grep --color=auto'
+fi
+
+# Bash completion
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+    bind "set completion-ignore-case on"
+fi
+
+# Set PATH and related stuff
+export PATH="$HOME/.rbenv/bin:$PATH:~/bin:/usr/local/go/bin"
+eval "$(rbenv init -)"
+export GOPATH=~
+export CDPATH=$CDPATH:$HOME/projects/:/var/www/rails/:/var/www/api/:/var/www/consumers/
+
+# Aliases
+alias ggrep='git grep -ni'
+alias hgrep='hg grep --all'
+alias :q="exit"
+alias tmux="env TERM=xterm-256color tmux"
+alias editbash="$EDITOR ~/.bashrc; source ~/.bashrc"
+alias etodo="$EDITOR ~/.todo.md"
+
+function todo() {
+	if [ -z $1 ]; then
+		[ -e ~/.todo.md ] || touch ~/.todo.md
+		cat ~/.todo.md
+	else
+		echo "[ ] $1" >> ~/.todo.md
+		cat ~/.todo.md
+	fi
+}
+
+# Navigation aliases
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias etc='cd /etc/'
+alias logs='cd /var/log/'
+
+# Auto use ssh-agent so I dont have to do it for every tmux window
+if [[ -f ~/.ssh/id_rsa.pub ]]
+then
+  if [ ! -S ~/.ssh/ssh_auth_sock ]
+  then
+    eval `ssh-agent`
+    ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+  fi
+  export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+  ssh-add -l | grep "The agent has no identities" && ssh-add
+fi
+
+# PS1 and related stuff
+function color() {
+  echo -e "\033[38;5;$1m"
+}
+function bold() {
+ echo -e "\e[1m"
+}
+function reset_color() {
+ echo -e "\e[m"
+}
+
+
+branch_status() {
+  branch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+  if [[ $branch != "" ]]
+  then
+    echo -e "\n$(color 99) $(color 8)$branch $(git_dirty)"
+  else
+    branch=$(hg branch 2> /dev/null | awk '{print $1}')
+    if [[ $branch != "" ]]
+    then
+      echo -e "\n$(color 99) $(color 8)$branch $(hg_dirty)"
+    fi
+  fi
+}
+
+git_dirty() {
+  stat=$(git status --porcelain | sort | cut -f1 -d " " | uniq -c | sed 's/^ \+//' | sed 's/ /:/g' | paste -sd ' ' -)
+  if [[ $stat != "" ]]
+  then
+    echo "$(color 197)✘$(color 8) $stat"
+  else
+    echo "$(color 2)✔"
+  fi
+}
+
+hg_dirty() {
+  stat=$(hg status 2> /dev/null \
+    | awk '{print $1}' \
+    | sort | uniq | paste -sd ',' -)
+  if [[ $stat != "" ]]
+  then
+    echo "✘$(color 8) $stat"
+  fi
+}
+
+return_code() {
+  res=$?
+  if [ $res != 0 ]
+  then
+    echo -e "$(bold)$(color 197)✘($res) "
+  else
+    echo -e "$(bold)$(color 2)✔ "
+  fi
+}
+
+# Molokai colours
+# 197 81 202 82 144 99
+PS1='\n$(return_code)$(color 8)\u@\h \w $(branch_status)$(reset_color)\n\$ '

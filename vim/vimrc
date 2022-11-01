@@ -26,7 +26,7 @@ set background=dark
 set modeline
 set modelines=5
 set omnifunc=syntaxcomplete#Complete
-set mouse= 
+set mouse=
 set termguicolors
 set nobackup
 set nowb
@@ -42,7 +42,7 @@ set hidden
 set updatetime=300
 set shortmess+=c
 let mapleader=" "
-colorscheme evening
+colorscheme desert
 
 " Return to last edit position when opening files
 autocmd BufReadPost *
