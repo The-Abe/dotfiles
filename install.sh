@@ -10,7 +10,7 @@ if [ ! "$(ls -A ~/.config/nvim)" ]; then
 	rm -rf ~/.config/nvim/
 	ln -sf `pwd`/vim ~/.config/nvim
 fi
-sh -c 'curl -fLo ~/.config/nvim/site/autoload/plug.vim --create-dirs \
+sh -c 'curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
 	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 # In case of no neovim (mostly for when connected to servers)

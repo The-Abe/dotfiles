@@ -3,7 +3,6 @@ HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=100000
 HISTFILESIZE=2000000
 export TERM=xterm-256color
-export EDITOR=/usr/bin/vim
 shopt -s histappend
 shopt -s checkwinsize
 shopt -s globstar
@@ -34,7 +33,10 @@ alias tmux="env TERM=xterm-256color tmux"
 alias editbash="$EDITOR ~/.bashrc; source ~/.bashrc"
 alias etodo="$EDITOR ~/.todo.md"
 alias st="git status 2>/dev/null || hg status 2>/dev/null || true"
-alias vim="nvim 2>/dev/null || vim"
+if [ -x /usr/bin/nvim ]
+then
+	alias vim="nvim"
+fi
 
 function todo() {
 	if [ -z $1 ]; then
