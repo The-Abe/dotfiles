@@ -14,12 +14,12 @@ sh -c 'curl -fLo ~/.config/nvim/site/autoload/plug.vim --create-dirs \
 	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 # In case of no neovim (mostly for when connected to servers)
-ln -sf vim/vimrc ~/.vimrc
+ln -sf `pwd`/vim/vimrc ~/.vimrc
 
-ln -sf tmux/tmux.conf ~/.tmux.conf
+ln -sf `pwd`/tmux/tmux.conf ~/.tmux.conf
 echo "Make sure to reload TMUX if you're already in a session."
 
-ln -sf bash/bashrc ~/.bashrc
+ln -sf `pwd`/bash/bashrc ~/.bashrc
 source ~/.bashrc
 
 # Install NerdFonts
