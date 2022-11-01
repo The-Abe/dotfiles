@@ -33,6 +33,7 @@ alias :q="exit"
 alias tmux="env TERM=xterm-256color tmux"
 alias editbash="$EDITOR ~/.bashrc; source ~/.bashrc"
 alias etodo="$EDITOR ~/.todo.md"
+alias st="git status 2>/dev/null || hg status 2>/dev/null || true"
 
 function todo() {
 	if [ -z $1 ]; then
@@ -80,18 +81,18 @@ branch_status() {
   branch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
   if [[ $branch != "" ]]
   then
-    echo -e "\n$(color 99) $(color 8)$branch $(git_dirty)"
+    echo -e "\n$(color 99)git$(color 8) $branch $(git_dirty)"
   else
     branch=$(hg branch 2> /dev/null | awk '{print $1}')
     if [[ $branch != "" ]]
     then
-      echo -e "\n$(color 99) $(color 8)$branch $(hg_dirty)"
+      echo -e "\n$(color 99)hg$(color 8) $branch $(hg_dirty)"
     fi
   fi
 }
 
 git_dirty() {
-  stat=$(git status --porcelain | sort | cut -f1 -d " " | uniq -c | sed 's/^ \+//' | sed 's/ /:/g' | paste -sd ' ' -)
+  stat=$(git status --porcelain | awk '{print $1}' | uniq -c | sed 's/^ \+//' | sed 's/ /:/g' | paste -sd ' ' -)
   if [[ $stat != "" ]]
   then
     echo "$(color 197)✘$(color 8) $stat"
@@ -101,12 +102,12 @@ git_dirty() {
 }
 
 hg_dirty() {
-  stat=$(hg status 2> /dev/null \
-    | awk '{print $1}' \
-    | sort | uniq | paste -sd ',' -)
+  stat=$(hg status 2> /dev/null | awk '{print $1}' | uniq -c | sed 's/^ \+//' | sed 's/ /:/g' | paste -sd ' ' -)
   if [[ $stat != "" ]]
   then
-    echo "✘$(color 8) $stat"
+    echo "$(color 197)✘$(color 8) $stat"
+  else
+    echo "$(color 2)✔"
   fi
 }
 
