@@ -44,6 +44,12 @@ nnoremap <c-h> :bp<cr>
 " Spelling
 nnoremap <f9> :set spell!<cr>
 
+" Change next
+nnoremap cn *``cgn
+nnoremap cN *``cgN
+let g:mc = "y/\\V\<C-r>=escape(@\", '/')\<CR>\<CR>"
+vnoremap <expr> cn g:mc . "``cgn"
+
 " Abbreviations
 iabbrev name/ Abe van der Wielen
 iabbrev email/ abevanderwielen@gmail.com
