@@ -30,7 +30,7 @@ nnoremap <leader>vs :source ~/.config/nvim/init.vim<cr>
 
 " Toggle common options
 nnoremap <leader>th :set hlsearch!<cr>:set hlsearch?<cr>
-nnoremap <leader>tp :set paste!<cr>
+nnoremap <leader>tp :set paste!<cr>:set paste?<cr>
 nnoremap <leader>tw :set wrap!<cr>:set wrap?<cr>
 
 " Close temp screens with q
