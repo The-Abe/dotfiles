@@ -41,7 +41,6 @@ set wildmode=longest:full
 set hidden
 set updatetime=300
 set shortmess+=c
-let mapleader=" "
 colorscheme molokai
 
 " Use ag in stead of grep: apt install silversearcher-ag
