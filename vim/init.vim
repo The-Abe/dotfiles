@@ -5,3 +5,4 @@ source $HOME/.config/nvim/config/airline.vimrc
 source $HOME/.config/nvim/config/netrw.vimrc
 source $HOME/.config/nvim/config/lsp.lua
 source $HOME/.config/nvim/config/cmp.lua
+source $HOME/.config/nvim/config/telescope.vimrc

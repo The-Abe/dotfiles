@@ -1,12 +1,16 @@
 call plug#begin('~/.vim/plugged')
 Plug 'ludovicchabant/vim-lawrencium'	" Mercurial commands
 Plug 'sheerun/vim-polyglot'		" Updates syntax files for most languages
-
 Plug 'osyo-manga/vim-over'	" Preview :s commands
 Plug 'junegunn/vim-peekaboo'	" Preview registers before pasting
 Plug 'vim-airline/vim-airline'	" Pretty vim but also more informative status bar
 Plug 'tomasr/molokai'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'nvim-tree/nvim-web-devicons'
+
+"Telescope
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 " LSP and autocomplete
 Plug 'neovim/nvim-lspconfig'
