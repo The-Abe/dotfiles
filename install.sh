@@ -23,6 +23,8 @@ ln -sf `pwd`/bash/bashrc ~/.bashrc
 ln -sf `pwd`/bash/inputrc ~/.inputrc
 source ~/.bashrc
 
+ln -sf `pwd`/ruby/gemrc ~/.gemrc
+
 # Install NerdFonts
 mkdir -p ~/.local/share/fonts
 cd ~/.local/share/fonts
