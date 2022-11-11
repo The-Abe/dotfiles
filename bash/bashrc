@@ -48,6 +48,7 @@ function installremote() {
   echo $1
   scp $(readlink ~/.bashrc) $1:.bashrc
   scp $(readlink ~/.vimrc) $1:.vimrc
+  scp $(readlink ~/.inputrc) $1:.inputrc
 }
 
 # Navigation aliases

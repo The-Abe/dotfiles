@@ -20,6 +20,7 @@ ln -sf `pwd`/tmux/tmux.conf ~/.tmux.conf
 echo "Make sure to reload TMUX if you're already in a session."
 
 ln -sf `pwd`/bash/bashrc ~/.bashrc
+ln -sf `pwd`/bash/inputrc ~/.inputrc
 source ~/.bashrc
 
 # Install NerdFonts
