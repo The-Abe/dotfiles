@@ -28,7 +28,7 @@ then
 fi
 export GOPATH=~
 export CDPATH=$CDPATH:$HOME/projects/:/var/www/rails/:/var/www/api/:/var/www/consumers/
-. "$HOME/.cargo/env"
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 # Aliases
 alias ggrep='git grep -ni'

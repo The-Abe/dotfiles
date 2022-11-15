@@ -27,7 +27,6 @@ set modeline
 set modelines=5
 set omnifunc=syntaxcomplete#Complete
 set mouse=
-set termguicolors
 set nobackup
 set nowb
 set noswapfile
