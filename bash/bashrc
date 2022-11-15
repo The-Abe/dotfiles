@@ -13,12 +13,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
 fi
 
-# Bash completion
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    . /etc/bash_completion
-    bind "set completion-ignore-case on"
-fi
-
 # Set PATH and related stuff
 export PATH="$PATH:~/bin:/usr/local/go/bin"
 if [ -x /usr/bin/rbenv ]
