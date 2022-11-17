@@ -11,12 +11,8 @@ vnoremap H ^
 vnoremap L $
 
 " Indentation
-nnoremap <a-h> mM<<`M2h
-nnoremap <a-l> mM>>`M2l
-inoremap <a-h> <c-o>mM<c-o><<<c-o>`M<c-o>2h
-inoremap <a-l> <c-o>mM<c-o>>><c-o>`M<c-o>2l
-vnoremap <a-h> < gv
-vnoremap <a-l> > gv
+vnoremap < <gv
+vnoremap > >gv
 
 " Move lines
 nnoremap <a-k> :move-2<cr>
