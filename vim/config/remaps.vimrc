@@ -23,6 +23,7 @@ vnoremap <a-j> :move'>+<cr>gv
 " Shortcut .vimrc
 nnoremap <leader>ve :e ~/.config/nvim/init.vim<cr>
 nnoremap <leader>vs :source ~/.config/nvim/init.vim<cr>
+nnoremap <leader>vm :map<cr>
 
 " Toggle common options
 nnoremap <leader>th :set hlsearch!<cr>:set hlsearch?<cr>
