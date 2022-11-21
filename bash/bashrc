@@ -33,6 +33,7 @@ alias editbash="$EDITOR ~/.bashrc; source ~/.bashrc"
 alias etodo="$EDITOR ~/.todo.md"
 alias st="git status 2>/dev/null || hg status 2>/dev/null || true"
 alias root="sudo -E bash"
+alias o="xdg-open"
 if [ -x /usr/bin/nvim ]
 then
 	alias vim="nvim"
