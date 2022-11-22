@@ -9,10 +9,10 @@ cmp.setup({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
-    -- ['<space>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm({ select = false }),
-    ['<tab>'] = cmp.mapping.select_next_item(),
-    ['<s-tab>'] = cmp.mapping.select_prev_item(),
+    ['<CR>'] = cmp.mapping.abort(),
+    ['<tab>'] = cmp.mapping.confirm({ select = true }),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
@@ -24,7 +24,12 @@ cmp.setup({
     { name = 'nvim_lsp_signature_help' }
   }, {
     { name = 'cmdline' }
-  })
+  }),
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end,
+  }
 })
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
