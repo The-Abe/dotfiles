@@ -14,6 +14,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # Set PATH and related stuff
+export EDITOR=vim
 export PATH="$PATH:~/bin:/usr/local/go/bin"
 if [ -x /usr/bin/rbenv ]
 then
