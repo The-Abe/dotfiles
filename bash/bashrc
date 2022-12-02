@@ -58,13 +58,19 @@ alias logs='cd /var/log/'
 # Auto use ssh-agent so I dont have to do it for every tmux window
 if [[ -f ~/.ssh/id_rsa.pub ]]
 then
-  if [ ! -S ~/.ssh/ssh_auth_sock ]
+  if [ -x /usr/bin/keychain ]
   then
-    eval `ssh-agent`
-    ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+    /usr/bin/keychain -q --nogui $HOME/.ssh/id_rsa
+    source $HOME/.keychain/$HOSTNAME-sh
+  else
+    if [ ! -S ~/.ssh/ssh_auth_sock ]
+    then
+      eval `ssh-agent`
+      ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+    fi
+    export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+    ssh-add -l | grep "The agent has no identities" && ssh-add
   fi
-  export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-  ssh-add -l | grep "The agent has no identities" && ssh-add
 fi
 
 # PS1 and related stuff
