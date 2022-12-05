@@ -26,6 +26,7 @@ export CDPATH=$CDPATH:$HOME/projects/:/var/www/rails/:/var/www/api/:/var/www/con
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 # Aliases
+[ -f "$HOME/.bash_aliases" ] && . "$HOME/.bash_aliases"
 alias ggrep='git grep -ni'
 alias hgrep='hg grep --all'
 alias :q="exit"
