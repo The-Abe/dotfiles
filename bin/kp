@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ ! -x /usr/bin/kpcli ]
+then
+  echo "Install dependencies"
+  sudo apt-get install kpcli libterm-readline-gnu-perl libdata-password-perl
+fi
+
+kpcli --kdb=/home/abe/abe.kdbx --command "find $1"
