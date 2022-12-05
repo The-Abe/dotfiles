@@ -6,4 +6,7 @@ then
   sudo apt-get install kpcli libterm-readline-gnu-perl libdata-password-perl
 fi
 
-kpcli --kdb=/home/abe/abe.kdbx --command "find $1"
+read -p "Find: " f
+kpcli --kdb=/home/abe/abe.kdbx --command "find $f"
+
+read -p "Press enter to continue"
