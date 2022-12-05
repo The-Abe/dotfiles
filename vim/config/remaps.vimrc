@@ -47,6 +47,14 @@ nnoremap cN *``cgN
 let g:mc = "y/\\V\<C-r>=escape(@\", '/')\<CR>\<CR>"
 vnoremap <expr> cn g:mc . "``cgn"
 
+" zz everything
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+nnoremap * *zz
+nnoremap # #zz
+
 " Abbreviations
 iabbrev name/ Abe van der Wielen
 iabbrev email/ abevanderwielen@gmail.com
