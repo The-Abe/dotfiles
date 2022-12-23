@@ -104,3 +104,16 @@ iabbrev email/ abevanderwielen@gmail.com
 iabbrev date/ <c-r>=strftime("%F")<CR>
 iabbrev file/ <c-r>%
 iabbrev github/ https://github.com/the-abe
+
+autocmd BufNewFile,BufRead *.md nnoremap <silent> <space> :call ToggleTodo()<cr>
+function! ToggleTodo()
+  let cur_pos = getpos('.')
+  if match(getline('.'), '\[ \]') >= 0
+    s/\[ \]/[X]/
+  elseif match(getline('.'), '\[X\]') >= 0
+    s/\[X\]/[ ]/
+  else
+    s/\(^\s*-\=\s*\)/\1[ ] /
+  endif
+  call setpos('.', cur_pos)
+endfunction
