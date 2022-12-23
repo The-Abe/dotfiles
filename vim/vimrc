@@ -16,12 +16,12 @@ set autoindent
 set smartindent
 set nowrap
 set smarttab
-set relativenumber
 set number
+set relativenumber
 set linebreak
 set shiftround
 set textwidth=80
-set formatoptions=qrn1j
+set formatoptions=qrn1
 set background=dark
 set modeline
 set modelines=5
@@ -39,7 +39,6 @@ set wildmenu
 set wildmode=longest:full
 set hidden
 set updatetime=300
-set shortmess+=c
 let mapleader=" "
 colorscheme desert
 
@@ -90,3 +89,18 @@ nnoremap <c-h> :bp<cr>
 
 " Spelling
 nnoremap <f9> :set spell!<cr>
+
+" zz everything
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+nnoremap * *zz
+nnoremap # #zz
+
+" Abbreviations
+iabbrev name/ Abe van der Wielen
+iabbrev email/ abevanderwielen@gmail.com
+iabbrev date/ <c-r>=strftime("%F")<CR>
+iabbrev file/ <c-r>%
+iabbrev github/ https://github.com/the-abe
