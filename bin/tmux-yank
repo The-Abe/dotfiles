@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Based on https://medium.com/hackernoon/tmux-in-practice-copy-text-from-remote-session-using-ssh-remote-tunnel-and-systemd-service-dd3c51bca1fa
+# but actually works.
+
+# get data either form stdin or from file
+buf=$(cat "$@")
+
+copy_backend=""
+if [ -n "${DISPLAY-}" ] && [ -x /usr/bin/xsel ] ; then
+  copy_backend="xsel -i --clipboard"
+elif [ -n "${DISPLAY-}" ] && [ -x /usr/bin/xclip ]; then
+  copy_backend="xclip -i -f -selection primary | xclip -i -selection clipboard"
+elif [ "$(ss -n -4 state listening "( sport = 19988 )" | tail -n +2 | wc -l)" -eq 1 ]; then
+  copy_backend="nc -w 0 localhost 19988"
+fi
+
+# if copy backend is resolved, copy and exit
+if [ -n "$copy_backend" ]; then
+  printf "$buf" | eval "$copy_backend"
+  exit;
+fi
