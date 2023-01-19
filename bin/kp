@@ -1,5 +1,31 @@
 #!/bin/bash
 
+# Make sure you do the following:
+#
+# /etc/systemd/system/xclip.service 
+# [Unit]
+# Description=Service for xclip listener
+# Wants=network.target
+# After=network.target
+# 
+# [Service]
+# EnvironmentFile=-/etc/environment
+# ExecStart=/usr/bin/ncat -k -l localhost 19988 -c "/usr/bin/xclip -d :0 -selection clipboard"
+# Restart=always
+# Type=simple
+# User=abe
+# Group=abe
+# 
+# [Install]
+# WantedBy=multi-user.target
+#
+# ~/.ssh/config 
+# Host hostname
+#   HostName hostname
+#   RemoteForward 19988 localhost:19988
+#
+# $ systemctl enable xclip
+
 if [ ! -x /usr/bin/kpcli ]
 then
   echo "Install dependencies"
