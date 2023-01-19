@@ -1,3 +1,5 @@
+" run current file
+nnoremap <leader>r :!%:p<cr>
 " also  make gf  work with non-existsing files
 nnoremap gf :e <cfile><CR>
 

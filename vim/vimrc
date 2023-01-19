@@ -48,6 +48,20 @@ autocmd BufReadPost *
   \   exe "normal! g`\"" |
   \ endif
 
+augroup executable
+  autocmd!
+  autocmd BufReadPost *
+  \ if getline(1) =~ '^#!\s*\S' |
+  \   silent! exe "!chmod +x \"%:p\"" |
+  \ endif
+  autocmd InsertLeave * nested
+  \ if getline(1) =~ '^#!\s*\S' |
+  \   silent! exe "!chmod +x \"%:p\"" |
+  \ endif
+augroup END
+
+nnoremap <leader>r :!clear;%:p<cr>
+
 " also  make gf  work with non-existsing files
 nnoremap gf :e <cfile><CR>
 
