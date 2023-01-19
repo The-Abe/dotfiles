@@ -1,3 +1,4 @@
+#!/bin/sh
 # Install kitty config
 if [ ! "$(ls -A ~/.config/kitty)" ]; then
 	rm -rf ~/.config/kitty/

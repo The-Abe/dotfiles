@@ -15,6 +15,7 @@ fi
 
 # Set PATH and related stuff
 export EDITOR=vim
+export LESS="iKqRXF"
 export PATH="$PATH:~/bin:/usr/local/go/bin"
 if [ -x /usr/bin/rbenv ]
 then

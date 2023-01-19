@@ -27,9 +27,7 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'mattn/emmet-vim'
 
 " Tpope fanboy section
-Plug 'tpope/vim-eunuch' 	" File commands
 Plug 'tpope/vim-fugitive'	" Git commands
 Plug 'tpope/vim-commentary'	" Add and remove comments
-Plug 'tpope/vim-endwise'	" Insert endings of statements
 Plug 'tpope/vim-repeat'		" Make '.' work with plugin maps
 call plug#end()

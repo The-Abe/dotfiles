@@ -7,6 +7,7 @@ then
 fi
 
 read -p "Find: " f
-kpcli --kdb=/home/abe/abe.kdbx --command "find $f"
+echo -n "Password:"
+kpcli --kdb=abe.kdbx --command="show -f /Root/Servers/$f" | awk '/Pass:/{print $2}' | tmux-yank
 
-read -p "Press enter to continue"
+tmux new-window -d 'sleep 10; echo -n "" | tmux-yank 2>&1 > /dev/null'

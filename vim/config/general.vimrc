@@ -41,6 +41,7 @@ set wildmode=longest:full
 set hidden
 set updatetime=300
 set shortmess+=c
+set splitright
 colorscheme molokai
 
 " Use ag in stead of grep: apt install silversearcher-ag
@@ -61,3 +62,15 @@ autocmd BufReadPost *
   \ if line("'\"") > 0 && line("'\"") <= line("$") |
   \   exe "normal! g`\"" |
   \ endif
+
+augroup executable
+  autocmd!
+  autocmd BufReadPost *
+  \ if getline(1) =~ '^#!\s*\S' |
+  \   silent! exe "!chmod +x \"%:p\"" |
+  \ endif
+  autocmd InsertLeave * nested
+  \ if getline(1) =~ '^#!\s*\S' |
+  \   silent! exe "!chmod +x \"%:p\"" |
+  \ endif
+augroup END

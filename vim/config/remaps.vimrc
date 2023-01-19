@@ -29,6 +29,7 @@ nnoremap <leader>vm :map<cr>
 nnoremap <leader>th :set hlsearch!<cr>:set hlsearch?<cr>
 nnoremap <leader>tp :set paste!<cr>:set paste?<cr>
 nnoremap <leader>tw :set wrap!<cr>:set wrap?<cr>
+nnoremap <leader>ts :set spell!<cr>:set spell?<cr>
 
 " Close temp screens with q
 au FileType help nnoremap q :q!<cr>
@@ -37,9 +38,6 @@ au FileType qf nnoremap q :q!<cr>
 " Buffer navigation
 nnoremap <c-l> :bn<cr>
 nnoremap <c-h> :bp<cr>
-
-" Spelling
-nnoremap <f9> :set spell!<cr>
 
 " Change next
 nnoremap cn *``cgn
@@ -55,9 +53,38 @@ nnoremap <C-u> <C-u>zz
 nnoremap * *zz
 nnoremap # #zz
 
+nnoremap <leader>gd :call GitDiff()<cr>
+function GitDiff()
+  let cur_type = &ft
+  diffthis
+  vnew
+  setlocal buftype=nofile
+  setlocal bufhidden=hide
+  exec "0read !git -P show HEAD:".expand("#:~:.")
+  diffthis
+  exec "set filetype=".cur_type
+  wincmd h
+endfunction
+
+nnoremap <leader>hd :call HgDiff()<cr>
+function HgDiff()
+  let cur_type = &ft
+  diffthis
+  vnew
+  setlocal buftype=nofile
+  setlocal bufhidden=hide
+  exec "0read !hg --pager=no cat ".expand("#:~:.")
+  diffthis
+  exec "set filetype=".cur_type
+  wincmd h
+endfunction
+
 " Abbreviations
 iabbrev name/ Abe van der Wielen
 iabbrev email/ abevanderwielen@gmail.com
-iabbrev date/ <c-r>=strftime("%F")<CR>
-iabbrev file/ <c-r>%
+iabbrev <expr> date/ strftime("%F")
+iabbrev <expr> file/ expand('%')
 iabbrev github/ https://github.com/the-abe
+iabbrev bash/ #!/bin/bash
+iabbrev ruby/ #!/usr/bin/env ruby
+iabbrev path/ PATH=/usr/local/bin:/usr/bin:/bin
