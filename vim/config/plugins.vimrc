@@ -3,9 +3,9 @@ Plug 'ludovicchabant/vim-lawrencium'	" Mercurial commands
 Plug 'sheerun/vim-polyglot'		" Updates syntax files for most languages
 Plug 'osyo-manga/vim-over'	" Preview :s commands
 Plug 'junegunn/vim-peekaboo'	" Preview registers before pasting
-Plug 'vim-airline/vim-airline'	" Pretty vim but also more informative status bar
 Plug 'tomasr/molokai'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'arkav/lualine-lsp-progress'
 Plug 'nvim-tree/nvim-web-devicons'
 
 "Telescope
@@ -24,10 +24,12 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
+Plug 'rafamadriz/friendly-snippets'
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'mattn/emmet-vim'
 
 " Tpope fanboy section
-Plug 'tpope/vim-fugitive'	" Git commands
 Plug 'tpope/vim-commentary'	" Add and remove comments
 Plug 'tpope/vim-repeat'		" Make '.' work with plugin maps
+Plug 'tpope/vim-surround'
 call plug#end()

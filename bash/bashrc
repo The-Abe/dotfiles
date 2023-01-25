@@ -101,7 +101,7 @@ branch_status() {
 }
 
 git_dirty() {
-  stat=$(git status --porcelain | awk '{print $1}' | uniq -c | sed 's/^ \+//' | sed 's/ /:/g' | paste -sd ' ' -)
+  stat=$(git status --porcelain | awk '{print $1}' | sort | uniq -c | sed 's/^ \+//' | sed 's/ /:/g' | paste -sd ' ' -)
   if [[ $stat != "" ]]
   then
     echo "$(color 197)✘$(color 8) $stat"
@@ -111,7 +111,7 @@ git_dirty() {
 }
 
 hg_dirty() {
-  stat=$(hg status 2> /dev/null | awk '{print $1}' | uniq -c | sed 's/^ \+//' | sed 's/ /:/g' | paste -sd ' ' -)
+  stat=$(hg status 2> /dev/null | awk '{print $1}' | sort | uniq -c | sed 's/^ \+//' | sed 's/ /:/g' | paste -sd ' ' -)
   if [[ $stat != "" ]]
   then
     echo "$(color 197)✘$(color 8) $stat"

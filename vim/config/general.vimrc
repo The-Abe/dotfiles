@@ -42,19 +42,22 @@ set hidden
 set updatetime=300
 set shortmess+=c
 set splitright
+set list
+set listchars=tab:->,trail:~,extends:>,precedes:<,multispace:.,leadmultispace:\ ,nbsp:.
+set signcolumn=yes
 colorscheme molokai
 
 " Use ag in stead of grep: apt install silversearcher-ag
 if executable('ag')
-	set grepprg=ag\ --vimgrep
+  set grepprg=ag\ --vimgrep
 endif
 cnoreabbrev <expr> grep  (getcmdtype() ==# ':' && getcmdline() =~# '^grep')  ? 'silent grep'  : 'grep'
 cnoreabbrev <expr> lgrep (getcmdtype() ==# ':' && getcmdline() =~# '^lgrep') ? 'silent lgrep' : 'lgrep'
 
 " Open quickfix when quickfix is populated.
 augroup quickfix
-	autocmd QuickFixCmdPost [^l]* nested copen
-	autocmd QuickFixCmdPost    l* nested lopen
+  autocmd QuickFixCmdPost [^l]* nested copen
+  autocmd QuickFixCmdPost    l* nested lopen
 augroup END
 
 " Return to last edit position when opening files

@@ -90,3 +90,11 @@ iabbrev github/ https://github.com/the-abe
 iabbrev bash/ #!/bin/bash
 iabbrev ruby/ #!/usr/bin/env ruby
 iabbrev path/ PATH=/usr/local/bin:/usr/bin:/bin
+
+" Expand or jump
+imap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j>'
+smap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j>'
+
+" Jump forward or backward
+imap <expr> <C-k> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<C-k>'
+smap <expr> <C-L> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<C-k>'
