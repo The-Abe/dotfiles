@@ -68,7 +68,7 @@ end
 end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-local servers = {'pyright', 'gopls', 'rust_analyzer', 'solargraph', 'bashls', 'yamlls', 'sumneko_lua'}
+local servers = {'pyright', 'gopls', 'rust_analyzer', 'solargraph', 'bashls', 'yamlls', 'sumneko_lua', 'ansiblels'}
 for _, lsp in ipairs(servers) do
 	nvim_lsp[lsp].setup {
 		on_attach = on_attach,
