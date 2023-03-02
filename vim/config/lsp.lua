@@ -7,6 +7,34 @@ require'nvim-treesitter.configs'.setup {
 	highlight = {
 		enable = true
 	},
+	ensure_installed = {
+		"bash",
+		"help",
+		"html",
+		"javascript",
+		"json",
+		"lua",
+		"markdown",
+		"markdown_inline",
+		"ruby",
+		"query",
+		"regex",
+		"vim",
+		"yaml",
+		"rust",
+	},
+	sync_install = false,
+	autopairs = {
+		enable = true,
+	},
+	indent = { enable = true, disable = { "yaml", "python", "html" } },
+	context_commentstring = {
+		enable = true,
+	},
+	autotag = {
+		enable = true,
+		disable = { "xml", "markdown" },
+	},
 }
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
@@ -27,44 +55,38 @@ local on_attach = function(client, bufnr)
 	local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
 	vim.api.nvim_create_autocmd("CursorHold", {
-			buffer = bufnr,
-			callback = function()
-				local opts = {
-					focusable = false,
-					close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-					border = 'none',
-					source = 'always',
-					prefix = ' ',
-					scope = 'cursor',
-				}
-				vim.diagnostic.open_float(nil, opts)
-			end
-		})
+		buffer = bufnr,
+		callback = function()
+			local opts = {
+				focusable = false,
+				close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+				border = 'none',
+				source = 'always',
+				prefix = ' ',
+				scope = 'cursor',
+			}
+			vim.diagnostic.open_float(nil, opts)
+		end
+	})
 
 	buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 	buf_set_option('formatexpr', 'v:lua.vim.lsp.formatexpr()')
 
-	vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+	local bufopts = { noremap=true, silent=true }
 	vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+	vim.keymap.set('n', '<CR>', vim.lsp.buf.definition, bugopts)
 	vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-	vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
 	vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-	vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-	vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-	vim.keymap.set('n', '<leader>wl', function()
-		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-	end, bufopts)
-vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, bufopts)
-vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, bufopts)
-vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, bufopts)
-vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+	vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
+	vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, bufopts)
+	--- vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
 
--- Set some keybinds conditional on server capabilities
-if client.server_capabilities.documentFormattingProvider then
-	buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
-elseif client.server_capabilities.documentRangeFormattingProvider then
-	buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
-end
+	-- Set some keybinds conditional on server capabilities
+	if client.server_capabilities.documentFormattingProvider then
+		buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
+	elseif client.server_capabilities.documentRangeFormattingProvider then
+		buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
+	end
 end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -76,12 +98,25 @@ for _, lsp in ipairs(servers) do
 	}
 end
 
+nvim_lsp.sumneko_lua.setup({
+	settings = {
+		Lua = {
+			diagnostics = {
+				globals = {"vim", "use"},
+				disable = {"lowercase-global"}
+			},
+		},
+	},
+})
+
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 	vim.lsp.diagnostic.on_publish_diagnostics,
 	{
 		virtual_text = false,
 		signs = true,
 		update_in_insert = false,
+		virtual_lines = false,
 		underline = true,
+		severity_sort = true,
 	}
-	)
+)

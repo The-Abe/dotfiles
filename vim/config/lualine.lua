@@ -4,15 +4,15 @@ custom_molokai.normal.b.fg = '#eeeeee'
 custom_molokai.normal.c.bg = '#4e4e4e'
 custom_molokai.normal.c.fg = '#262626'
 require('lualine').setup {
-	options = {
-		theme = custom_molokai,
+  options = {
+    theme = custom_molokai,
     component_separators = { left = '', right = '' },
-	},
-	tabline = {
-		lualine_a = {'buffers'}
-	},
-	sections = {
-		lualine_x = {
+  },
+  tabline = {
+    lualine_a = {'buffers'}
+  },
+  sections = {
+    lualine_x = {
       function()
         local ret, _ = (vim.bo.fenc or vim.go.enc):gsub("^utf%-8$", "")
         return ret
@@ -22,14 +22,14 @@ require('lualine').setup {
         return ret
       end,
       'filetype',
-		},
+    },
     lualine_b = {
       'branch',
       {
         'diff',
         colored = false
       },
-			'diagnostics'
+      'diagnostics'
     },
     lualine_c = {
       {
@@ -38,7 +38,7 @@ require('lualine').setup {
         newfile_status = true,
         path = 1
       },
-			'lsp_progress'
+      'lsp_progress'
     }
   }
 }

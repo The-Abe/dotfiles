@@ -7,6 +7,7 @@ Plug 'tomasr/molokai'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'arkav/lualine-lsp-progress'
 Plug 'nvim-tree/nvim-web-devicons'
+Plug 'akinsho/toggleterm.nvim'
 
 "Telescope
 Plug 'nvim-lua/plenary.nvim'

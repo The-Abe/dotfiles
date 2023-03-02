@@ -3,7 +3,7 @@ syntax on
 filetype plugin indent on
 set history=10000
 set autoread
-set scrolloff=2
+set scrolloff=6
 set hid
 set backspace=eol,start,indent
 set smartcase
@@ -26,7 +26,7 @@ set background=dark
 set modeline
 set modelines=5
 set omnifunc=syntaxcomplete#Complete
-set mouse= 
+set mouse=a
 set termguicolors
 set nobackup
 set nowb
@@ -41,10 +41,19 @@ set wildmode=longest:full
 set hidden
 set updatetime=300
 set shortmess+=c
-set splitright
 set list
 set listchars=tab:->,trail:~,extends:>,precedes:<,multispace:.,leadmultispace:\ ,nbsp:.
-set signcolumn=yes
+set signcolumn
+set pumheight=10
+set noshowmode
+set splitbelow
+set splitright
+set cursorline
+set foldlevelstart=99
+set foldlevel=00
+set foldenable
+set foldcolumn=1
+
 colorscheme molokai
 
 " Use ag in stead of grep: apt install silversearcher-ag
