@@ -3,7 +3,7 @@ if not status_ok then return end
 
 toggleterm.setup({
   size = 10,
-  open_mapping = [[<C-CR>]],
+  open_mapping = [[<leader><leader>]],
   hide_numbers = true,
   shade_filetypes = {},
   shade_terminals = true,
