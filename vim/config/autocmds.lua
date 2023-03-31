@@ -22,7 +22,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
       { noremap = true, silent = true }
     )
     vim.cmd([[
-      set nobuflisted 
+      set nobuflisted
     ]])
   end,
 })
@@ -53,17 +53,5 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
     vim.opt_local["number"] = false
     vim.opt_local["signcolumn"] = "no"
     vim.opt_local["foldcolumn"] = "0"
-  end,
-})
-
-vim.api.nvim_create_autocmd( { "VimEnter" }, {
-  callback = function()
-    if not (vim.fn.expand('%') == 'todo.md')
-    then
-      vim.cmd([[
-        silent! Lexplore
-        wincmd l
-      ]])
-    end
   end,
 })

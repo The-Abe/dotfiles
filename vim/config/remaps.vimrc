@@ -51,9 +51,6 @@ vnoremap <expr> cn g:mc . "``cgn"
 " nnoremap * *zz
 " nnoremap # #zz
 
-cabbrev q qa
-cabbrev wq wqa
-
 nnoremap <leader>gd :call GitDiff()<cr>
 function GitDiff()
   let cur_type = &ft

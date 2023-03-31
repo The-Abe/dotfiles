@@ -3,7 +3,7 @@ syntax on
 filetype plugin indent on
 set history=10000
 set autoread
-set scrolloff=6
+set scrolloff=10
 set hid
 set backspace=eol,start,indent
 set smartcase
@@ -15,6 +15,10 @@ set ffs=unix,dos,mac
 set autoindent
 set smartindent
 set nowrap
+set breakindent
+set showbreak=->
+set sidescroll=1
+set sidescrolloff=80
 set smarttab
 set relativenumber
 set number
@@ -43,7 +47,6 @@ set updatetime=300
 set shortmess+=c
 set list
 set listchars=tab:->,trail:~,extends:>,precedes:<,multispace:.,leadmultispace:\ ,nbsp:.
-set signcolumn
 set pumheight=10
 set noshowmode
 set splitbelow
@@ -60,13 +63,13 @@ colorscheme molokai
 if executable('ag')
   set grepprg=ag\ --vimgrep
 endif
-cnoreabbrev <expr> grep  (getcmdtype() ==# ':' && getcmdline() =~# '^grep')  ? 'silent grep'  : 'grep'
+cnoreabbrev <expr> grep  (getcmdtype() ==# ':' && getcmdline() =~# '^grep') ? 'silent grep' : 'grep'
 cnoreabbrev <expr> lgrep (getcmdtype() ==# ':' && getcmdline() =~# '^lgrep') ? 'silent lgrep' : 'lgrep'
 
 " Open quickfix when quickfix is populated.
 augroup quickfix
   autocmd QuickFixCmdPost [^l]* nested copen
-  autocmd QuickFixCmdPost    l* nested lopen
+  autocmd QuickFixCmdPost l* nested lopen
 augroup END
 
 " Return to last edit position when opening files

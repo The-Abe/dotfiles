@@ -3,11 +3,13 @@ local telescope = require("telescope")
 local actions = require("telescope.actions")
 
 vim.keymap.set('n', '<c-p>', '<CMD>Telescope find_files<cr>')
-vim.keymap.set('n', '<leader>fr', '<CMD>Telescope registers<cr>')
-vim.keymap.set('n', '<leader>ff', '<CMD>Telescope current_buffer_fuzzy_find<cr>')
-vim.keymap.set('n', '<leader>fc', '<CMD>Telescope commands<cr>')
-vim.keymap.set('n', '<leader>fh', '<CMD>Telescope help_tags<cr>')
-vim.keymap.set('n', '<leader>fd', '<CMD>Telescope diagnostics<cr>')
+vim.keymap.set('n', '<leader>m', '<CMD>Telescope marks<cr>')
+vim.keymap.set('n', '<leader>r', '<CMD>Telescope registers<cr>')
+vim.keymap.set('n', '<leader>f', '<CMD>Telescope current_buffer_fuzzy_find<cr>')
+vim.keymap.set('n', '<c-f>', '<CMD>Telescope current_buffer_fuzzy_find<cr>')
+vim.keymap.set('n', '<leader>c', '<CMD>Telescope commands<cr>')
+vim.keymap.set('n', '<leader>h', '<CMD>Telescope help_tags<cr>')
+vim.keymap.set('n', '<leader>d', '<CMD>Telescope diagnostics<cr>')
 vim.keymap.set('n', 'gr', '<CMD>Telescope lsp_references<cr>')
 vim.keymap.set('n', 'z=', '<CMD>Telescope spell_suggest<cr>')
 
@@ -68,7 +70,7 @@ telescope.setup({
     },
     winblend = 0,
     prompt_prefix = "  ",
-    selection_caret = "❯ ",
+    selection_caret = "> ",
     path_display = { "truncate" },
     sorting_strategy = "ascending",
     layout_config = {
@@ -84,11 +86,12 @@ telescope.setup({
       height = 0.80,
       preview_cutoff = 120,
     },
-
+    preview = {
+      hide_on_startup = true -- hide previewer when picker starts
+    },
     mappings = {
       i = {
-        ["<C-n>"] = actions.cycle_history_next,
-        ["<C-p>"] = actions.cycle_history_prev,
+        ["<C-p>"] = require('telescope.actions.layout').toggle_preview,
 
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
