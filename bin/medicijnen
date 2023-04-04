@@ -1,0 +1,2 @@
+#!/bin/bash
+$HOME/.local/bin/termdown 4h -T Medicijnen -t "Medicijnen nemen" --no-figlet -b

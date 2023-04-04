@@ -35,3 +35,8 @@ cd ~/.local/share/fonts
 [ -e "JetBrains Mono Bold Italic Nerd Font Complete.ttf" ] || curl -fLo "JetBrains Mono Bold Italic Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/JetBrainsMono/Ligatures/BoldItalic/complete/JetBrains%20Mono%20Bold%20Italic%20Nerd%20Font%20Complete.ttf?raw=true
 echo Installed Fonts:
 ls -1
+
+[ -d $HOME/bin/ ] || mkdir $HOME/bin
+ln -sf `pwd`/bin/* $HOME/bin
+
+pip install termdown
