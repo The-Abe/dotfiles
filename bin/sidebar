@@ -8,13 +8,9 @@ else
 
 	tmux send-keys -t sidebar:1 'vim $HOME/todo.md' C-m
 	tmux splitw
-	tmux splitw /usr/bin/newsboat
 
 	tmux select-pane -t 1
 	tmux resize-pane -D 5
-	tmux select-pane -t 3
-	tmux resize-pane -U 4
-
 	tmux select-pane -t 2
 	tmux splitw -h
 

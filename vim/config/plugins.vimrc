@@ -16,7 +16,8 @@ Plug 'nvim-telescope/telescope.nvim'
 " LSP and autocomplete
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'williamboman/nvim-lsp-installer'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'simrat39/rust-tools.nvim'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'

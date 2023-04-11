@@ -1,4 +1,4 @@
-require("nvim-lsp-installer").setup {}
+require("mason").setup {}
 vim.o.completeopt = "menuone,noinsert,noselect"
 local nvim_lsp = require('lspconfig')
 
@@ -91,7 +91,7 @@ local on_attach = function(client, bufnr)
 end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-local servers = {'pyright', 'gopls', 'rust_analyzer', 'solargraph', 'bashls', 'yamlls', 'sumneko_lua', 'ansiblels', 'sqls'}
+local servers = {'pyright', 'gopls', 'rust_analyzer', 'solargraph', 'bashls', 'yamlls', 'ansiblels', 'sqlls', 'solargraph'}
 for _, lsp in ipairs(servers) do
 	nvim_lsp[lsp].setup {
 		on_attach = on_attach,
@@ -99,16 +99,22 @@ for _, lsp in ipairs(servers) do
 	}
 end
 
-nvim_lsp.sumneko_lua.setup({
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = {"vim", "use"},
-				disable = {"lowercase-global"}
-			},
-		},
-	},
-})
+nvim_lsp.solargraph.setup {
+		root_dir = nvim_lsp.util.root_pattern(".git", "Gemfile", "."),
+		on_attach = on_attach,
+		capabilities = capabilities,
+}
+
+--- nvim_lsp.sumneko_lua.setup({
+--- 	settings = {
+--- 		Lua = {
+--- 			diagnostics = {
+--- 				globals = {"vim", "use"},
+--- 				disable = {"lowercase-global"}
+--- 			},
+--- 		},
+--- 	},
+--- })
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 	vim.lsp.diagnostic.on_publish_diagnostics,
