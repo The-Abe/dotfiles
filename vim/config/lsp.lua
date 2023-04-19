@@ -36,6 +36,9 @@ require'nvim-treesitter.configs'.setup {
 		enable = true,
 		disable = { "xml", "markdown" },
 	},
+	folding = {
+		enable = true
+	}
 }
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
@@ -100,21 +103,10 @@ for _, lsp in ipairs(servers) do
 end
 
 nvim_lsp.solargraph.setup {
-		root_dir = nvim_lsp.util.root_pattern(".git", "Gemfile", "."),
-		on_attach = on_attach,
-		capabilities = capabilities,
+	root_dir = nvim_lsp.util.root_pattern(".git", "Gemfile", "."),
+	on_attach = on_attach,
+	capabilities = capabilities,
 }
-
---- nvim_lsp.sumneko_lua.setup({
---- 	settings = {
---- 		Lua = {
---- 			diagnostics = {
---- 				globals = {"vim", "use"},
---- 				disable = {"lowercase-global"}
---- 			},
---- 		},
---- 	},
---- })
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 	vim.lsp.diagnostic.on_publish_diagnostics,
