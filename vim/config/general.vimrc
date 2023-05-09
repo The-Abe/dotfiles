@@ -7,7 +7,7 @@ set scrolloff=10
 set hid
 set backspace=eol,start,indent
 set smartcase
-set hlsearch
+set nohlsearch
 set incsearch
 set magic
 set encoding=utf8
@@ -55,10 +55,10 @@ set cursorline
 "set foldlevelstart=99
 "set foldlevel=00
 set foldenable
-set foldcolumn=1
+set conceallevel=3
+set foldcolumn=auto:4
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
-set conceallevel=3
 
 colorscheme molokai
 

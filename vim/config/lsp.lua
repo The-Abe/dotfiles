@@ -35,6 +35,9 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
     disable = { "xml" },
   },
+  folding = {
+    enable = true
+  }
 }
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
@@ -102,15 +105,6 @@ nvim_lsp.solargraph.setup {
   root_dir = nvim_lsp.util.root_pattern(".git", "Gemfile", "."),
   on_attach = on_attach,
   capabilities = capabilities,
-}
-
-nvim_lsp.marksman.setup {
-  root_dir = nvim_lsp.util.root_pattern(".git", ".marksman.toml"),
-on_attach = on_attach,
-  capabilities = capabilities,
-  cmd = { "marksman", "server" },
-  filetypes = { "markdown" },
-single_file_support = true
 }
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(

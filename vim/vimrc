@@ -7,7 +7,7 @@ set scrolloff=2
 set hid
 set backspace=eol,start,indent
 set smartcase
-set hlsearch
+set nohlsearch
 set incsearch
 set magic
 set encoding=utf8

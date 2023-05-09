@@ -32,6 +32,7 @@ nnoremap <leader>th :set hlsearch!<cr>:set hlsearch?<cr>
 nnoremap <leader>tp :set paste!<cr>:set paste?<cr>
 nnoremap <leader>tw :set wrap!<cr>:set wrap?<cr>
 nnoremap <leader>ts :set spell!<cr>:set spell?<cr>
+nnoremap <leader>tm <ESC>:silent exec &mouse!=""? "set mouse=" : "set mouse=a"<cr>:set mouse?<cr>
 
 " Buffer navigation
 nnoremap <c-l> :bn<cr>
@@ -44,12 +45,12 @@ let g:mc = "y/\\V\<C-r>=escape(@\", '/')\<CR>\<CR>"
 vnoremap <expr> cn g:mc . "``cgn"
 
 " zz everything
-" nnoremap n nzz
-" nnoremap N Nzz
-" nnoremap <C-d> <C-d>zz
-" nnoremap <C-u> <C-u>zz
-" nnoremap * *zz
-" nnoremap # #zz
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+nnoremap * *zz
+nnoremap # #zz
 
 nnoremap <leader>gd :call GitDiff()<cr>
 function GitDiff()
@@ -93,10 +94,9 @@ smap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j
 
 " Jump forward or backward
 imap <expr> <C-k> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<C-k>'
-smap <expr> <C-L> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<C-k>'
+smap <expr> <C-k> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<C-k>'
 
 nnoremap <leader>w :w!<cr>
-nnoremap <leader>d :bd<cr>
 nnoremap <leader>q :qa<cr>
 
 nnoremap <tab> <c-w><c-w>

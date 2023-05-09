@@ -1,6 +1,5 @@
 call plug#begin('~/.vim/plugged')
 Plug 'ludovicchabant/vim-lawrencium' " Mercurial commands
-Plug 'osyo-manga/vim-over' " Preview :s commands
 Plug 'junegunn/vim-peekaboo' " Preview registers before pasting
 Plug 'tomasr/molokai'
 Plug 'nvim-lualine/lualine.nvim'
