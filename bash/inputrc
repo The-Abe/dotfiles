@@ -4,3 +4,7 @@ set completion-query-items 200
 set show-all-if-ambiguous on
 set show-all-if-unmodified on
 set visible-stats on
+
+TAB: menu-complete
+"\e[Z": menu-complete-backward
+Control-q: complete
