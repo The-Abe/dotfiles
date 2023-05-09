@@ -1,6 +1,5 @@
 call plug#begin('~/.vim/plugged')
 Plug 'ludovicchabant/vim-lawrencium' " Mercurial commands
-Plug 'sheerun/vim-polyglot' " Updates syntax files for most languages
 Plug 'osyo-manga/vim-over' " Preview :s commands
 Plug 'junegunn/vim-peekaboo' " Preview registers before pasting
 Plug 'tomasr/molokai'
@@ -8,6 +7,7 @@ Plug 'nvim-lualine/lualine.nvim'
 Plug 'arkav/lualine-lsp-progress'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'akinsho/toggleterm.nvim'
+Plug 'preservim/vim-markdown'
 
 " Telescope
 Plug 'nvim-lua/plenary.nvim'
@@ -33,5 +33,5 @@ Plug 'mattn/emmet-vim'
 " Tpope fanboy section
 Plug 'tpope/vim-commentary' " Add and remove comments
 Plug 'tpope/vim-repeat' " Make '.' work with plugin maps
-Plug 'tpope/vim-surround'
+Plug 'kylechui/nvim-surround' "Vim surround alternative
 call plug#end()
