@@ -33,6 +33,13 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   callback = function()
     vim.opt_local.wrap = true
     vim.opt_local.spell = true
+    vim.api.nvim_buf_set_keymap(
+      0,
+      "n",
+      "gf",
+      "<Plug>Markdown_EditUrlUnderCursor<CR>",
+      { noremap = true, silent = true }
+    )
   end,
 })
 

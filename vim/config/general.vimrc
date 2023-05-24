@@ -52,13 +52,12 @@ set noshowmode
 set splitbelow
 set splitright
 set cursorline
-"set foldlevelstart=99
-"set foldlevel=00
 set foldenable
-set conceallevel=3
+set foldlevelstart=99
 set foldcolumn=auto:4
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
+set conceallevel=3
 
 colorscheme molokai
 
@@ -96,4 +95,3 @@ augroup END
 let g:vim_markdown_strikethrough = 1
 let g:vim_markdown_no_extensions_in_markdown = 1
 let g:vim_markdown_autowrite = 1
-

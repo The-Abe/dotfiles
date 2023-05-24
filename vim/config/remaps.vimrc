@@ -26,6 +26,7 @@ vnoremap <a-j> :move'>+<cr>gv
 nnoremap <leader>ve :e ~/.config/nvim/init.vim<cr>
 nnoremap <leader>vs :source ~/.config/nvim/init.vim<cr>
 nnoremap <leader>vm :map<cr>
+nnoremap <leader>se :e ~/.config/nvim/snippets<cr>
 
 " Toggle common options
 nnoremap <leader>th :set hlsearch!<cr>:set hlsearch?<cr>
@@ -88,13 +89,11 @@ iabbrev bash/ #!/bin/bash
 iabbrev ruby/ #!/usr/bin/env ruby
 iabbrev path/ PATH=/usr/local/bin:/usr/bin:/bin
 
-" Expand or jump
-imap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j>'
-smap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j>'
-
-" Jump forward or backward
-imap <expr> <C-k> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<C-k>'
-smap <expr> <C-k> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<C-k>'
+" Typos
+iabbrev ngixn nginx
+iabbrev teh the
+iabbrev adn and
+iabbrev tihs this
 
 nnoremap <leader>w :w!<cr>
 nnoremap <leader>q :qa<cr>

@@ -1,4 +1,8 @@
 local cmp = require'cmp'
+local luasnip = require'luasnip'
+require("luasnip.loaders.from_vscode").lazy_load()
+require("luasnip.loaders.from_snipmate").lazy_load({paths = "~/.config/nvim/snippets/"})
+luasnip.filetype_extend("ruby", {"rails"})
 local has_words_before = function()
   unpack = unpack or table.unpack
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -54,36 +58,49 @@ cmp.setup({
       end
     ),
     ["<Tab>"] = cmp.mapping(function(fallback)
-      if vim.fn["vsnip#available"](1) == 1 then
-        feedkey("<Plug>(vsnip-expand-or-jump)", "")
+      if luasnip.jumpable(1) == 1 then
+        feedkey("<cmd>lua require'luasnip'.jump(1)<cr>", "")
       elseif cmp.visible() then
         cmp.select_next_item()
       elseif has_words_before() then
         cmp.complete()
       else
-        fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+        fallback()
         end
       end, { "i", "s" }),
     ["<S-Tab>"] = cmp.mapping(function()
-      if vim.fn["vsnip#jumpable"](-1) == 1 then
-        feedkey("<Plug>(vsnip-jump-prev)", "")
+      if luasnip.jumpable(-1) == 1 then
+        feedkey("<cmd>lua require'luasnip'.jump(-1)<cr>", "")
       elseif cmp.visible() then
         cmp.select_prev_item()
       end
     end, { "i", "s" }),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-p>'] = cmp.mapping.select_prev_item()
+    ['<C-n>'] = cmp.mapping(function()
+      if luasnip.choice_active() then
+        feedkey("<Plug>luasnip-next-choice", "")
+      else
+        cmp.mapping.select_next_item()
+      end
+    end, { "i", "s" }),
+    ['<C-p>'] = cmp.mapping(function()
+      if luasnip.choice_active() then
+        feedkey("<Plug>luasnip-prev-choice", "")
+      else
+        cmp.mapping.select_prev_item()
+      end
+    end, { "i", "s" }),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'nvim_lsp_signature_help' },
-    { name = 'vsnip' },
+    { name = 'luasnip' },
   }, {
     { name = 'buffer' },
   }),
   snippet = {
     expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body)
+      require'luasnip'.lsp_expand(args.body)
     end,
   },
   formatting = {
@@ -98,7 +115,7 @@ cmp.setup({
             path = "Path",
             nvim_lsp_signature_help = "Sig",
             cmdline = "Vim",
-            snippet = "Snippet"
+            snippet = "Snippet",
         })[entry.source.name]
       return vim_item
     end,
@@ -110,6 +127,7 @@ cmp.setup({
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline({ '/', '?' }, {
+  mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
     { name = 'buffer' }
   })
@@ -120,6 +138,7 @@ cmp.setup.cmdline(':', {
   mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
     { name = 'path' },
+    },{
     { name = 'cmdline' }
   })
 })
