@@ -62,3 +62,8 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
     vim.opt_local["foldcolumn"] = "0"
   end,
 })
+
+vim.api.nvim_create_autocmd({ "InsertLeave" }, {
+   pattern = { "*todo.md" },
+  command = "write"
+ })
