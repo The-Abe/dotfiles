@@ -31,7 +31,11 @@ set modeline
 set modelines=5
 set omnifunc=syntaxcomplete#Complete
 set mouse=a
-set termguicolors
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
 set nobackup
 set nowb
 set noswapfile
@@ -59,7 +63,13 @@ set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 set conceallevel=3
 
-colorscheme molokai
+"Available values:   `'default'`, `'atlantis'`, `'andromeda'`, `'shusia'`, `'maia'`,
+let g:sonokai_style = 'default'
+let g:sonokai_better_performance = 1
+let g:sonokai_enable_italic = 1
+let g:sonokai_diagnostic_line_highlight = 1
+let g:sonokai_diagnostic_virtual_text = 'colored'
+colorscheme sonokai
 
 " Use ag in stead of grep: apt install silversearcher-ag
 if executable('ag')

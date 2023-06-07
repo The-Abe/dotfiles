@@ -98,5 +98,8 @@ iabbrev tihs this
 nnoremap <leader>w :w!<cr>
 nnoremap <leader>q :qa<cr>
 
-nnoremap <tab> <c-w><c-w>
-nnoremap <cr> gD
+nnoremap <tab> zMza
+nnoremap <c-n> <c-i>
+
+nnoremap <leader><space> :s/\v([^^])\s+/\1 /g<cr>
+nnoremap <leader>' :s/"/'/g<cr>

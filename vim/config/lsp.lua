@@ -1,6 +1,8 @@
 require("mason").setup {}
 vim.o.completeopt = "menuone,noinsert,noselect"
-local nvim_lsp = require('lspconfig')
+local lspconfig = require('lspconfig')
+local configs = require("lspconfig.configs")
+local util = require("lspconfig.util")
 
 require'nvim-treesitter.configs'.setup {
   auto_install = true,
@@ -37,7 +39,15 @@ require'nvim-treesitter.configs'.setup {
   },
   folding = {
     enable = true
-  }
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "<Enter>",
+      node_incremental = "<Enter>",
+      node_decremental = "<BS>",
+    },
+  },
 }
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
@@ -69,7 +79,7 @@ local on_attach = function(client, bufnr)
         scope = 'cursor',
       }
       vim.diagnostic.open_float(nil, opts)
-    end
+    end,
   })
 
 buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -77,35 +87,60 @@ buf_set_option('formatexpr', 'v:lua.vim.lsp.formatexpr()')
 
 local bufopts = { noremap=true, silent=true }
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', '<CR>', vim.lsp.buf.definition, bugopts)
+vim.keymap.set('n', '<CR>', vim.lsp.buf.definition, bugopts)
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
 vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, bufopts)
-  --- vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, bufopts)
+vim.keymap.set('n', 'gq', vim.lsp.buf.format, bufopts)
+if client.server_capabilities.documentRangeFormattingProvider then
+  buf_set_keymap("v", "gq", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
+end
 
-  -- Set some keybinds conditional on server capabilities
-  if client.server_capabilities.documentFormattingProvider then
-    buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
-  elseif client.server_capabilities.documentRangeFormattingProvider then
-    buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
-  end
 end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-local servers = {'pyright', 'gopls', 'rust_analyzer', 'solargraph', 'bashls', 'yamlls', 'ansiblels', 'sqlls'}
+local servers = {'pyright', 'gopls', 'rust_analyzer', 'bashls', 'yamlls', 'ansiblels', 'sqlls'}
 for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
+  lspconfig[lsp].setup {
     on_attach = on_attach,
     capabilities = capabilities,
   }
 end
 
-nvim_lsp.solargraph.setup {
-  root_dir = nvim_lsp.util.root_pattern(".git", "Gemfile", "."),
-  on_attach = on_attach,
-  capabilities = capabilities,
+local enabled_features = {
+  "documentHighlights",
+  "documentSymbols",
+  "foldingRanges",
+  "selectionRanges",
+  -- "semanticHighlighting",
+  "formatting",
+  "codeActions",
 }
+configs.ruby_lsp = {
+  default_config = {
+    cmd = { "bundle", "exec", "ruby-lsp" },
+    filetypes = { "ruby" },
+    root_dir = util.root_pattern("Gemfile", ".git"),
+    init_options = {
+      enabledFeatures = enabled_features,
+    },
+    settings = {},
+  },
+  commands = {
+    FormatRuby = {
+      function()
+        vim.lsp.buf.format({
+          name = "ruby_lsp",
+          async = true,
+        })
+      end,
+      description = "Format using ruby-lsp",
+    },
+  },
+}
+lspconfig.ruby_lsp.setup({ on_attach = on_attach, capabilities = capabilities })
+
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics,

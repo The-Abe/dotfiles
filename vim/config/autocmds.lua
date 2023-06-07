@@ -64,6 +64,11 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
 })
 
 vim.api.nvim_create_autocmd({ "InsertLeave" }, {
-   pattern = { "*todo.md" },
-  command = "write"
- })
+  pattern = { "*todo.md" },
+  callback = function() vim.cmd([[write]]) end,
+})
+
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  pattern = { "*" },
+  callback = function() vim.cmd([[:%s/\s\+$//e]]) end,
+})
