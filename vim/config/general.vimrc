@@ -63,13 +63,7 @@ set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 set conceallevel=3
 
-"Available values:   `'default'`, `'atlantis'`, `'andromeda'`, `'shusia'`, `'maia'`,
-let g:sonokai_style = 'default'
-let g:sonokai_better_performance = 1
-let g:sonokai_enable_italic = 1
-let g:sonokai_diagnostic_line_highlight = 1
-let g:sonokai_diagnostic_virtual_text = 'colored'
-colorscheme sonokai
+colorscheme dracula
 
 " Use ag in stead of grep: apt install silversearcher-ag
 if executable('ag')
