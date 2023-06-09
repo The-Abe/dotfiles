@@ -17,3 +17,5 @@ require("nvim-surround").setup({
     },
   }
 })
+
+vim.api.nvim_set_keymap('n', 'S', 'yss', {})
