@@ -1,16 +1,3 @@
-local remember_folds_id =
-vim.api.nvim_create_augroup("remember_folds", { clear = false })
-vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
-  pattern = "?*",
-  group = remember_folds_id,
-  callback = function() vim.cmd([[silent! mkview 1]]) end,
-})
-vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
-  pattern = "?*",
-  group = remember_folds_id,
-  callback = function() vim.cmd([[silent! loadview 1]]) end,
-})
-
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "qf", "help", "man", "lspinfo" },
   callback = function()
