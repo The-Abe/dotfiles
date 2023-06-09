@@ -3,7 +3,7 @@ syntax on
 filetype plugin indent on
 set history=10000
 set autoread
-set scrolloff=2
+set scrolloff=10
 set hid
 set backspace=eol,start,indent
 set smartcase
@@ -15,9 +15,12 @@ set ffs=unix,dos,mac
 set autoindent
 set smartindent
 set nowrap
+set showbreak=->
+set sidescroll=1
+set sidescrolloff=80
 set smarttab
-set number
 set relativenumber
+set number
 set linebreak
 set shiftround
 set textwidth=80
@@ -25,8 +28,13 @@ set formatoptions=qrn1
 set background=dark
 set modeline
 set modelines=5
-set omnifunc=syntaxcomplete#Complete
 set mouse=
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
+set t_ut=
 set nobackup
 set nowb
 set noswapfile
@@ -39,7 +47,19 @@ set wildmenu
 set wildmode=longest:full
 set hidden
 set updatetime=300
+set list
+set listchars=tab:->,trail:~,extends:>,precedes:<,nbsp:.
+set pumheight=10
+set noshowmode
+set splitbelow
 set splitright
+set cursorline
+set foldenable
+set foldlevelstart=99
+set foldcolumn=4
+set foldmethod=expr
+set conceallevel=3
+set omnifunc=syntaxcomplete#Complete
 colorscheme desert
 
 " Return to last edit position when opening files
@@ -60,6 +80,10 @@ augroup executable
   \ endif
 augroup END
 
+nnoremap <leader>ve :e ~/.vimrc<cr>
+nnoremap <leader>vs :source ~/.vimrm<cr>
+nnoremap <leader>vm :map<cr>
+
 nnoremap <leader>r :!clear;%:p<cr>
 
 " also  make gf  work with non-existsing files
@@ -73,6 +97,8 @@ nnoremap H ^
 nnoremap L $
 vnoremap H ^
 vnoremap L $
+onoremap H ^
+onoremap L $
 
 " Indentation
 vnoremap < <gv
@@ -106,32 +132,6 @@ nnoremap <C-u> <C-u>zz
 nnoremap * *zz
 nnoremap # #zz
 
-nnoremap <leader>gd :call GitDiff()<cr>
-function GitDiff()
-  let cur_type = &ft
-  diffthis
-  vnew
-  setlocal buftype=nofile
-  setlocal bufhidden=hide
-  exec "0read !git -P show HEAD:".expand("#:~:.")
-  diffthis
-  exec "set filetype=".cur_type
-  wincmd h
-endfunction
-
-nnoremap <leader>hd :call HgDiff()<cr>
-function HgDiff()
-  let cur_type = &ft
-  diffthis
-  vnew
-  setlocal buftype=nofile
-  setlocal bufhidden=hide
-  exec "0read !hg --pager=no cat ".expand("#:~:.")
-  diffthis
-  exec "set filetype=".cur_type
-  wincmd h
-endfunction
-
 " Abbreviations
 iabbrev name/ Abe van der Wielen
 iabbrev email/ abevanderwielen@gmail.com
@@ -141,3 +141,55 @@ iabbrev github/ https://github.com/the-abe
 iabbrev bash/ #!/bin/bash
 iabbrev ruby/ #!/usr/bin/env ruby
 iabbrev path/ PATH=/usr/local/bin:/usr/bin:/bin
+
+nnoremap <tab> %
+nnoremap <c-n> <c-i>
+
+nnoremap <space> :call search('[^a-zA-Z0-9 	_]')<cr>
+nnoremap <c-space> :call search('[^a-zA-Z0-9 	_]', 'b')<cr>
+
+nnoremap <leader><space> :s/\v([^^])\s+/\1 /g<cr>
+nnoremap <leader>' :s/"/'/g<cr>
+
+nnoremap <cr> viw
+xnoremap <expr> <cr> mode() ==# 'V' ? '<esc>{jV}k$' : 'V$'
+
+" Open quickfix when quickfix is populated.
+augroup quickfix
+  autocmd QuickFixCmdPost [^l]* nested copen
+  autocmd QuickFixCmdPost l* nested lopen
+augroup END
+
+" Return to last edit position when opening files
+autocmd BufReadPost *
+  \ if line("'\"") > 0 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
+
+autocmd BufWritePost *
+  \ if getline(1) =~ '^#!\s*\S' |
+  \   silent! exe "!chmod +x \"%:p\"" |
+  \ endif
+
+let g:netrw_keepdir = 0
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_localcopydircmd = 'cp -r'
+let g:netrw_liststyle = 3
+let g:netrw_localmkdiropt = "-p"
+let g:netrw_sizestyle = "H"
+let g:netrw_winsize = 15
+let g:netrw_banner=0
+hi! link netrwMarkFile Visual
+nnoremap <silent> <leader>p :Lex<CR>
+
+function! NetrwMapping()
+  nmap <buffer> H -
+  nmap <buffer> l <CR>
+  nmap <buffer> L gn
+  nmap <buffer> . gh
+endfunction
+
+augroup netrw_mapping
+  autocmd!
+  autocmd filetype netrw call NetrwMapping()
+augroup END

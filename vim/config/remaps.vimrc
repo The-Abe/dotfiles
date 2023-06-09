@@ -11,6 +11,8 @@ nnoremap H ^
 nnoremap L $
 vnoremap H ^
 vnoremap L $
+onoremap H ^
+onoremap L $
 
 " Indentation
 vnoremap < <gv
@@ -98,8 +100,11 @@ iabbrev tihs this
 nnoremap <leader>w :w!<cr>
 nnoremap <leader>q :qa<cr>
 
-nnoremap <tab> zMza
+nnoremap <tab> %
 nnoremap <c-n> <c-i>
+
+nnoremap <space> :call search('[^a-zA-Z0-9 	_]')<cr>
+nnoremap <c-space> :call search('[^a-zA-Z0-9 	_]', 'b')<cr>
 
 nnoremap <leader><space> :s/\v([^^])\s+/\1 /g<cr>
 nnoremap <leader>' :s/"/'/g<cr>

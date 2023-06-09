@@ -82,65 +82,31 @@ local on_attach = function(client, bufnr)
     end,
   })
 
-buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-buf_set_option('formatexpr', 'v:lua.vim.lsp.formatexpr()')
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  buf_set_option('formatexpr', 'v:lua.vim.lsp.formatexpr()')
 
-local bufopts = { noremap=true, silent=true }
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-vim.keymap.set('n', '<CR>', vim.lsp.buf.definition, bugopts)
-vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
-vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, bufopts)
-vim.keymap.set('n', 'gq', vim.lsp.buf.format, bufopts)
-if client.server_capabilities.documentRangeFormattingProvider then
-  buf_set_keymap("v", "gq", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
-end
+  local bufopts = { noremap=true, silent=true }
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', '<CR>', vim.lsp.buf.definition, bugopts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'gq', vim.lsp.buf.format, bufopts)
+  if client.server_capabilities.documentRangeFormattingProvider then
+    buf_set_keymap("v", "gq", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
+  end
 
 end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-local servers = {'pyright', 'gopls', 'rust_analyzer', 'bashls', 'yamlls', 'ansiblels', 'sqlls'}
+local servers = {'pyright', 'gopls', 'rust_analyzer', 'bashls', 'yamlls', 'ansiblels', 'sqlls', 'solargraph'}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
     capabilities = capabilities,
   }
 end
-
-local enabled_features = {
-  "documentHighlights",
-  "documentSymbols",
-  "foldingRanges",
-  "selectionRanges",
-  -- "semanticHighlighting",
-  "formatting",
-  "codeActions",
-}
-configs.ruby_lsp = {
-  default_config = {
-    cmd = { "bundle", "exec", "ruby-lsp" },
-    filetypes = { "ruby" },
-    root_dir = util.root_pattern("Gemfile", ".git"),
-    init_options = {
-      enabledFeatures = enabled_features,
-    },
-    settings = {},
-  },
-  commands = {
-    FormatRuby = {
-      function()
-        vim.lsp.buf.format({
-          name = "ruby_lsp",
-          async = true,
-        })
-      end,
-      description = "Format using ruby-lsp",
-    },
-  },
-}
-lspconfig.ruby_lsp.setup({ on_attach = on_attach, capabilities = capabilities })
-
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics,

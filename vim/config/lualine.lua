@@ -5,7 +5,7 @@
 -- custom_molokai.normal.c.fg = '#262626'
 require('lualine').setup {
   options = {
-    theme = 'sonokai',
+    theme = 'dracula',
     component_separators = { left = '', right = '' },
   },
   tabline = {
