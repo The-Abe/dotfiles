@@ -1,3 +1,12 @@
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/vim-peekaboo' " Preview registers before pasting
+Plug 'dracula/vim'
+
+" Tpope fanboy section
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+call plug#end()
 set nocompatible
 syntax on
 filetype plugin indent on
@@ -44,7 +53,7 @@ set tabstop=2
 set path=.,,
 set spelllang=nl,en
 set wildmenu
-set wildmode=longest:full
+set wildmode=full,list
 set hidden
 set updatetime=300
 set list
@@ -56,11 +65,10 @@ set splitright
 set cursorline
 set foldenable
 set foldlevelstart=99
-set foldcolumn=4
 set foldmethod=expr
 set conceallevel=3
 set omnifunc=syntaxcomplete#Complete
-colorscheme desert
+colorscheme dracula
 
 " Return to last edit position when opening files
 autocmd BufReadPost *
@@ -193,3 +201,4 @@ augroup netrw_mapping
   autocmd!
   autocmd filetype netrw call NetrwMapping()
 augroup END
+
