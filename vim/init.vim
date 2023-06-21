@@ -11,3 +11,4 @@ source $HOME/.config/nvim/config/toggleterm.lua
 source $HOME/.config/nvim/config/autocmds.lua
 source $HOME/.config/nvim/config/nvim-surround.lua
 source $HOME/.config/nvim/config/text_objects.lua
+source $HOME/.config/nvim/config/todo.vimrc

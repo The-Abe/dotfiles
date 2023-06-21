@@ -47,6 +47,7 @@ require'nvim-treesitter.configs'.setup {
       node_decremental = "<BS>",
     },
   },
+  inlay_hints = { enabled = true },
 }
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
@@ -91,9 +92,9 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
   vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', 'gq', vim.lsp.buf.format, bufopts)
+  vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, bufopts)
   if client.server_capabilities.documentRangeFormattingProvider then
-    buf_set_keymap("v", "gq", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
+    buf_set_keymap("v", "<leader>f", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
   end
 
 end
