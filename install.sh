@@ -13,6 +13,8 @@ if [ ! "$(ls -A ~/.config/nvim)" ]; then
 fi
 sh -c 'curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
 	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+sh -c 'curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 # In case of no neovim (mostly for when connected to servers)
 ln -sf `pwd`/vim/vimrc ~/.vimrc
@@ -38,5 +40,3 @@ ls -1
 
 [ -d $HOME/bin/ ] || mkdir $HOME/bin
 ln -sf `pwd`/bin/* $HOME/bin
-
-pip install termdown

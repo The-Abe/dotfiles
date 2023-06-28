@@ -30,8 +30,12 @@ set background=dark
 set modeline
 set modelines=5
 set omnifunc=syntaxcomplete#Complete
-set mouse=a
-set termguicolors
+set mouse=
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
 set nobackup
 set nowb
 set noswapfile
@@ -60,7 +64,7 @@ set foldexpr=nvim_treesitter#foldexpr()
 set conceallevel=3
 set confirm
 
-colorscheme molokai
+colorscheme dracula
 
 " Use ag in stead of grep: apt install silversearcher-ag
 if executable('ag')
@@ -83,11 +87,7 @@ autocmd BufReadPost *
 
 augroup executable
   autocmd!
-  autocmd BufReadPost *
-  \ if getline(1) =~ '^#!\s*\S' |
-  \   silent! exe "!chmod +x \"%:p\"" |
-  \ endif
-  autocmd InsertLeave * nested
+  autocmd BufWritePost *
   \ if getline(1) =~ '^#!\s*\S' |
   \   silent! exe "!chmod +x \"%:p\"" |
   \ endif

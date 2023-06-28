@@ -1,11 +1,11 @@
-local custom_molokai = require'lualine.themes.molokai'
-custom_molokai.normal.b.bg = '#262626'
-custom_molokai.normal.b.fg = '#eeeeee'
-custom_molokai.normal.c.bg = '#4e4e4e'
-custom_molokai.normal.c.fg = '#262626'
+-- local custom_molokai = require'lualine.themes.molokai'
+-- custom_molokai.normal.b.bg = '#262626'
+-- custom_molokai.normal.b.fg = '#eeeeee'
+-- custom_molokai.normal.c.bg = '#4e4e4e'
+-- custom_molokai.normal.c.fg = '#262626'
 require('lualine').setup {
   options = {
-    theme = custom_molokai,
+    theme = 'dracula',
     component_separators = { left = '', right = '' },
   },
   tabline = {

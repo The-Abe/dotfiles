@@ -100,10 +100,17 @@ iabbrev tihs this
 nnoremap <leader>w :w!<cr>
 nnoremap <leader>q :qa<cr>
 
-nnoremap <tab> <c-w><c-w>
 " put cursor at end position after yank
 vnoremap y ygv<esc>
 nnoremap p p=`]
 
 vnoremap J :m '>+1<CR>gv==kgvo<esc>=kgvo
 vnoremap K :m '<-2<CR>gv==jgvo<esc>=jgvo
+nnoremap <tab> %
+nnoremap <c-n> <c-i>
+
+nnoremap <space> :call search('[^a-zA-Z0-9 	_]')<cr>
+nnoremap <c-space> :call search('[^a-zA-Z0-9 	_]', 'b')<cr>
+
+nnoremap <leader><space> :s/\v([^^])\s+/\1 /g<cr>
+nnoremap <leader>' :s/"/'/g<cr>
