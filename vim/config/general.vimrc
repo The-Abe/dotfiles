@@ -58,6 +58,7 @@ set foldcolumn=auto:4
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 set conceallevel=3
+set confirm
 
 colorscheme molokai
 

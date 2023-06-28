@@ -11,6 +11,8 @@ nnoremap H ^
 nnoremap L $
 vnoremap H ^
 vnoremap L $
+onoremap H ^
+onoremap L $
 
 " Indentation
 vnoremap < <gv
@@ -24,9 +26,9 @@ vnoremap <a-j> :move'>+<cr>gv
 
 " Shortcut .vimrc
 nnoremap <leader>ve :e ~/.config/nvim/init.vim<cr>
-nnoremap <leader>vs :source ~/.config/nvim/init.vim<cr>
+nnoremap <leader>vr :source ~/.config/nvim/init.vim<cr>
 nnoremap <leader>vm :map<cr>
-nnoremap <leader>se :e ~/.config/nvim/snippets<cr>
+nnoremap <leader>vs :e ~/.config/nvim/snippets<cr>
 
 " Toggle common options
 nnoremap <leader>th :set hlsearch!<cr>:set hlsearch?<cr>
@@ -99,4 +101,9 @@ nnoremap <leader>w :w!<cr>
 nnoremap <leader>q :qa<cr>
 
 nnoremap <tab> <c-w><c-w>
-nnoremap <cr> gD
+" put cursor at end position after yank
+vnoremap y ygv<esc>
+nnoremap p p=`]
+
+vnoremap J :m '>+1<CR>gv==kgvo<esc>=kgvo
+vnoremap K :m '<-2<CR>gv==jgvo<esc>=jgvo
