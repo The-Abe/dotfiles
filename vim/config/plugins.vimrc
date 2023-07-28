@@ -7,6 +7,7 @@ Plug 'arkav/lualine-lsp-progress'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'akinsho/toggleterm.nvim'
 Plug 'preservim/vim-markdown'
+Plug 'cweagans/vim-taskpaper'
 
 " Telescope
 Plug 'nvim-lua/plenary.nvim'
@@ -28,6 +29,7 @@ Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'rafamadriz/friendly-snippets'
 Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'mattn/emmet-vim'
+Plug 'nvim-treesitter/nvim-treesitter-context'
 
 " Tpope fanboy section
 Plug 'tpope/vim-commentary' " Add and remove comments

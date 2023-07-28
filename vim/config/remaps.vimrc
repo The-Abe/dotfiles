@@ -14,6 +14,18 @@ vnoremap L $
 onoremap H ^
 onoremap L $
 
+" Left and right to skip auto inserted brackets and quotes.
+inoremap <A-l> <Right>
+inoremap <A-h> <Left>
+
+" Sane readline defaults
+inoremap <c-f> <c-o>l
+inoremap <c-b> <c-o>h
+inoremap <a-f> <c-o>w
+inoremap <a-b> <c-o>b
+inoremap <c-k> <c-o>D
+inoremap <c-y> <c-o>p
+
 " Indentation
 vnoremap < <gv
 vnoremap > >gv
@@ -40,12 +52,6 @@ nnoremap <leader>tm <ESC>:silent exec &mouse!=""? "set mouse=" : "set mouse=a"<c
 " Buffer navigation
 nnoremap <c-l> :bn<cr>
 nnoremap <c-h> :bp<cr>
-
-" Change next
-nnoremap cn *``cgn
-nnoremap cN *``cgN
-let g:mc = "y/\\V\<C-r>=escape(@\", '/')\<CR>\<CR>"
-vnoremap <expr> cn g:mc . "``cgn"
 
 " zz everything
 nnoremap n nzz
@@ -103,8 +109,8 @@ nnoremap <leader>q :qa<cr>
 nnoremap <tab> %
 nnoremap <c-n> <c-i>
 
-nnoremap <space> :call search('[^a-zA-Z0-9 	_]')<cr>
-nnoremap <c-space> :call search('[^a-zA-Z0-9 	_]', 'b')<cr>
+nnoremap <space> :call search('[^a-zA-Z0-9 \t_]')<cr>
+nnoremap <c-space> :call search('[^a-zA-Z0-9 \t_]', 'b')<cr>
 
 nnoremap <leader><space> :s/\v([^^])\s+/\1 /g<cr>
 nnoremap <leader>' :s/"/'/g<cr>

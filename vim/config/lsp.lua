@@ -42,12 +42,27 @@ require'nvim-treesitter.configs'.setup {
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = "<Enter>",
-      node_incremental = "<Enter>",
+      init_selection = "<CR>",
+      node_incremental = "<CR>",
       node_decremental = "<BS>",
     },
   },
   inlay_hints = { enabled = true },
+}
+require'treesitter-context'.setup{
+  enable = true,
+  max_lines = 0,
+  min_window_height = 0,
+  line_numbers = true,
+  multiline_threshold = 20,
+  trim_scope = 'outer',
+  mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+  -- Separator between context and content. Should be a single character string,
+  -- like '-'. When separator is set, the context will only show up when there
+  -- are at least 2 lines above cursorline.
+  separator = nil,
+  zindex = 20, -- The Z-index of the context window
+  on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
 }
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
@@ -100,7 +115,7 @@ local on_attach = function(client, bufnr)
 end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-local servers = {'pyright', 'gopls', 'rust_analyzer', 'bashls', 'yamlls', 'ansiblels', 'sqlls', 'solargraph'}
+local servers = {'pyright', 'gopls', 'rust_analyzer', 'bashls', 'yamlls', 'ansiblels', 'sqlls', 'solargraph', 'vtsls'}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,

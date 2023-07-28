@@ -55,7 +55,7 @@ set pumheight=10
 set noshowmode
 set splitbelow
 set splitright
-set cursorline
+set nocursorline
 set foldenable
 set foldlevelstart=99
 set foldcolumn=auto:4

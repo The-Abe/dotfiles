@@ -1,10 +1,8 @@
 #!/bin/bash
-P=$(tmux show -wqv @mytodopane)
-if [ -n "$P" ] && tmux lsp -F'#{pane_id}'|grep -q ^$P; then
-     tmux send-keys -t$P ":w"
-     tmux killp -t$P
-     tmux set -wu @mytodopane
+current_window=$(tmux list-windows -F "#I #W" | awk '/TODO/{print $1}')
+if [ -n "$current_window" ]
+then
+     tmux select-window -t $current_window
 else
-     P=$(tmux splitw -h -l40 -PF'#{pane_id}' -c "#{pane_current_path}" nvim ~/todo.md)
-     tmux set -w @mytodopane "$P"
+     tmux new-window -n'TODO' nvim -O ~/todo/*.todo
 fi
