@@ -147,4 +147,5 @@ PS1='\n$(return_code)$(color 3)\u@\h $(reset_color)\w $(branch_status)$(rbenv_st
 
 export GOPATH="$HOME/projects/go"; export GOROOT="$HOME/.go"; export PATH="$GOPATH/bin:$PATH"; # g-install: do NOT edit, see https://github.com/stefanmaric/g
 
+[[ -s "/home/abe/.gvm/scripts/gvm" ]] && source "/home/abe/.gvm/scripts/gvm"
 eval "$(lesspipe)"
