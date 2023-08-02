@@ -1,4 +1,5 @@
-require("mason").setup {}
+require("mason").setup()
+require("mason-lspconfig").setup()
 vim.o.completeopt = "menuone,noinsert,noselect"
 local lspconfig = require('lspconfig')
 local configs = require("lspconfig.configs")
@@ -115,13 +116,15 @@ local on_attach = function(client, bufnr)
 end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-local servers = {'pyright', 'gopls', 'rust_analyzer', 'bashls', 'yamlls', 'ansiblels', 'sqlls', 'solargraph', 'vtsls'}
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
-end
+
+require("mason-lspconfig").setup_handlers {
+  function (server_name)
+    require("lspconfig")[server_name].setup {
+      on_attach = on_attach,
+      capabilities = capabilities,
+    }
+  end,
+}
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics,
