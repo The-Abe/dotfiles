@@ -18,6 +18,7 @@ fi
 export EDITOR=vim
 export LESS="iKqRXF"
 export PATH="$PATH:~/bin:/usr/local/go/bin"
+export PATH=~/.npm-global/bin:$PATH
 if [ -x /usr/bin/rbenv ]
 then
   export PATH="$HOME/.rbenv/bin:$PATH"
