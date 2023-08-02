@@ -58,7 +58,9 @@ cmp.setup({
       end
     ),
     ["<Tab>"] = cmp.mapping(function(fallback)
-      if luasnip.jumpable(1) then
+      if cmp.visible() then
+        cmp.confirm({ select = true })
+      elseif luasnip.jumpable(1) then
         luasnip.jump(1)
       elseif has_words_before() then
         cmp.complete()
@@ -85,7 +87,6 @@ cmp.setup({
         cmp.select_prev_item()
       end
     end, { "i", "s" }),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },

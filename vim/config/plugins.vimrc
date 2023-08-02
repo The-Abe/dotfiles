@@ -28,7 +28,6 @@ Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'rafamadriz/friendly-snippets'
 Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
-Plug 'mattn/emmet-vim'
 Plug 'nvim-treesitter/nvim-treesitter-context'
 
 " Tpope fanboy section
