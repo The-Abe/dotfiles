@@ -7,7 +7,8 @@ Plug 'arkav/lualine-lsp-progress'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'akinsho/toggleterm.nvim'
 Plug 'preservim/vim-markdown'
-Plug 'cweagans/vim-taskpaper'
+Plug 'm4xshen/autoclose.nvim'
+Plug 'windwp/nvim-ts-autotag'
 
 " Telescope
 Plug 'nvim-lua/plenary.nvim'
@@ -35,3 +36,5 @@ Plug 'tpope/vim-commentary' " Add and remove comments
 Plug 'tpope/vim-repeat' " Make '.' work with plugin maps
 Plug 'kylechui/nvim-surround' "Vim surround alternative
 call plug#end()
+
+lua require("autoclose").setup()
