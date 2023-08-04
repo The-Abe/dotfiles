@@ -66,13 +66,6 @@ set confirm
 
 colorscheme dracula
 
-" Use ag in stead of grep: apt install silversearcher-ag
-if executable('ag')
-  set grepprg=ag\ --vimgrep
-endif
-cnoreabbrev <expr> grep  (getcmdtype() ==# ':' && getcmdline() =~# '^grep') ? 'silent grep' : 'grep'
-cnoreabbrev <expr> lgrep (getcmdtype() ==# ':' && getcmdline() =~# '^lgrep') ? 'silent lgrep' : 'lgrep'
-
 " Open quickfix when quickfix is populated.
 augroup quickfix
   autocmd QuickFixCmdPost [^l]* nested copen

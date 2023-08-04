@@ -30,6 +30,8 @@ Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'rafamadriz/friendly-snippets'
 Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'nvim-treesitter/nvim-treesitter-context'
+Plug 'windwp/nvim-ts-autotag'
+Plug 'm4xshen/autoclose.nvim'
 
 " Tpope fanboy section
 Plug 'tpope/vim-commentary' " Add and remove comments

@@ -9,8 +9,8 @@ inoremap <c-c> <esc>
 " H/L for really fast end and home
 nnoremap H ^
 nnoremap L $
-vnoremap H ^
-vnoremap L $
+xnoremap H ^
+xnoremap L $
 onoremap H ^
 onoremap L $
 
@@ -61,32 +61,6 @@ nnoremap <C-u> <C-u>zz
 nnoremap * *zz
 nnoremap # #zz
 
-nnoremap <leader>gd :call GitDiff()<cr>
-function GitDiff()
-  let cur_type = &ft
-  diffthis
-  vnew
-  setlocal buftype=nofile
-  setlocal bufhidden=hide
-  exec "0read !git -P show HEAD:".expand("#:~:.")
-  diffthis
-  exec "set filetype=".cur_type
-  wincmd h
-endfunction
-
-nnoremap <leader>hd :call HgDiff()<cr>
-function HgDiff()
-  let cur_type = &ft
-  diffthis
-  vnew
-  setlocal buftype=nofile
-  setlocal bufhidden=hide
-  exec "0read !hg --pager=no cat ".expand("#:~:.")
-  diffthis
-  exec "set filetype=".cur_type
-  wincmd h
-endfunction
-
 " Abbreviations
 iabbrev name/ Abe van der Wielen
 iabbrev email/ abevanderwielen@gmail.com
@@ -110,13 +84,8 @@ nnoremap <leader>q :qa<cr>
 vnoremap y ygv<esc>
 nnoremap p p=`]
 
-vnoremap J :m '>+1<CR>gv==kgvo<esc>=kgvo
-vnoremap K :m '<-2<CR>gv==jgvo<esc>=jgvo
 nnoremap <tab> %
 nnoremap <c-n> <c-i>
-
-nnoremap <space> :call search('[^a-zA-Z0-9 \t_]')<cr>
-nnoremap <c-space> :call search('[^a-zA-Z0-9 \t_]', 'b')<cr>
 
 nnoremap <leader><space> :s/\v([^^])\s+/\1 /g<cr>
 nnoremap <leader>' :s/"/'/g<cr>

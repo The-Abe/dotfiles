@@ -6,7 +6,6 @@ source $HOME/.config/nvim/config/netrw.vimrc
 source $HOME/.config/nvim/config/telescope.lua
 source $HOME/.config/nvim/config/lsp.lua
 source $HOME/.config/nvim/config/cmp.lua
-source $HOME/.config/nvim/config/emmet.vimrc
 source $HOME/.config/nvim/config/toggleterm.lua
 source $HOME/.config/nvim/config/autocmds.lua
 source $HOME/.config/nvim/config/nvim-surround.lua
