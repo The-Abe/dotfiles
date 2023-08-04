@@ -41,6 +41,9 @@ local kind_icons = {
 }
 
 cmp.setup({
+  completion = {
+    completeopt = table.concat(vim.opt.completeopt:get(), ","),
+  },
   window = {
     completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),

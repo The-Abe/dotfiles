@@ -63,6 +63,7 @@ set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 set conceallevel=3
 set confirm
+set completeopt=menuone,preview
 
 colorscheme dracula
 
