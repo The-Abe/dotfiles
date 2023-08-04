@@ -33,14 +33,23 @@ fi
 # Aliases
 [ -f "$HOME/.bash_aliases" ] && . "$HOME/.bash_aliases"
 alias tmux="env TERM=xterm-256color tmux"
-alias editbash="$EDITOR ~/.bashrc; source ~/.bashrc"
-alias bashrc="source ~/.bashrc"
+alias bashrc="$EDITOR ~/.bashrc; source ~/.bashrc"
+alias tmuxrc="$EDITOR ~/.tmux.conf; tmux source-file ~/.tmux.conf"
 alias root="sudo -E bash"
 alias o="xdg-open"
 if [ -x /usr/bin/nvim ]
 then
 	alias vim="nvim"
 fi
+
+function cap() {
+  tee /tmp/capture_$USER.out
+}
+
+function ret() {
+  cat /tmp/capture_$USER.out
+  rm /tmp/capture_$USER.out
+}
 
 function installremote() {
   echo $1
