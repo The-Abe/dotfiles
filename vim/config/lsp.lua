@@ -29,10 +29,6 @@ require'nvim-treesitter.configs'.setup {
   context_commentstring = {
     enable = true,
   },
-  autotag = {
-    enable = true,
-    disable = { "xml" },
-  },
   folding = {
     enable = true
   },
@@ -108,6 +104,8 @@ local on_attach = function(client, bufnr)
   if client.server_capabilities.documentRangeFormattingProvider then
     buf_set_keymap("v", "<leader>f", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
   end
+
+  require("tailwindcss-colors").buf_attach(bufnr)
 
 end
 

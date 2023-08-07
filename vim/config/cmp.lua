@@ -61,9 +61,7 @@ cmp.setup({
       end
     ),
     ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.confirm({ select = true })
-      elseif luasnip.jumpable(1) then
+      if luasnip.jumpable(1) then
         luasnip.jump(1)
       elseif has_words_before() then
         cmp.complete()
@@ -71,6 +69,13 @@ cmp.setup({
         fallback()
         end
       end, { "i", "s" }),
+    ["<CR>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.confirm({ select = true })
+      else
+        fallback()
+      end
+    end, { "i", "s"}),
     ["<S-Tab>"] = cmp.mapping(function()
       if luasnip.jumpable(-1) then
         luasnip.jump(-1)

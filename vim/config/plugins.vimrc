@@ -8,7 +8,8 @@ Plug 'nvim-tree/nvim-web-devicons'
 Plug 'akinsho/toggleterm.nvim'
 Plug 'preservim/vim-markdown'
 Plug 'm4xshen/autoclose.nvim'
-Plug 'windwp/nvim-ts-autotag'
+Plug 'alvan/vim-closetag'
+Plug 'themaxmarchuk/tailwindcss-colors.nvim'
 
 " Telescope
 Plug 'nvim-lua/plenary.nvim'
@@ -40,3 +41,4 @@ Plug 'kylechui/nvim-surround' "Vim surround alternative
 call plug#end()
 
 lua require("autoclose").setup()
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.erb'
