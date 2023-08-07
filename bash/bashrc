@@ -7,6 +7,7 @@ shopt -s histappend
 shopt -s checkwinsize
 shopt -s globstar
 shopt -s no_empty_cmd_completion
+
 bind 'set show-all-if-ambiguous on'
 bind 'TAB:menu-complete'
 eval "$(lesspipe)"
@@ -35,12 +36,17 @@ fi
 alias tmux="env TERM=xterm-256color tmux"
 alias bashrc="$EDITOR ~/.bashrc; source ~/.bashrc"
 alias tmuxrc="$EDITOR ~/.tmux.conf; tmux source-file ~/.tmux.conf"
-alias root="sudo -E bash"
+alias aliases="$EDITOR ~/.bash_aliases; source ~/.bash_aliases"
 alias o="xdg-open"
 if [ -x /usr/bin/nvim ]
 then
 	alias vim="nvim"
 fi
+
+for SU_USER in $(grep "/bin/bash" /etc/passwd | cut -f 1 -d:)
+do
+  alias $SU_USER="sudo -u $SU_USER -E /bin/bash"
+done
 
 function cap() {
   tee /tmp/capture_$USER.out
