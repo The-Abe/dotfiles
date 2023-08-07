@@ -63,15 +63,9 @@ set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 set conceallevel=3
 set confirm
+set completeopt=menuone,preview
 
 colorscheme dracula
-
-" Use ag in stead of grep: apt install silversearcher-ag
-if executable('ag')
-  set grepprg=ag\ --vimgrep
-endif
-cnoreabbrev <expr> grep  (getcmdtype() ==# ':' && getcmdline() =~# '^grep') ? 'silent grep' : 'grep'
-cnoreabbrev <expr> lgrep (getcmdtype() ==# ':' && getcmdline() =~# '^lgrep') ? 'silent lgrep' : 'lgrep'
 
 " Open quickfix when quickfix is populated.
 augroup quickfix

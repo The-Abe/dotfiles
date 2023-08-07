@@ -57,5 +57,11 @@ vim.api.nvim_create_autocmd({ "InsertLeave" }, {
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   pattern = { "*" },
-  callback = function() vim.cmd([[:%s/\s\+$//e]]) end,
+  callback = function()
+    vim.cmd([[:%s/\s\+$//e]])
+    if vim.fn.isdirectory(vim.fn.expand('%:h')) == 0
+    then
+      vim.fn.mkdir(vim.fn.expand('%:h'))
+    end
+  end,
 })

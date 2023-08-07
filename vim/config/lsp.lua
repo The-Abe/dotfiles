@@ -1,9 +1,5 @@
 require("mason").setup()
 require("mason-lspconfig").setup()
-vim.o.completeopt = "menuone,noinsert,noselect"
-local lspconfig = require('lspconfig')
-local configs = require("lspconfig.configs")
-local util = require("lspconfig.util")
 
 require'nvim-treesitter.configs'.setup {
   auto_install = true,
@@ -103,7 +99,7 @@ local on_attach = function(client, bufnr)
 
   local bufopts = { noremap=true, silent=true }
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', '<CR>', vim.lsp.buf.definition, bugopts)
+  vim.keymap.set('n', 'gD', vim.lsp.buf.definition, bufopts)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
   vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
