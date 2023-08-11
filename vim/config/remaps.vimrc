@@ -90,4 +90,4 @@ nnoremap <c-n> <c-i>
 nnoremap <leader><space> :s/\v([^^])\s+/\1 /g<cr>
 nnoremap <leader>' :s/"/'/g<cr>
 
-command! CSV set nowrap | %s/,/,|/g | %!column -t -s "|"
+command! CSV set nowrap | %s/  \+/ /g | %s/,/,|/g | %!column -t -s "|"
