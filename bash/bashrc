@@ -33,7 +33,7 @@ alias aliases="$EDITOR ~/.bash_aliases; source ~/.bash_aliases"
 alias o="xdg-open"
 if [ -x /usr/bin/nvim ]
 then
-	alias vim="nvim"
+	alias vim="fg 2>/dev/null || nvim"
 fi
 if [ -x $(which exa) ]
 then
