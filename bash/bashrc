@@ -12,15 +12,8 @@ bind 'set show-all-if-ambiguous on'
 bind 'TAB:menu-complete'
 eval "$(lesspipe)"
 
-# Colours for grep and ls
-if [ -x /usr/bin/dircolors ]; then
-    alias ls='ls --color=auto'
-    alias grep='grep --color=auto'
-fi
-
 # Set PATH and related stuff
 export EDITOR=vim
-export CDPATH=$CDPATH:$HOME/projects/:/var/www/rails/:/var/www/api/:/var/www/consumers/
 export GOPATH="$HOME/projects/go"; export GOROOT="$HOME/.go"; export PATH="$GOPATH/bin:$PATH";
 export PATH="$PATH:~/bin:/usr/local/go/bin"
 export PATH=~/.npm-global/bin:$PATH
@@ -41,6 +34,10 @@ alias o="xdg-open"
 if [ -x /usr/bin/nvim ]
 then
 	alias vim="nvim"
+fi
+if [ -x $(which exa) ]
+then
+  alias ls="exa"
 fi
 
 for SU_USER in $(grep "/bin/bash" /etc/passwd | cut -f 1 -d:)
@@ -138,3 +135,9 @@ rbenv_status() {
 }
 
 PS1='\n$(return_code)$(color 3)\u@\h $(reset_color)\w $(branch_status)$(rbenv_status)$(reset_color)\n\$ '
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+eval "$(zoxide init bash)"
+alias cd="z"
+
+FZF_DEFAULT_OPTS="--preview 'bat --line-range=:200 --theme=Dracula --color=always --style=numbers,changes {} | head -500'"
