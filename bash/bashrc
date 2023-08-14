@@ -33,11 +33,12 @@ alias aliases="$EDITOR ~/.bash_aliases; source ~/.bash_aliases"
 alias o="xdg-open"
 if [ -x /usr/bin/nvim ]
 then
+  export EDITOR=/usr/bin/nvim
 	alias vim="fg 2>/dev/null || nvim"
 fi
 if [ -x $(which exa) ]
 then
-  alias ls="exa"
+  alias ls="exa --icons"
 fi
 
 for SU_USER in $(grep "/bin/bash" /etc/passwd | cut -f 1 -d:)
@@ -70,11 +71,15 @@ alias .....='cd ../../../..'
 alias etc='cd /etc/'
 alias logs='cd /var/log/'
 
-export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-if [[ -f ~/.ssh/id_rsa.pub && ! -S $SSH_AUTH_SOCK ]]
+if [[ -f ~/.ssh/id_rsa.pub ]]
+then
+  if [[ ! -S ~/.ssh/ssh_auth_sock ]]
   then
     eval `ssh-agent`
     ssh-add -l | grep "The agent has no identities" && ssh-add
+    ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
+  fi
+  export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 fi
 
 # PS1 and related stuff
