@@ -38,7 +38,7 @@ then
 fi
 if [ -x $(which exa) ]
 then
-  alias ls="exa --icons"
+  alias ls="exa --icons --git"
 fi
 
 for SU_USER in $(grep "/bin/bash" /etc/passwd | cut -f 1 -d:)
@@ -142,7 +142,11 @@ rbenv_status() {
 PS1='\n$(return_code)$(color 3)\u@\h $(reset_color)\w $(branch_status)$(rbenv_status)$(reset_color)\n\$ '
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-eval "$(zoxide init bash)"
-alias cd="z"
+
+if [ -x $(which zoxide) ]
+then
+  eval "$(zoxide init bash)"
+  alias cd="z"
+fi
 
 FZF_DEFAULT_OPTS="--preview 'bat --line-range=:200 --theme=Dracula --color=always --style=numbers,changes {} | head -500'"
