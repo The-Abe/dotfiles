@@ -27,37 +27,13 @@ require('lazy').setup({
   {
     "folke/flash.nvim",
     event = "VeryLazy",
-    ---@type Flash.Config
     opts = {},
-    -- stylua: ignore
     keys = {
       { "s", mode = { "n", "o", "x" }, function() require("flash").jump() end, desc = "Flash" },
       { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
       { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
       { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
       { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-    },
-  },
-  {
-    "epwalsh/obsidian.nvim",
-    lazy = true,
-    event = {
-      "BufReadPre /home/abe/Obsidian/**.md",
-      "BufNewFile /home/abe/Obsidian/**.md",
-    },
-    dependencies = {
-      -- Required.
-      "nvim-lua/plenary.nvim",
-      "hrsh7th/nvim-cmp",
-      "nvim-telescope/telescope.nvim",
-    },
-    opts = {
-      dir = "~/Obsidian",
-      daily_notes = {
-        folder = "daily",
-      },
-      mappings = { },
-      disable_frontmatter = true,
     },
   },
   {
@@ -271,7 +247,7 @@ vim.keymap.set('x', '<a-k>', ':move-2<cr>gv')
 vim.keymap.set('x', '<a-j>', ':move\'>+<cr>gv')
 
 -- Shortcut .vimrc
-vim.keymap.set('n', '<leader>ev', ':e ~/.config/nvim/init.vim<cr>', { desc = "[E]dit [V]imrc" })
+vim.keymap.set('n', '<leader>ev', ':e ~/.config/nvim/init.lua<cr>', { desc = "[E]dit [V]imrc" })
 vim.keymap.set('n', '<leader>es', ':e ~/.config/nvim/snippets<cr>', { desc = "[E]dit [S]nippets" })
 
 -- Toggle common options
@@ -315,7 +291,7 @@ pcall(require('telescope').load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
+vim.keymap.set('n', '<leader><space>', require('telescope.builtin').find_files, { desc = '[ ] Find files' })
 vim.keymap.set('n', '<leader>/', function()
   require('telescope.builtin').current_buffer_fuzzy_find({
     previewer = false,
@@ -330,6 +306,7 @@ vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 vim.keymap.set('n', '<leader>sm', require('telescope.builtin').marks, { desc = '[S]earch [M]arks' })
+vim.keymap.set('n', '<leader>sb', require('telescope.builtin').buffers, { desc = '[S]earch [B]uffers' })
 vim.keymap.set('n', '<leader>:', require('telescope.builtin').commands, { desc = '[:]Commands' })
 
 -- See `:help nvim-treesitter`
