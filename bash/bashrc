@@ -105,6 +105,14 @@ if [[ ! -L ~/.bashrc ]]
 then
   wget -q https://raw.githubusercontent.com/The-Abe/dotfiles/main/bash/bashrc -O $HOME/.bashrc
 fi
+
+if [[ ! -x $(which tldr) ]]
+then
+  wget -qO $HOME/.local/bin/tldr https://good4.eu/tldr
+  chmod +x $HOME/.local/bin/tldr
+  sed -i 's/TLDR_LANG=""/TLDR_LANG="en"/' $HOME/.local/bin/tldr
+fi
+
 # }}}
 
 # ssh-agent shenanigans. {{{
