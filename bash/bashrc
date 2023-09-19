@@ -55,6 +55,12 @@ function installremote() {
   echo $1
   scp $(readlink ~/.bashrc) $1:.bashrc || return
 }
+
+if [[ ! -x $(which bat) ]]
+then
+  alias bat="batcat"
+fi
+
 # }}}
 
 # Software that needs to exist {{{
@@ -110,7 +116,6 @@ if [[ ! -x $(which tldr) ]]
 then
   wget -qO $HOME/.local/bin/tldr https://good4.eu/tldr
   chmod +x $HOME/.local/bin/tldr
-  sed -i 's/TLDR_LANG=""/TLDR_LANG="en"/' $HOME/.local/bin/tldr
 fi
 
 # }}}
@@ -225,6 +230,24 @@ function colors() {
   done
   echo
 }
+# }}}
+
+# TLDR {{{
+export TLDR_TITLE_STYLE="Newline Bold Underline"
+export TLDR_DESCRIPTION_STYLE=""
+export TLDR_EXAMPLE_STYLE="Newline Blue"
+export TLDR_CODE_STYLE=""
+export TLDR_VALUE_ISTYLE="Green"
+export TLDR_DEFAULT_ISTYLE="White"
+export TLDR_URL_ISTYLE="Blue"
+export TLDR_HEADER_ISTYLE=""
+export TLDR_OPTION_ISTYLE="Yellow"
+export TLDR_PLATFORM_ISTYLE="Blue"
+export TLDR_COMMAND_ISTYLE="Cyan"
+export TLDR_FILE_ISTYLE="Magenta"
+export TLDR_ERROR_COLOR="Newline Red"
+export TLDR_INFO_COLOR="Newline Green"
+export TLDR_LANG="en"
 # }}}
 
 # vim: foldmethod=marker foldlevel=0
