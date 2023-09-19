@@ -289,6 +289,11 @@ require('telescope').setup {
       },
     },
   },
+  extensions = {
+    cder = {
+      dir_command = { 'fd', '--type=d', '--max-depth=3', '.', os.getenv('CWD') },
+    }
+  }
 }
 
 -- Enable telescope fzf native, if installed
