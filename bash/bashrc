@@ -1,4 +1,7 @@
-# Set vars and options
+# Author: Abe van der Wielen
+# Github: https://github.com/the-abe
+# Email: abevanderwielen@gmail.com
+# Set vars and options {{{
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=100000
 HISTFILESIZE=2000000
@@ -11,36 +14,29 @@ shopt -s no_empty_cmd_completion
 bind 'set show-all-if-ambiguous on'
 bind 'TAB:menu-complete'
 eval "$(lesspipe)"
+# }}}
 
-# Set PATH and related stuff
+# Set PATH and related stuff {{{
 export EDITOR=vim
 export GOPATH="$HOME/projects/go"; export GOROOT="$HOME/.go"; export PATH="$GOPATH/bin:$PATH";
-export PATH="$PATH:~/bin:/usr/local/go/bin"
-export PATH=~/.npm-global/bin:$PATH
+export PATH="$HOME/.npm-global/bin:$HOME/.local/bin:$HOME/bin:/usr/local/go/bin:$PATH"
 if [ -x /usr/bin/rbenv ]
 then
   export PATH="$HOME/.rbenv/bin:$PATH"
   eval "$(rbenv init -)"
 fi
+GLOBAL_RUBY=$(cd / && ruby -v)
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+# }}}
 
-# Aliases
+# Aliases {{{
 [ -f "$HOME/.bash_aliases" ] && . "$HOME/.bash_aliases"
 alias tmux="env TERM=xterm-256color tmux"
 alias bashrc="$EDITOR ~/.bashrc; source ~/.bashrc"
 alias tmuxrc="$EDITOR ~/.tmux.conf; tmux source-file ~/.tmux.conf"
 alias aliases="$EDITOR ~/.bash_aliases; source ~/.bash_aliases"
-alias o="xdg-open"
-if [ -x /usr/bin/nvim ]
-then
-  export EDITOR=/usr/bin/nvim
-	alias vim="fg 2>/dev/null || nvim"
-fi
-if [ -x $(which exa) ]
-then
-  alias ls="exa --icons --git"
-fi
 
+# Make an alias for all users in /etc/passwd
 for SU_USER in $(grep "/bin/bash" /etc/passwd | cut -f 1 -d:)
 do
   alias $SU_USER="sudo -u $SU_USER -E /bin/bash"
@@ -58,19 +54,61 @@ function ret() {
 function installremote() {
   echo $1
   scp $(readlink ~/.bashrc) $1:.bashrc || return
-  scp $(readlink ~/.vimrc) $1:.vimrc || return
-  scp $(readlink ~/.inputrc) $1:.inputrc || return
-  ssh $1 "sh -c 'curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'" || return
 }
+# }}}
 
-# Navigation aliases
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-alias etc='cd /etc/'
-alias logs='cd /var/log/'
+# Software that needs to exist {{{
 
+# Ensure ~/.local/bin
+[[ -d $HOME/.local/bin ]] || mkdir -p $HOME/.local/bin
+
+# Install nvim through appimage if needed
+if [ ! -x $(which nvim) ]
+then
+  curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+  chmod u+x nvim.appimage
+  mv nvim.appimage $HOME/.local/bin
+fi
+[[ -d $HOME/.config/nvim/ ]] || mkdir $HOME/.config/nvim
+wget -q https://raw.githubusercontent.com/The-Abe/dotfiles/main/vim/init.lua -O $HOME/.config/nvim/init.lua
+export EDITOR=$(which nvim)
+alias vim="fg 2>/dev/null || nvim"
+
+# Eza. Install if not found.
+if [[ ! -x $(which eza) ]]
+then
+   wget -q https://github.com/eza-community/eza/releases/download/v0.13.0/eza_x86_64-unknown-linux-gnu.tar.gz -O /tmp/eza.tar.gz
+   tar -C /tmp/ -xf /tmp/eza.tar.gz
+   mv /tmp/eza $HOME/.local/bin/
+fi
+alias ls="eza --icons --git"
+
+# FZF. Install if not found.
+if [[ ! -f ~/.fzf.bash ]]
+then
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install
+fi
+source ~/.fzf.bash
+FZF_DEFAULT_OPTS="--preview 'bat --line-range=:200 --theme=Dracula --color=always --style=numbers,changes {} | head -500'"
+
+# Zoxide. Install if not found.
+if [[ ! -x $(which zoxide) ]]
+then
+  curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
+fi
+eval "$(zoxide init bash)"
+alias cd="z"
+
+# Update bashrc if bashrc is not linked to the git repo.
+if [[ ! -L ~/.bashrc ]]
+then
+  wget -q https://raw.githubusercontent.com/The-Abe/dotfiles/main/bash/bashrc -O $HOME/.bashrc
+fi
+# }}}
+
+# ssh-agent shenanigans. {{{
+# If it works, don't touch. I always screw this up when I try to mess with it.
 if [[ -f ~/.ssh/id_rsa.pub ]]
 then
   if [[ ! -S ~/.ssh/ssh_auth_sock ]]
@@ -81,41 +119,61 @@ then
   fi
   export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 fi
+# }}}
 
-# PS1 and related stuff
+# PS1 and related stuff {{{
 function color() {
   echo -e "\033[38;5;$1m"
 }
-alias bold="echo -e \"\e[1m\""
-alias reset_color="echo -e \"\e[m\""
+function bgcolor() {
+  echo -e "\033[48;5;$1m"
+}
+function fbcolor() {
+  echo -e "\033[38;5;$1m\033[48;5;$2m"
+}
+function rgbcolor() {
+  echo -e "\033[38;2;$1;$2;$3m"
+}
+function rgbbgcolor() {
+  echo -e "\033[48;2;$1;$2;$3m"
+}
+function rgbfbcolor() {
+  echo -e "$(rgbcolor $1 $2 $3)$(rgbbgcolor $4 $5 $6)"
+}
+function bold() {
+  echo -e "\e[1m"
+}
+function reset_color() {
+echo -e "\e[m"
+}
 
 branch_status() {
   branch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
   if [[ $branch != "" ]]
   then
-    echo -e "\n  $(color 6)git$(color 5) $branch $(git_dirty)"
+    echo -e "$(color 6)$branch $(color 5)$(git_dirty)"
   else
     branch=$(hg branch 2> /dev/null | awk '{print $1}')
     if [[ $branch != "" ]]
     then
-      echo -e "\n  $(color 6)hg$(color 5) $branch $(hg_dirty)"
+      echo -e "$(color 6)$branch $(color 5)$(hg_dirty)"
     fi
   fi
 }
 
 git_dirty() {
-  stat=$(git status --porcelain | awk '{print $1}' | sort | uniq -c | sed 's/^ \+//' | sed 's/ /:/g' | paste -sd ' ' -)
+  stat=$(git status --porcelain | awk '{print $1}' | grep -v "^?" | sort | uniq -c | sed 's/^ \+//' | sed 's/ /:/g' | paste -sd ' ' -)
   if [[ $stat != "" ]]
   then
-    echo "$(color 8)$stat"
+    echo "$stat "
   fi
 }
 
 hg_dirty() {
-  stat=$(hg status 2> /dev/null | awk '{print $1}' | sort | uniq -c | sed 's/^ \+//' | sed 's/ /:/g' | paste -sd ' ' -)
+  stat=$(hg status 2> /dev/null | awk '{print $1}' | grep -v "^?" | sort | uniq -c | sed 's/^ \+//' | sed 's/ /:/g' | paste -sd ' ' -)
   if [[ $stat != "" ]]
   then
-    echo "$(color 8)$stat"
+    echo "$stat "
   fi
 }
 
@@ -123,30 +181,42 @@ return_code() {
   res=$?
   if [ $res != 0 ]
   then
-    echo -e "$(bold)$(color 1)✘($res) "
+    echo -e "$(color 1) ✘($res) "
   else
-    echo -e "$(bold)$(color 2)✔ "
+    echo -e "$(color 2) ✔  "
   fi
 }
 
 rbenv_status() {
-  global=$(cd / && ruby -v)
-  current=$(ruby -v)
-  if [[ "$current" != "$global" ]]
+  current=$(rbenv local 2>/dev/null)
+  if [[ "$current" != "" && "$current" != "$GLOBAL_RUBY" ]]
   then
-    current=$(echo $current | cut -d\  -f2)
-    echo -e "\n  $(color 1)Ruby $(color 8)$current"
+    echo -e "$(color 1) $current "
   fi
 }
 
-PS1='\n$(return_code)$(color 3)\u@\h $(reset_color)\w $(branch_status)$(rbenv_status)$(reset_color)\n\$ '
+PS1='\n$(rgbfbcolor 98 114 164 68 71 90)$(return_code)$(rgbcolor 98 114 164)$(branch_status)$(rgbcolor 98 114 164)$(rbenv_status)$(rgbcolor 68 71 90)$(bgcolor 4) $(fbcolor 0 4)\u $(fbcolor 4 2) $(fbcolor 0 2)\h $(fbcolor 2 3) $(fbcolor 0 3)\w $(reset_color)$(color 3)$(reset_color)\n\$ '
+# }}}
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# Show the 16 default colours in the terminal. {{{
+function colors() {
+  echo
+  for I in $(seq -w 1 1 16)
+  do
+    if [[ ${I} == 16 ]]
+    then
+      c=15
+    else
+      c=0
+    fi
+    printf "$(color $c)\033[48;5;${I}m ${I} $(reset_color)"
+    if [[ ${I} =~ 8$ ]]
+    then
+      echo
+    fi
+  done
+  echo
+}
+# }}}
 
-if [ -x $(which zoxide) ]
-then
-  eval "$(zoxide init bash)"
-  alias cd="z"
-fi
-
-FZF_DEFAULT_OPTS="--preview 'bat --line-range=:200 --theme=Dracula --color=always --style=numbers,changes {} | head -500'"
+# vim: foldmethod=marker foldlevel=0
