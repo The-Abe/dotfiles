@@ -56,7 +56,7 @@ function installremote() {
   scp $(readlink ~/.bashrc) $1:.bashrc || return
 }
 
-if [[ ! -x $(which bat) ]]
+if [[ -x $(which batcat) ]]
 then
   alias bat="batcat"
 fi
