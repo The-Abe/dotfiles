@@ -597,17 +597,28 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
 })
 
 -- Abbreviations
-vim.keymap.set('ia', 'name/', 'Abe van der Wielen')
-vim.keymap.set('ia', 'email/', 'abevanderwielen@gmail.com')
-vim.keymap.set('ia', 'date/', '<c-r>=strftime("%F")<cr>')
-vim.keymap.set('ia', 'file/', '<c-r>=expand(\'%\')<cr>')
-vim.keymap.set('ia', 'github/', 'https://github.com/the-abe')
-vim.keymap.set('ia', 'path/', 'PATH=/usr/local/bin:/usr/bin:/bin')
+vim.cmd('abb teh the')
+-- vim.keymap.set('ia', 'name/', 'Abe van der Wielen')
+-- vim.keymap.set('ia', 'email/', 'abevanderwielen@gmail.com')
+-- vim.keymap.set('ia', 'date/', '<c-r>=strftime("%F")<cr>')
+-- vim.keymap.set('ia', 'file/', '<c-r>=expand(\'%\')<cr>')
+-- vim.keymap.set('ia', 'github/', 'https://github.com/the-abe')
+-- vim.keymap.set('ia', 'path/', 'PATH=/usr/local/bin:/usr/bin:/bin')
+vim.cmd('abb name/ Abe van der Wielen')
+vim.cmd('abb email/ abevanderwielen@gmail.com')
+vim.cmd('abb date/ <c-r>=strftime("%F")<cr>')
+vim.cmd('abb file/ <c-r>=expand(\'%\')<cr>')
+vim.cmd('abb github/ https://github.com/the-abe')
+vim.cmd('abb path/ PATH=/usr/local/bin:/usr/bin:/bin')
 
 -- Typos
-vim.keymap.set('ia', 'ngixn', 'nginx')
-vim.keymap.set('ia', 'teh', 'the')
-vim.keymap.set('ia', 'adn', 'and')
-vim.keymap.set('ia', 'tihs', 'this')
+-- vim.keymap.set('ia', 'ngixn', 'nginx')
+-- vim.keymap.set('ia', 'teh', 'the')
+-- vim.keymap.set('ia', 'adn', 'and')
+-- vim.keymap.set('ia', 'tihs', 'this')
+vim.cmd('abb ngixn nginx')
+vim.cmd('abb teh the')
+vim.cmd('abb adn and')
+vim.cmd('abb tihs this')
 
 vim.g.closetag_filenames = '*.html,*.xhtml,*.phtml,*.erb'
