@@ -74,7 +74,7 @@ fi
 [[ -d $HOME/.local/bin ]] || mkdir -p $HOME/.local/bin
 
 # Install nvim through appimage if needed
-if [ ! -x $(which nvim) ]
+if [[ ! -x $(which nvim) ]]
 then
   curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
   chmod u+x nvim.appimage
