@@ -95,7 +95,7 @@ then
 fi
 if [[ ! -L $HOME/.tmux.conf ]]
 then
-  wget -q https://raw.githubusercontent.com/The-Abe/dotfiles/main/tmux/remote.conf -O $HOME/tmux.conf
+  wget -q https://raw.githubusercontent.com/The-Abe/dotfiles/main/tmux/remote.conf -O $HOME/.tmux.conf
 fi
 
 # In case of old config
