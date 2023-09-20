@@ -86,6 +86,18 @@ then
   wget -q https://raw.githubusercontent.com/The-Abe/dotfiles/main/vim/init.lua -O $HOME/.config/nvim/init.lua
 fi
 
+# Install tmux through appimage if needed
+if [[ ! -x $(which tmux) ]]
+then
+  curl -LO https://github.com/nelsonenzo/tmux-appimage/releases/download/3.2a/tmux.appimage
+  chmod u+x tmux.appimage
+  mv tmux.appimage $HOME/.local/bin/tmux
+fi
+if [[ ! -L $HOME/.tmux.conf ]]
+then
+  wget -q https://raw.githubusercontent.com/The-Abe/dotfiles/main/tmux/remote.conf -O $HOME/tmux.conf
+fi
+
 # In case of old config
 [[ -f $HOME/.config/nvim/init.vim ]] && rm $HOME/.config/nvim/init.vim
 
