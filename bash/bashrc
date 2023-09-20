@@ -78,7 +78,7 @@ if [ ! -x $(which nvim) ]
 then
   curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
   chmod u+x nvim.appimage
-  mv nvim.appimage $HOME/.local/bin
+  mv nvim.appimage $HOME/.local/bin/nvim
 fi
 [[ -d $HOME/.config/nvim/ ]] || mkdir $HOME/.config/nvim
 if [[ ! -L $HOME/.config/nvim/ ]]
