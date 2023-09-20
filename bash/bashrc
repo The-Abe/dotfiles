@@ -85,6 +85,10 @@ if [[ ! -L $HOME/.config/nvim/ ]]
 then
   wget -q https://raw.githubusercontent.com/The-Abe/dotfiles/main/vim/init.lua -O $HOME/.config/nvim/init.lua
 fi
+
+# In case of old config
+[[ -f $HOME/.config/nvim/init.vim ]] && rm $HOME/.config/nvim/init.vim
+
 export EDITOR=$(which nvim)
 alias vim="fg 2>/dev/null || nvim"
 
