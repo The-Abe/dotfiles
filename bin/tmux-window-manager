@@ -1,0 +1,44 @@
+#!/bin/bash
+
+window_names=$(tmux list-windows -F "#{window_name}")
+
+case $1 in
+	"ssh")
+		name=$(echo $2 | tr '[:lower:]' '[:upper:]')
+		if [[ $window_names =~ " $name" ]]
+		then
+			tmux select-window -t " $name"
+		else
+			tmux new-window -n " $name" ssh $2
+			tmux select-window -t " $name"
+		fi
+		;;
+
+	"vim")
+		name=$(basename "$2")
+		file=$(readlink -f "$2")
+		if [[ $window_names =~ " $name" ]]
+		then
+			tmux select-window -t " $name"
+		else
+			if [[ -d "$2" ]]
+			then
+				tmux new-window -n " $name" "cd \"$2\"; nvim ."
+			elif [[ -e "$2" ]]
+			then
+				tmux new-window -n " $name" nvim "$file"
+			else
+				tmux display "File not found"
+			fi
+		fi
+		;;
+	*)
+		name=$(echo $1 | tr '[:lower:]' '[:upper:]')
+		if [[ $window_names =~ " $name" ]]
+		then
+			tmux select-window -t " $name"
+		else
+			tmux new-window -n " $name"
+		fi
+		;;
+esac
