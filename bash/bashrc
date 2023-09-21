@@ -181,7 +181,18 @@ function bold() {
   echo -e "\e[1m"
 }
 function reset_color() {
-echo -e "\e[m"
+  echo -e "\e[m"
+}
+
+function hex_to_dec() {
+  color=$(echo $1 | tr '[:lower:]' '[:upper:]')
+  red=$(echo $color | awk '{print substr($1,1,2)}')
+  green=$(echo $color | awk '{print substr($1,3,2)}')
+  blue=$(echo $color | awk '{print substr($1,5,2)}')
+  red_dec=$(echo "ibase=16; $red"|bc)
+  green_dec=$(echo "ibase=16; $green"|bc)
+  blue_dec=$(echo "ibase=16; $blue"|bc)
+  echo $red_dec $green_dec $blue_dec
 }
 
 branch_status() {
@@ -232,7 +243,12 @@ rbenv_status() {
   fi
 }
 
-PS1='\n$(rgbfbcolor 98 114 164 68 71 90)$(return_code)$(rgbcolor 98 114 164)$(branch_status)$(rgbcolor 98 114 164)$(rbenv_status)$(rgbcolor 68 71 90)$(bgcolor 4) $(fbcolor 0 4)\u $(fbcolor 4 2) $(fbcolor 0 2)\h $(fbcolor 2 3) $(fbcolor 0 3)\w $(reset_color)$(color 3)$(reset_color)\n\$ '
+PSBLUE="98 114 164"
+PSGREY="68 71 90"
+PSWHITE="$(hex_to_dec f8f8f2)"
+PSBLACK="$(hex_to_dec 282a36)"
+PSPURPLE="$(hex_to_dec bd93f9)"
+PS1='\n$(rgbfbcolor $PSWHITE $PSGREY)$(return_code)$(rgbcolor $PSWHITE)$(branch_status)$(rgbcolor $PSWHITE)$(rbenv_status)$(rgbfbcolor $PSGREY $PSPURPLE)$(rgbfbcolor $PSBLACK $PSPURPLE) \u $(rgbfbcolor $PSPURPLE $PSBLUE) $(rgbfbcolor $PSWHITE $PSBLUE)\h $(rgbfbcolor $PSBLUE $PSGREY) $(rgbfbcolor $PSWHITE $PSGREY)\w $(reset_color)$(rgbcolor $PSGREY)$(reset_color)\n\$ '
 # }}}
 
 # Show the 16 default colours in the terminal. {{{
@@ -274,4 +290,4 @@ export TLDR_INFO_COLOR="Newline Green"
 export TLDR_LANG="en"
 # }}}
 
-# vim: foldmethod=marker foldlevel=0
+# vim: foldmethod=marker foldlevel=1
