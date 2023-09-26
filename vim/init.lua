@@ -53,15 +53,7 @@ require('lazy').setup({
         date_format = "%Y-%m-%d",
         template = "Daily.md"
       },
-      note_frontmatter_func = function(note)
-        local out = { Tags = note.tags, Date = note.date }
-        if note.metadata ~= nil and require("obsidian").util.table_length(note.metadata) > 0 then
-          for k, v in pairs(note.metadata) do
-            out[k] = v
-          end
-        end
-        return out
-      end,
+      disable_frontmatter = true,
     },
   },
   {
