@@ -38,6 +38,18 @@ require('lazy').setup({
     },
   },
   {
+    "epwalsh/obsidian.nvim",
+    lazy = false,
+    event = { "BufReadPre /home/abe/Obsidian/**.md" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    opts = {
+      dir = "~/Obsidian",  -- no need to call 'vim.fn.expand' here
+      mappings = { }
+    },
+  },
+  {
     'kylechui/nvim-surround',  -- Vim surround alternative
     opts = {
       surrounds = {
@@ -211,13 +223,7 @@ vim.o.foldlevelstart = 99
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Also  make gf  work with non-existsing files
-vim.keymap.set("n", "gf", function()
-  if require("obsidian").util.cursor_on_markdown_link() then
-    return "<cmd>ObsidianFollowLink<CR>"
-  else
-    return ':e <cfile><cr>'
-  end
-end, { noremap = false, expr = true })
+vim.keymap.set('n', 'gf', ':e <cfile><cr>')
 -- Make C-c work like esc for abbreviations and stuff
 vim.keymap.set('i', '<c-c>', '<esc>')
 
@@ -591,7 +597,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "gitcommit", "markdown" },
   callback = function()
     vim.opt_local.wrap = true
-    vim.opt_local.spell = true
+    vim.keymap.set('n', '<cr>', "<cmd>ObsidianFollowLink<CR>", {silent = true})
   end,
 })
 
