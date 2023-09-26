@@ -342,6 +342,13 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.keymap.set('n', '<leader>sm', require('telescope.builtin').marks, { desc = '[S]earch [M]arks' })
 vim.keymap.set('n', '<leader>sb', require('telescope.builtin').buffers, { desc = '[S]earch [B]uffers' })
 vim.keymap.set('n', '<leader>:', require('telescope.builtin').commands, { desc = '[:]Commands' })
+vim.keymap.set('n', '<M-x>', require('telescope.builtin').commands, { desc = 'Commands' })
+
+vim.keymap.set('n', '<leader>ob', ':ObsidianBacklinks<cr>', { desc = '[O]bsidian [B]acklinks' })
+vim.keymap.set('n', '<leader>os', ':ObsidianSearch<cr>', { desc = '[O]bsidian [S]earch' })
+vim.keymap.set('n', '<leader>oo', ':ObsidianQuickSwitch<cr>', { desc = '[O]bsidian [O]pen' })
+vim.keymap.set('n', '<leader>ot', ':ObsidianToday<cr>', { desc = '[O]bsidian [T]oday' })
+vim.keymap.set('n', '<leader>oy', ':ObsidianYesterday<cr>', { desc = '[O]bsidian [Y]esterday' })
 
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
@@ -614,9 +621,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.opt_local.wrap = true
     vim.opt_local.textwidth = 80
     vim.keymap.set('n', '<cr>', "<cmd>ObsidianFollowLink<CR>", {silent = true, buffer = true})
-    vim.cmd([[call matchadd('Conceal', '[^\w]#\&#', 10, -1, {'conceal': '§'})]])
-    vim.cmd([[call matchadd('Conceal', '#\+\zs#', 10, -1, {'conceal': '§'})]])
-    vim.cmd([[call matchadd('Conceal', '^#', 10, -1, {'conceal': '§'})]])
   end,
 })
 
