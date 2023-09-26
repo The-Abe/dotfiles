@@ -23,18 +23,14 @@ require('lazy').setup({
   'm4xshen/autoclose.nvim',
   'alvan/vim-closetag',
   'godlygeek/tabular',
-  'preservim/vim-markdown',
   'zane-/cder.nvim',
   {
     "folke/flash.nvim",
     event = "VeryLazy",
     opts = {},
     keys = {
-      { "s", mode = { "n", "o", "x" }, function() require("flash").jump() end, desc = "Flash" },
-      { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+      { "s", mode = { "n", "o", "x" }, function() require("flash").jump() end, desc = "Flash", id = "Flash" },
+      { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter", id = "Flash Treesitter" },
     },
   },
   {
@@ -46,7 +42,26 @@ require('lazy').setup({
     },
     opts = {
       dir = "~/Obsidian",  -- no need to call 'vim.fn.expand' here
-      mappings = { }
+      mappings = {},
+      templates = {
+        subdir = "Templates",
+        date_format = "%Y-%m-%d",
+        time_format = "%H:%M",
+      },
+      daily_notes = {
+        folder = "Daily",
+        date_format = "%Y-%m-%d",
+        template = "Daily.md"
+      },
+      note_frontmatter_func = function(note)
+        local out = { Tags = note.tags, Date = note.date }
+        if note.metadata ~= nil and require("obsidian").util.table_length(note.metadata) > 0 then
+          for k, v in pairs(note.metadata) do
+            out[k] = v
+          end
+        end
+        return out
+      end,
     },
   },
   {
@@ -216,7 +231,7 @@ vim.o.spelllang = 'nl,en'
 vim.o.list = true
 vim.o.listchars = 'tab:->,trail:~,extends:>,precedes:<,multispace:.,leadmultispace: ,nbsp:.'
 vim.o.path = '.,,'
-vim.o.conceallevel = 3
+vim.o.conceallevel = 2
 vim.o.foldlevelstart = 99
 
 -- [[ Basic Keymaps ]]
@@ -338,7 +353,7 @@ require('nvim-treesitter.configs').setup {
 
   highlight = {
     enable = true,
-    disable = { "markdown" }
+    additional_vim_regex_highlighting  = { "markdown" },
   },
   indent = { enable = true },
   incremental_selection = {
@@ -597,10 +612,13 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "gitcommit", "markdown" },
   callback = function()
     vim.opt_local.wrap = true
-    vim.keymap.set('n', '<cr>', "<cmd>ObsidianFollowLink<CR>", {silent = true})
+    vim.opt_local.textwidth = 80
+    vim.keymap.set('n', '<cr>', "<cmd>ObsidianFollowLink<CR>", {silent = true, buffer = true})
+    vim.cmd([[call matchadd('Conceal', '[^\w]#\&#', 10, -1, {'conceal': '§'})]])
+    vim.cmd([[call matchadd('Conceal', '#\+\zs#', 10, -1, {'conceal': '§'})]])
+    vim.cmd([[call matchadd('Conceal', '^#', 10, -1, {'conceal': '§'})]])
   end,
 })
-
 
 vim.api.nvim_create_autocmd({ "QuickFixCmdPost" }, {
   callback = function()
