@@ -81,7 +81,7 @@ then
   mv nvim.appimage $HOME/.local/bin/nvim
 fi
 [[ -d $HOME/.config/nvim/ ]] || mkdir $HOME/.config/nvim
-if [[ ! -L $HOME/.config/nvim/ ]]
+if [[ ! -L $HOME/.config/nvim ]]
 then
   wget -q https://raw.githubusercontent.com/The-Abe/dotfiles/main/vim/init.lua -O $HOME/.config/nvim/init.lua
 fi
