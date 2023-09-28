@@ -32,6 +32,7 @@ require('lazy').setup({
   'tpope/vim-sleuth',              -- Set tabstop and such based on file
   'mhinz/vim-signify',             -- VCS gutter
   'norcalli/nvim-colorizer.lua',   -- Hex colors
+  'mbbill/undotree',               -- Undo tree display
   {
     'numToStr/Comment.nvim',         -- Comment mappings
     keys = {
@@ -248,6 +249,10 @@ vim.keymap.set('n', '<leader>tm', '<ESC>:silent exec &mouse!=""? "set mouse=" : 
   { desc = "[T]oggle [M]ouse" })
 vim.keymap.set('n', '<leader>tn', ':set number!<cr>:set relativenumber!<cr>:set number?<cr>',
   { desc = "[T]oggle [N]umber" })
+
+vim.keymap.set('n', '<leader>u', ':UndotreeToggle<cr>', {desc="[U]ndo Tree Toggle"})
+
+vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc="Chmod +[x]" })
 --}}}
 
 -- {{{Highlight on yank
@@ -370,6 +375,8 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
+
+  nmap('<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], '[S]ubstitute Word')
   nmap('<leader>lr', vim.lsp.buf.rename, '[L]SP [R]ename')
   nmap('<leader>la', vim.lsp.buf.code_action, '[L]SP [A]ction')
 
