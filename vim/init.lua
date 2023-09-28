@@ -167,7 +167,7 @@ vim.o.hlsearch = false
 vim.wo.number = true
 vim.wo.relativenumber = true
 vim.o.mouse = 'a'
-vim.o.clipboard = 'unnamedplus'
+vim.o.clipboard = ''
 vim.o.breakindent = true
 vim.o.undofile = true
 vim.o.ignorecase = true
@@ -249,6 +249,17 @@ vim.keymap.set('n', '<leader>tm', '<ESC>:silent exec &mouse!=""? "set mouse=" : 
   { desc = "[T]oggle [M]ouse" })
 vim.keymap.set('n', '<leader>tn', ':set number!<cr>:set relativenumber!<cr>:set number?<cr>',
   { desc = "[T]oggle [N]umber" })
+
+vim.keymap.set('n', '<leader>bc', ':bclose<cr>', { desc = "[B]uffer [C]lose" })
+vim.keymap.set('n', '<leader>bn', ':bn<cr>', { desc = "[B]uffer [N]ext" })
+vim.keymap.set('n', '<leader>bp', ':bp<cr>', { desc = "[B]uffer [P]revious" })
+vim.keymap.set('n', '<leader>ba', ':ba<cr>', { desc = "[B]uffer Split [A]ll" })
+vim.keymap.set('n', '<leader>bl', ':blast<cr>', { desc = "[B]uffer [L]ast" })
+vim.keymap.set('n', '<leader>bf', ':bfirst<cr>', { desc = "[B]uffer [F]irst" })
+
+vim.keymap.set('n', '<leader>da', ':windo diffthis<cr>', { desc = "[D]iff [A]ll Windows" })
+vim.keymap.set('n', '<leader>dt', ':diffthis<cr>', { desc = "[D]iff [T]his Window" })
+vim.keymap.set('n', '<leader>do', ':diffoff<cr>', { desc = "[D]iff [O]ff" })
 
 vim.keymap.set('n', '<leader>u', ':UndotreeToggle<cr>', {desc="[U]ndo Tree Toggle"})
 
@@ -603,3 +614,7 @@ vim.cmd('abb teh the')
 vim.cmd('abb adn and')
 vim.cmd('abb tihs this')
 -- }}}
+
+vim.o.makeprg='"%:p"' -- Default to just calling the full path.
+vim.cmd[[au FileType rust set makeprg=cargo\ run]]
+vim.keymap.set('n', '<leader>rf', ':w<cr>:make ', {desc="[R]un [F]ile"}) -- No <cr> to allow params
