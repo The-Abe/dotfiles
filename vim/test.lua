@@ -30,19 +30,8 @@ require('lazy').setup({
   'godlygeek/tabular',             -- Align text by delimiter
   'tpope/vim-fugitive',            -- Git commands
   'tpope/vim-sleuth',              -- Set tabstop and such based on file
+  'numToStr/Comment.nvim',         -- Comment mappings
   'mhinz/vim-signify',             -- VCS gutter
-  'norcalli/nvim-colorizer.lua',   -- Hex colors
-  {
-    'numToStr/Comment.nvim',         -- Comment mappings
-    keys = {
-      { "gc", mode = { "n", "v" }, desc = "[C]omment toggle" },
-      { "gb", mode = { "n", "v" }, desc = "[B]lock comment toggle" },
-    },
-    opts = function()
-      local commentstring_avail, commentstring = pcall(require, "ts_context_commentstring.integrations.comment_nvim")
-      return commentstring_avail and commentstring and { pre_hook = commentstring.create_pre_hook() } or {}
-    end,
-  },
   {
     'folke/which-key.nvim',        -- Show keybinds
     event = "VeryLazy",
@@ -154,7 +143,6 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter', -- Highlight, edit, and navigate code
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
-      'JoosepAlviste/nvim-ts-context-commentstring' -- Change comment string on TS context for embeded languages
     },
     build = ':TSUpdate',
   },
@@ -248,6 +236,20 @@ vim.keymap.set('n', '<leader>tm', '<ESC>:silent exec &mouse!=""? "set mouse=" : 
   { desc = "[T]oggle [M]ouse" })
 vim.keymap.set('n', '<leader>tn', ':set number!<cr>:set relativenumber!<cr>:set number?<cr>',
   { desc = "[T]oggle [N]umber" })
+
+-- Buffer manipulation
+vim.keymap.set('n', '<leader>bd', ':bdelete<cr>', { desc = "[B]uffer [D]elete" })
+vim.keymap.set('n', '<leader>bn', ':bnext<cr>', { desc = "[B]uffer [N]ext" })
+vim.keymap.set('n', '<leader>bp', ':bprevious<cr>', { desc = "[B]uffer [P]revious" })
+vim.keymap.set('n', '<leader>bf', ':bfirst<cr>', { desc = "[B]uffer [F]irst" })
+vim.keymap.set('n', '<leader>bl', ':blast<cr>', { desc = "[B]uffer [L]ast" })
+vim.keymap.set('n', '<leader>bm', ':bmodified<cr>', { desc = "[B]uffer Next [M]ast" })
+vim.keymap.set('n', '<leader>bs', ':vertical ball<cr>', { desc = "[B]uffer [S]plit" })
+
+-- Diff mappings
+vim.keymap.set('n', '<leader>da', ':windo diffthis<cr>', { desc = "[D]iff [A]ll Splits" })
+vim.keymap.set('n', '<leader>dt', ':diffthis<cr>', { desc = "[D]iff [T]his Split" })
+vim.keymap.set('n', '<leader>do', ':diffoff<cr>', { desc = "[D]iff [O]ff" })
 --}}}
 
 -- {{{Highlight on yank
@@ -310,7 +312,6 @@ require('nvim-treesitter.configs').setup {
     enable = true,
     additional_vim_regex_highlighting = { "markdown" },
   },
-  context_commentstring = { enable = true, enable_autocmd = false },
   indent = { enable = true },
   incremental_selection = {
     enable = true,
@@ -319,46 +320,6 @@ require('nvim-treesitter.configs').setup {
       node_incremental = '<c-space>',
       scope_incremental = '<c-s>',
       node_decremental = '<M-space>',
-    },
-  },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true,
-      keymaps = {
-        ["ab"] = { query = "@block.outer", desc = "around block" },
-        ["ib"] = { query = "@block.inner", desc = "inside block" },
-        ["ac"] = { query = "@class.outer", desc = "around class" },
-        ["ic"] = { query = "@class.inner", desc = "inside class" },
-        ["a?"] = { query = "@conditional.outer", desc = "around conditional" },
-        ["i?"] = { query = "@conditional.inner", desc = "inside conditional" },
-        ["af"] = { query = "@function.outer", desc = "around function " },
-        ["if"] = { query = "@function.inner", desc = "inside function " },
-        ["al"] = { query = "@loop.outer", desc = "around loop" },
-        ["il"] = { query = "@loop.inner", desc = "inside loop" },
-        ["aa"] = { query = "@parameter.outer", desc = "around argument" },
-        ["ia"] = { query = "@parameter.inner", desc = "inside argument" },
-      },
-    },
-    move = {
-      enable = true,
-      set_jumps = true,
-      goto_next_start = {
-        ["]b"] = { query = "@block.outer", desc = "Next block start" },
-        ["]m"] = { query = "@function.outer", desc = "Next function start" },
-      },
-      goto_next_end = {
-        ["]B"] = { query = "@block.outer", desc = "Next block end" },
-        ["]M"] = { query = "@function.outer", desc = "Next function end" },
-      },
-      goto_previous_start = {
-        ["[b"] = { query = "@block.outer", desc = "Previous block start" },
-        ["[m"] = { query = "@function.outer", desc = "Previous function start" },
-      },
-      goto_previous_end = {
-        ["[B"] = { query = "@block.outer", desc = "Previous block end" },
-        ["[M"] = { query = "@function.outer", desc = "Previous function end" },
-      },
     },
   },
 }
@@ -494,13 +455,7 @@ cmp.setup {
 
 -- {{{ Basic Plugin Setups
 require('neodev').setup()
-require('colorizer').setup()
-require('autoclose').setup({
-  options = {
-    pair_spaces = true,
-    disable_command_mode = true
-  },
-})
+require('autoclose').setup()
 vim.g.closetag_filenames = '*.html,*.xhtml,*.phtml,*.erb'
 -- }}}
 
