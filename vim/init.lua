@@ -1,4 +1,5 @@
 -- vim: foldmethod=marker foldlevel=1
+---@diagnostic disable: missing-fields
 -- {{{ Set Leader Keys
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -105,7 +106,7 @@ require('lazy').setup({
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
       { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
-      'folke/neodev.nvim',
+      { "folke/neodev.nvim", opts = {} }
     },
   },
   {
@@ -129,12 +130,28 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = true,
-        theme = 'dracula',
+        theme = 'auto',
         component_separators = '|',
       },
-      tabline = {
-        lualine_a = { 'buffers' }
+      sections = {
+        lualine_a = {'mode'},
+        lualine_b = {'branch', 'diff', { 'diagnostics', symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'}}},
+        lualine_c = {'filename'},
+        lualine_x = {'filetype', 'encoding', 'fileformat'},
       },
+      inactive_sections = {
+        lualine_a = {'mode'},
+        lualine_b = {'branch', 'diff', { 'diagnostics', symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'}}},
+        lualine_c = {'filename'},
+        lualine_x = {'filetype', 'encoding', 'fileformat'},
+      },
+      winbar = {
+        lualine_a = {'buffers'},
+      },
+      inactive_winbar = {
+        lualine_a = {'buffers'},
+      },
+      extensions = {'quickfix', 'fugitive', 'fzf', 'lazy', 'man'}
     },
   },
   {
@@ -511,7 +528,6 @@ cmp.setup {
 -- }}}
 
 -- {{{ Basic Plugin Setups
-require('neodev').setup()
 require('colorizer').setup()
 require('autoclose').setup({
   options = {
