@@ -20,17 +20,34 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Plugin List
 require('lazy').setup({
-  'ludovicchabant/vim-lawrencium', -- HG commands
-  'junegunn/vim-peekaboo',         -- Preview registers before pasting
-  'nvim-tree/nvim-web-devicons',   -- Nvim tree
-  'm4xshen/autoclose.nvim',        -- Auto close brackets
-  'alvan/vim-closetag',            -- Auto close tags
-  'godlygeek/tabular',             -- Align text by delimiter
-  'tpope/vim-fugitive',            -- Git commands
-  'tpope/vim-sleuth',              -- Set tabstop and such based on file
-  'mhinz/vim-signify',             -- VCS gutter
-  'norcalli/nvim-colorizer.lua',   -- Hex colors
-  'mbbill/undotree',               -- Undo tree display
+  'ludovicchabant/vim-lawrencium',  -- HG commands
+  'junegunn/vim-peekaboo',          -- Preview registers before pasting
+  'nvim-tree/nvim-web-devicons',    -- Nvim tree
+  'alvan/vim-closetag',             -- Auto close tags
+  'RRethy/nvim-treesitter-endwise', -- Auto close "end" blocks
+  'godlygeek/tabular',              -- Align text by delimiter
+  'tpope/vim-fugitive',             -- Git commands
+  'tpope/vim-sleuth',               -- Set tabstop and such based on file
+  'mhinz/vim-signify',              -- VCS gutter
+  'norcalli/nvim-colorizer.lua',    -- Hex colors
+  'mbbill/undotree',                -- Undo tree display
+  {
+    'altermo/ultimate-autopair.nvim',
+    event={'InsertEnter','CmdlineEnter'},
+    branch='v0.6',
+    opts={
+      close={
+        map='<A-\'>',
+        cmap='<A-\'>',
+      },
+      tabout={
+        enable=true,
+        map='<tab>',
+        cmap='<tab>',
+        hopout=true,
+      },
+    },
+  },
   {
     'numToStr/Comment.nvim',         -- Comment mappings
     keys = {
@@ -192,7 +209,7 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 vim.o.spelllang = 'nl,en'
 vim.o.list = true
-vim.o.listchars = 'tab:->,trail:~,extends:>,precedes:<,multispace:.,leadmultispace: ,nbsp:.'
+vim.o.listchars = 'tab:  ,trail:~,extends:>,precedes:<,multispace:.,leadmultispace: ,nbsp:.'
 vim.o.path = '.,,'
 vim.o.conceallevel = 2
 vim.o.foldlevelstart = 99
@@ -521,12 +538,11 @@ cmp.setup {
 
 -- Basic Plugin Setups
 require('colorizer').setup()
-require('autoclose').setup({
-  options = {
-    pair_spaces = true,
-    disable_command_mode = true
-  },
-})
+require('nvim-treesitter.configs').setup {
+    endwise = {
+        enable = true,
+    },
+}
 vim.g.closetag_filenames = '*.html,*.xhtml,*.phtml,*.erb'
 
 -- Add other text objects for almost every character
