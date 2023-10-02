@@ -36,6 +36,14 @@ alias bashrc="$EDITOR ~/.bashrc; source ~/.bashrc"
 alias tmuxrc="$EDITOR ~/.tmux.conf; tmux source-file ~/.tmux.conf"
 alias aliases="$EDITOR ~/.bash_aliases; source ~/.bash_aliases"
 
+if [[ -x $(which nvim) ]]
+then
+  alias svim="sudo -E nvim -u $HOME/.config/nvim/init.lua"
+else
+  alias svim="sudo -E vim -u $HOME/.vimrc"
+fi
+
+
 # Make an alias for all users in /etc/passwd
 for SU_USER in $(grep "/bin/bash" /etc/passwd | cut -f 1 -d:)
 do
