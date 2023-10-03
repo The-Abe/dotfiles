@@ -33,7 +33,7 @@ require('lazy').setup({
   'mbbill/undotree',                -- Undo tree display
   {
     'altermo/ultimate-autopair.nvim',
-    event={'InsertEnter','CmdlineEnter'},
+    event={'InsertEnter'},
     branch='v0.6',
     opts={
       close={
@@ -80,14 +80,6 @@ require('lazy').setup({
         desc = "Flash",
         id =
         "Flash"
-      },
-      {
-        "S",
-        mode = { "n", "o", "x" },
-        function() require("flash").treesitter() end,
-        desc = "Flash Treesitter",
-        id =
-        "Flash Treesitter"
       },
     },
   },
