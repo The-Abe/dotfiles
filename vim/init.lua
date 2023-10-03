@@ -1,12 +1,10 @@
--- vim: foldmethod=marker foldlevel=1
 ---@diagnostic disable: missing-fields
--- {{{ Set Leader Keys
+-- Set Leader Keys
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
--- }}}
 
--- {{{ Install package manager
+-- Install package manager
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
@@ -19,9 +17,8 @@ if not vim.loop.fs_stat(lazypath) then
   }
 end
 vim.opt.rtp:prepend(lazypath)
--- }}}
 
--- {{{ Plugin List
+-- Plugin List
 require('lazy').setup({
   'ludovicchabant/vim-lawrencium', -- HG commands
   'junegunn/vim-peekaboo',         -- Preview registers before pasting
@@ -46,7 +43,7 @@ require('lazy').setup({
     end,
   },
   {
-    'folke/which-key.nvim',        -- Show keybinds
+    'folke/which-key.nvim', -- Show keybinds
     event = "VeryLazy",
     init = function()
       vim.o.timeout = true
@@ -177,9 +174,8 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 }, {})
--- }}}
 
--- {{{ Options
+-- Options
 vim.o.hlsearch = false
 vim.wo.number = true
 vim.wo.relativenumber = true
@@ -200,9 +196,11 @@ vim.o.listchars = 'tab:->,trail:~,extends:>,precedes:<,multispace:.,leadmultispa
 vim.o.path = '.,,'
 vim.o.conceallevel = 2
 vim.o.foldlevelstart = 99
--- }}}
+vim.o.foldmethod='expr'
+vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+--vim.o.foldtext = 'v:lua.vim.treesitter.foldtext()' --Enable when foldtext is in main
 
--- {{{ Basic Keymaps
+-- Basic Keymaps
 -- Also  make gf  work with non-existsing files
 vim.keymap.set('n', 'gf', ':e <cfile><cr>')
 
@@ -247,9 +245,8 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
--- }}}
 
--- {{{ Leader Maps
+-- Leader Maps
 -- Shortcuts to files
 vim.keymap.set('n', '<leader>ev', ':e ~/.config/nvim/init.lua<cr>', { desc = "[E]dit [V]imrc" })
 vim.keymap.set('n', '<leader>es', ':e ~/.config/nvim/snippets<cr>', { desc = "[E]dit [S]nippets" })
@@ -281,9 +278,8 @@ vim.keymap.set('n', '<leader>do', ':diffoff<cr>', { desc = "[D]iff [O]ff" })
 vim.keymap.set('n', '<leader>u', ':UndotreeToggle<cr>', {desc="[U]ndo Tree Toggle"})
 
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc="Chmod +[x]" })
---}}}
 
--- {{{Highlight on yank
+-- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
@@ -292,9 +288,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
--- }}}
 
--- {{{ Telescope config and binds
+-- Telescope config and binds
 require('telescope').setup {
   defaults = {
     mappings = {
@@ -329,9 +324,8 @@ vim.keymap.set('n', '<leader>sb', require('telescope.builtin').buffers, { desc =
 vim.keymap.set('n', '<leader>st', require('telescope.builtin').builtin, { desc = '[S]earch [T]elescope Builtins' })
 vim.keymap.set('n', '<leader>:', require('telescope.builtin').commands, { desc = '[:]Commands' })
 vim.keymap.set('n', '<M-x>', require('telescope.builtin').commands, { desc = 'Commands' })
--- }}}
 
--- {{{ Treesitter
+-- Treesitter
 require('nvim-treesitter.configs').setup {
   ignore_install = {},
   sync_install = true,
@@ -395,9 +389,8 @@ require('nvim-treesitter.configs').setup {
     },
   },
 }
--- }}}
 
--- {{{ LSP
+-- LSP
 local on_attach = function(_, bufnr)
   local nmap = function(keys, func, desc)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
@@ -525,9 +518,8 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
--- }}}
 
--- {{{ Basic Plugin Setups
+-- Basic Plugin Setups
 require('colorizer').setup()
 require('autoclose').setup({
   options = {
@@ -536,9 +528,8 @@ require('autoclose').setup({
   },
 })
 vim.g.closetag_filenames = '*.html,*.xhtml,*.phtml,*.erb'
--- }}}
 
--- {{{ Add other text objects for almost every character
+-- Add other text objects for almost every character
 local chars = { '_', '.', ':', ',', ';', '|', '/', '\\', '*', '+', '%', '`', '?' }
 for _, char in ipairs(chars) do
   for _, mode in ipairs({ 'x', 'o' }) do
@@ -548,9 +539,8 @@ for _, char in ipairs(chars) do
       { noremap = true, silent = true })
   end
 end
--- }}}
 
--- {{{ Autocommands
+-- Autocommands
 -- Close temp windows on "q"
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "qf", "help", "man", "lspinfo" },
@@ -614,9 +604,8 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
     vim.cmd([[normal! g`"]])
   end
 })
--- }}}
 
--- {{{ Abbreviations
+-- Abbreviations
 vim.cmd('abb name/ Abe van der Wielen')
 vim.cmd('abb email/ abevanderwielen@gmail.com')
 vim.cmd('abb date/ <c-r>=strftime("%F")<cr>')
@@ -629,7 +618,6 @@ vim.cmd('abb ngixn nginx')
 vim.cmd('abb teh the')
 vim.cmd('abb adn and')
 vim.cmd('abb tihs this')
--- }}}
 
 vim.o.makeprg='"%:p"' -- Default to just calling the full path.
 vim.cmd[[au FileType rust set makeprg=cargo\ run]]
