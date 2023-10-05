@@ -18,7 +18,7 @@ eval "$(lesspipe)"
 
 # Set PATH and related stuff {{{
 export EDITOR=vim
-export GOPATH="$HOME/projects/go"; export GOROOT="$HOME/.go"; export PATH="$GOPATH/bin:$PATH";
+[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 export PATH="$HOME/.npm-global/bin:$HOME/.local/bin:$HOME/bin:/usr/local/go/bin:$PATH"
 if [ -x /usr/bin/rbenv ]
 then
