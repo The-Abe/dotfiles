@@ -620,6 +620,7 @@ vim.cmd('abb date/ <c-r>=strftime("%F")<cr>')
 vim.cmd('abb file/ <c-r>=expand(\'%\')<cr>')
 vim.cmd('abb github/ https://github.com/the-abe')
 vim.cmd('abb path/ PATH=/usr/local/bin:/usr/bin:/bin')
+vim.cmd('abb todo/ - [ ] ')
 
 -- Typos
 vim.cmd('abb ngixn nginx')
