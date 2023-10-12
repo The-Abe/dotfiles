@@ -33,23 +33,21 @@ require('lazy').setup({
   'mbbill/undotree',                -- Undo tree display
   {
     'altermo/ultimate-autopair.nvim',
-    event={'InsertEnter'},
-    branch='v0.6',
-    opts={
-      close={
-        map='<A-\'>',
-        cmap='<A-\'>',
+    event = { 'InsertEnter' },
+    branch = 'v0.6',
+    opts = {
+      close = {
+        map = '<A-\'>',
+        cmap = '<A-\'>',
       },
-      tabout={
-        enable=true,
-        map='<tab>',
-        cmap='<tab>',
-        hopout=true,
+      tabout = {
+        enable = true,
+        hopout = true,
       },
     },
   },
   {
-    'numToStr/Comment.nvim',         -- Comment mappings
+    'numToStr/Comment.nvim', -- Comment mappings
     keys = {
       { "gc", mode = { "n", "v" }, desc = "[C]omment toggle" },
       { "gb", mode = { "n", "v" }, desc = "[B]lock comment toggle" },
@@ -64,7 +62,7 @@ require('lazy').setup({
     event = "VeryLazy",
     init = function()
       vim.o.timeout = true
-      vim.o.timeoutlen = 300
+      vim.o.timeoutlen = 0
     end,
     opts = {}
   },
@@ -112,7 +110,7 @@ require('lazy').setup({
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
       { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
-      { "folke/neodev.nvim", opts = {} }
+      { "folke/neodev.nvim",       opts = {} }
     },
   },
   {
@@ -140,24 +138,24 @@ require('lazy').setup({
         component_separators = '|',
       },
       sections = {
-        lualine_a = {'mode'},
-        lualine_b = {'branch', 'diff', { 'diagnostics', symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'}}},
-        lualine_c = {'filename'},
-        lualine_x = {'filetype', 'encoding', 'fileformat'},
+        lualine_a = { 'mode' },
+        lualine_b = { 'branch', 'diff', { 'diagnostics', symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' } } },
+        lualine_c = { 'filename' },
+        lualine_x = { 'filetype', 'encoding', 'fileformat' },
       },
       inactive_sections = {
-        lualine_a = {'mode'},
-        lualine_b = {'branch', 'diff', { 'diagnostics', symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'}}},
-        lualine_c = {'filename'},
-        lualine_x = {'filetype', 'encoding', 'fileformat'},
+        lualine_a = { 'mode' },
+        lualine_b = { 'branch', 'diff', { 'diagnostics', symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' } } },
+        lualine_c = { 'filename' },
+        lualine_x = { 'filetype', 'encoding', 'fileformat' },
       },
       winbar = {
-        lualine_a = {'buffers'},
+        lualine_a = { 'buffers' },
       },
       inactive_winbar = {
-        lualine_a = {'buffers'},
+        lualine_a = { 'buffers' },
       },
-      extensions = {'quickfix', 'fugitive', 'fzf', 'lazy', 'man'}
+      extensions = { 'quickfix', 'fugitive', 'fzf', 'lazy', 'man' }
     },
   },
   {
@@ -205,7 +203,7 @@ vim.o.listchars = 'tab:  ,trail:~,extends:>,precedes:<,multispace:.,leadmultispa
 vim.o.path = '.,,'
 vim.o.conceallevel = 2
 vim.o.foldlevelstart = 99
-vim.o.foldmethod='expr'
+vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 --vim.o.foldtext = 'v:lua.vim.treesitter.foldtext()' --Enable when foldtext is in main
 
@@ -284,9 +282,9 @@ vim.keymap.set('n', '<leader>da', ':windo diffthis<cr>', { desc = "[D]iff [A]ll 
 vim.keymap.set('n', '<leader>dt', ':diffthis<cr>', { desc = "[D]iff [T]his Window" })
 vim.keymap.set('n', '<leader>do', ':diffoff<cr>', { desc = "[D]iff [O]ff" })
 
-vim.keymap.set('n', '<leader>u', ':UndotreeToggle<cr>', {desc="[U]ndo Tree Toggle"})
+vim.keymap.set('n', '<leader>tu', ':UndotreeToggle<cr>', { desc = "[T]oggle [U]ndo Tree" })
 
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc="Chmod +[x]" })
+vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Chmod +x" })
 
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -308,6 +306,24 @@ require('telescope').setup {
       },
     },
   },
+  pickers ={
+    oldfiles = { theme = "ivy" },
+    find_files = { theme = "ivy" },
+    git_files = { theme = "ivy" },
+    help_tags = { theme = "ivy" },
+    grep_string = { theme = "ivy" },
+    live_grep = { theme = "ivy" },
+    diagnostics = { theme = "dropdown" },
+    resume = { theme = "ivy" },
+    marks = { theme = "dropdown" },
+    buffers = { theme = "ivy" },
+    builtin = { theme = "dropdown" },
+    commands = { theme = "dropdown" },
+    lsp_references = { theme = "cursor" },
+    lsp_implementations = { theme = "cursor" },
+    lsp_document_symbols = { theme = "ivy" },
+    lsp_dynamic_workspace_symbols = { theme = "ivy" },
+  },
 }
 
 -- Enable telescope fzf native, if installed
@@ -317,22 +333,42 @@ vim.keymap.set('n', '<leader>/', function()
   require('telescope.builtin').current_buffer_fuzzy_find({
     previewer = false,
   })
-end, { desc = '[/] Fuzzily search in current buffer' })
+end, { desc = 'Find in buffer' })
 
-vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader><space>', require('telescope.builtin').find_files, { desc = '[ ] Find files' })
-vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
-vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
-vim.keymap.set('n', '<leader>sm', require('telescope.builtin').marks, { desc = '[S]earch [M]arks' })
-vim.keymap.set('n', '<leader>sb', require('telescope.builtin').buffers, { desc = '[S]earch [B]uffers' })
-vim.keymap.set('n', '<leader>st', require('telescope.builtin').builtin, { desc = '[S]earch [T]elescope Builtins' })
-vim.keymap.set('n', '<leader>:', require('telescope.builtin').commands, { desc = '[:]Commands' })
-vim.keymap.set('n', '<M-x>', require('telescope.builtin').commands, { desc = 'Commands' })
+local tb = require('telescope.builtin')
+vim.keymap.set('n', '<leader>?', tb.oldfiles, { desc = 'Find Recent' })
+vim.keymap.set('n', '<leader><space>', tb.find_files, { desc = 'Find Files' })
+vim.keymap.set('c', '<c-t>', tb.find_files, { desc = 'Find Files' })
+vim.keymap.set('n', '<leader>gf', tb.git_files, { desc = 'Search [G]it [F]iles' })
+vim.keymap.set('n', '<leader>sf', tb.find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>sh', tb.help_tags, { desc = '[S]earch [H]elp' })
+vim.keymap.set('n', '<leader>sw', tb.grep_string, { desc = '[S]earch current [W]ord' })
+vim.keymap.set('n', '<leader>sg', tb.live_grep, { desc = '[S]earch by [G]rep' })
+vim.keymap.set('n', '<leader>sd', tb.diagnostics, { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>sr', tb.resume, { desc = '[S]earch [R]esume' })
+vim.keymap.set('n', '<leader>sm', tb.marks, { desc = '[S]earch [M]arks' })
+vim.keymap.set('n', '<leader>sb', tb.buffers, { desc = '[S]earch [B]uffers' })
+vim.keymap.set('n', '<leader>st', tb.builtin, { desc = '[S]earch [T]elescope Builtins' })
+vim.keymap.set('n', '<leader>:', tb.commands, { desc = 'Find Commands' })
+vim.keymap.set('n', '<M-x>', tb.commands, { desc = 'Commands' })
+
+vim.keymap.set('n', '<leader>cw', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = '[C]hange [w]ord' })
+vim.keymap.set('n', '<leader>cW', [[:%s/\<<C-r><C-W>\>/<C-r><C-W>/gI<Left><Left><Left>]], { desc = '[C]hange [W]ORD' })
+vim.keymap.set('n', '<leader>cl', [[:%s/\<<C-r><C-l>\>/<C-r><C-l>/gI<Left><Left><Left>]], { desc = '[C]hange [L]ine' })
+
+local wk = require("which-key")
+wk.register({
+  ["<leader>s"] = { name = "Search" },
+  ["<leader>b"] = { name = "Buffer" },
+  ["<leader>t"] = { name = "Toggle" },
+  ["<leader>d"] = { name = "Diff" },
+  ["<leader>e"] = { name = "Edit" },
+  ["<leader>g"] = { name = "Git" },
+  ["<leader>r"] = { name = "Run" },
+  ["<leader>l"] = { name = "LSP" },
+  ["<leader>w"] = { name = "Workspace" },
+  ["<leader>c"] = { name = "Change" },
+})
 
 -- Treesitter
 require('nvim-treesitter.configs').setup {
@@ -405,17 +441,15 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-
-  nmap('<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], '[S]ubstitute Word')
   nmap('<leader>lr', vim.lsp.buf.rename, '[L]SP [R]ename')
   nmap('<leader>la', vim.lsp.buf.code_action, '[L]SP [A]ction')
 
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-  nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-  nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+  nmap('gr', tb.lsp_references, '[G]oto [R]eferences')
+  nmap('gI', tb.lsp_implementations, '[G]oto [I]mplementation')
   nmap('<leader>lt', vim.lsp.buf.type_definition, '[L]SP [T]ype')
-  nmap('<leader>ls', require('telescope.builtin').lsp_document_symbols, '[L]SP [S]ymbols')
-  nmap('<leader>lw', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[L]SP [W]orkspace Symbols')
+  nmap('<leader>ls', tb.lsp_document_symbols, '[L]SP [S]ymbols')
+  nmap('<leader>lw', tb.lsp_dynamic_workspace_symbols, '[L]SP [W]orkspace Symbols')
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -531,9 +565,9 @@ cmp.setup {
 -- Basic Plugin Setups
 require('colorizer').setup()
 require('nvim-treesitter.configs').setup {
-    endwise = {
-        enable = true,
-    },
+  endwise = {
+    enable = true,
+  },
 }
 vim.g.closetag_filenames = '*.html,*.xhtml,*.phtml,*.erb'
 
@@ -596,6 +630,17 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   callback = function()
     vim.opt_local.wrap = true
     vim.opt_local.textwidth = 80
+    vim.api.nvim_buf_set_keymap(
+      0,
+      "n",
+      "<C-Space>",
+      ":s/- \\[ \\]/- [x]/e<cr>:s/^\\(- \\[.\\] \\)\\@!/- [ ] /e<cr>",
+      { noremap = true, silent = true, desc = "Toggle Todo Item" }
+    )
+    vim.api.nvim_buf_set_keymap(0, "n", "<leader>mu", ":!$HOME/Obsidian/update",
+      { noremap = true, silent = true, desc = '[M]arkdown [U]pdate notes' })
+    vim.api.nvim_buf_set_keymap(0, "n", "<leader>mt", ":r!cat $HOME/Obsidian/Templates/<tab>",
+      { noremap = true, desc = '[M]arkdown Insert [T]emplate' })
   end,
 })
 
@@ -628,6 +673,6 @@ vim.cmd('abb teh the')
 vim.cmd('abb adn and')
 vim.cmd('abb tihs this')
 
-vim.o.makeprg='"%:p"' -- Default to just calling the full path.
-vim.cmd[[au FileType rust set makeprg=cargo\ run]]
-vim.keymap.set('n', '<leader>rf', ':w<cr>:make ', {desc="[R]un [F]ile"}) -- No <cr> to allow params
+vim.o.makeprg = '"%:p"'                                                      -- Default to just calling the full path.
+vim.cmd [[au FileType rust set makeprg=cargo\ run]]
+vim.keymap.set('n', '<leader>rf', ':w<cr>:make ', { desc = "[R]un [F]ile" }) -- No <cr> to allow params
