@@ -205,6 +205,8 @@ vim.o.conceallevel = 2
 vim.o.foldlevelstart = 99
 vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.o.cursorline = true
+vim.o.cursorlineopt = 'number'
 --vim.o.foldtext = 'v:lua.vim.treesitter.foldtext()' --Enable when foldtext is in main
 
 -- Basic Keymaps
@@ -266,6 +268,7 @@ vim.keymap.set('n', '<leader>th', ':set hlsearch!<cr>:set hlsearch?<cr>', { desc
 vim.keymap.set('n', '<leader>tp', ':set paste!<cr>:set paste?<cr>', { desc = "[T]oggle [P]aste" })
 vim.keymap.set('n', '<leader>tw', ':set wrap!<cr>:set wrap?<cr>', { desc = "[T]oggle [W]rap" })
 vim.keymap.set('n', '<leader>ts', ':set spell!<cr>:set spell?<cr>', { desc = "[T]oggle [S]pell" })
+vim.keymap.set('n', '<leader>tc', ':set cursorline!<cr>:set cursorline?<cr>', { desc = "[T]oggle [C]ursorline" })
 vim.keymap.set('n', '<leader>tm', '<ESC>:silent exec &mouse!=""? "set mouse=" : "set mouse=a"<cr>:set mouse?<cr>',
   { desc = "[T]oggle [M]ouse" })
 vim.keymap.set('n', '<leader>tn', ':set number!<cr>:set relativenumber!<cr>:set number?<cr>',
@@ -348,7 +351,8 @@ vim.keymap.set('n', '<leader>sd', tb.diagnostics, { desc = '[S]earch [D]iagnosti
 vim.keymap.set('n', '<leader>sr', tb.resume, { desc = '[S]earch [R]esume' })
 vim.keymap.set('n', '<leader>sm', tb.marks, { desc = '[S]earch [M]arks' })
 vim.keymap.set('n', '<leader>sb', tb.buffers, { desc = '[S]earch [B]uffers' })
-vim.keymap.set('n', '<leader>st', tb.builtin, { desc = '[S]earch [T]elescope Builtins' })
+vim.keymap.set('n', '<leader>s<space>', tb.builtin, { desc = '[S]earch [ ] Telescope Builtins' })
+vim.keymap.set('n', '<leader>ss', tb.treesitter, { desc = '[S]earch Treesitter [S]ymbols' })
 vim.keymap.set('n', '<leader>:', tb.commands, { desc = 'Find Commands' })
 vim.keymap.set('n', '<M-x>', tb.commands, { desc = 'Commands' })
 
@@ -637,10 +641,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
       ":s/- \\[ \\]/- [x]/e<cr>:s/^\\(- \\[.\\] \\)\\@!/- [ ] /e<cr>",
       { noremap = true, silent = true, desc = "Toggle Todo Item" }
     )
-    vim.api.nvim_buf_set_keymap(0, "n", "<leader>mu", ":!$HOME/Obsidian/update",
-      { noremap = true, silent = true, desc = '[M]arkdown [U]pdate notes' })
-    vim.api.nvim_buf_set_keymap(0, "n", "<leader>mt", ":r!cat $HOME/Obsidian/Templates/<tab>",
-      { noremap = true, desc = '[M]arkdown Insert [T]emplate' })
+    vim.api.nvim_buf_set_keymap(0, "n", "<leader>mu", ":!$HOME/Obsidian/update", { desc = '[M]arkdown [U]pdate notes' })
+    vim.api.nvim_buf_set_keymap(0, "n", "<leader>mt", ":r!cat $HOME/Obsidian/Templates/", { desc = '[M]arkdown Insert [T]emplate' })
   end,
 })
 
