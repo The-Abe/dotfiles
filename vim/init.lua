@@ -32,6 +32,37 @@ require('lazy').setup({
   'norcalli/nvim-colorizer.lua',    -- Hex colors
   'mbbill/undotree',                -- Undo tree display
   {
+    "epwalsh/obsidian.nvim",
+    lazy = true,
+    event = {
+      "BufReadPre **.md",
+      "BufNewFile **.md",
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    opts = {
+      dir="/home/abe/Obsidian",
+      notes_subdir = "Notes",
+      mappings = {},
+      overwrite_mappings = true,
+      templates = {
+        subdir = "Templates",
+        date_format = "%Y-%m-%d-%a",
+        time_format = "%H:%M",
+      },
+      completion = {
+        nvim_cmp = true,
+        min_chars = 2,
+        -- Where to put new notes created from completion. Valid options are
+        --  * "current_dir" - put new notes in same directory as the current buffer.
+        --  * "notes_subdir" - put new notes in the default notes subdirectory.
+        new_notes_location = "notes_subdir",
+        prepend_note_id = false
+      },
+    },
+  },
+  {
     'altermo/ultimate-autopair.nvim',
     event = { 'InsertEnter' },
     branch = 'v0.6',
@@ -208,6 +239,7 @@ vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.o.cursorline = true
 vim.o.cursorlineopt = 'number'
 --vim.o.foldtext = 'v:lua.vim.treesitter.foldtext()' --Enable when foldtext is in main
+vim.o.wrap = false
 
 -- Basic Keymaps
 -- Also  make gf  work with non-existsing files
@@ -268,11 +300,12 @@ vim.keymap.set('n', '<leader>th', ':set hlsearch!<cr>:set hlsearch?<cr>', { desc
 vim.keymap.set('n', '<leader>tp', ':set paste!<cr>:set paste?<cr>', { desc = "[T]oggle [P]aste" })
 vim.keymap.set('n', '<leader>tw', ':set wrap!<cr>:set wrap?<cr>', { desc = "[T]oggle [W]rap" })
 vim.keymap.set('n', '<leader>ts', ':set spell!<cr>:set spell?<cr>', { desc = "[T]oggle [S]pell" })
-vim.keymap.set('n', '<leader>tc', ':set cursorline!<cr>:set cursorline?<cr>', { desc = "[T]oggle [C]ursorline" })
-vim.keymap.set('n', '<leader>tm', '<ESC>:silent exec &mouse!=""? "set mouse=" : "set mouse=a"<cr>:set mouse?<cr>',
+vim.keymap.set('n', '<leader>tl', ':set cursorline!<cr>:set cursorline?<cr>', { desc = "[T]oggle Cursor[l]ine" })
+vim.keymap.set('n', '<leader>tm', ':silent exec &mouse!=""? "set mouse=" : "set mouse=a"<cr>:set mouse?<cr>',
   { desc = "[T]oggle [M]ouse" })
 vim.keymap.set('n', '<leader>tn', ':set number!<cr>:set relativenumber!<cr>:set number?<cr>',
   { desc = "[T]oggle [N]umber" })
+vim.keymap.set('n', '<leader>tc', ':silent exec &colorcolumn!=""? "set colorcolumn=" : "set colorcolumn=+1"<cr>', { desc = '[T]oggle [C]olorcolumn' })
 
 vim.keymap.set('n', '<leader>bc', ':bclose<cr>', { desc = "[B]uffer [C]lose" })
 vim.keymap.set('n', '<leader>bn', ':bn<cr>', { desc = "[B]uffer [N]ext" })
@@ -632,7 +665,6 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "gitcommit", "markdown" },
   callback = function()
-    vim.opt_local.wrap = true
     vim.opt_local.textwidth = 80
     vim.api.nvim_buf_set_keymap(
       0,
@@ -641,8 +673,9 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
       ":s/- \\[ \\]/- [x]/e<cr>:s/^\\(- \\[.\\] \\)\\@!/- [ ] /e<cr>",
       { noremap = true, silent = true, desc = "Toggle Todo Item" }
     )
-    vim.api.nvim_buf_set_keymap(0, "n", "<leader>mu", ":!$HOME/Obsidian/update", { desc = '[M]arkdown [U]pdate notes' })
-    vim.api.nvim_buf_set_keymap(0, "n", "<leader>mt", ":r!cat $HOME/Obsidian/Templates/", { desc = '[M]arkdown Insert [T]emplate' })
+    vim.api.nvim_buf_set_keymap(0, "n", "<leader>mu", ":!$HOME/Obsidian/update<cr>", { desc = '[M]arkdown [U]pdate notes' })
+    vim.api.nvim_buf_set_keymap(0, "n", "<leader>mt", ":ObsidianTemplate<cr>", { desc = '[M]arkdown Insert [T]emplate' })
+    vim.api.nvim_buf_set_keymap(0, "n", "<cr>", ":ObsidianFollowLink<cr>", { desc = 'Follow Obsidian Link' })
   end,
 })
 
