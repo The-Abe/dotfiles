@@ -31,6 +31,11 @@ require('lazy').setup({
   'mhinz/vim-signify',              -- VCS gutter
   'norcalli/nvim-colorizer.lua',    -- Hex colors
   'mbbill/undotree',                -- Undo tree display
+  'nvim-telescope/telescope-symbols.nvim',
+  {
+    'renerocksai/telekasten.nvim',
+    dependencies = {'nvim-telescope/telescope.nvim'}
+  },
   {
     'altermo/ultimate-autopair.nvim',
     event = { 'InsertEnter' },
@@ -76,8 +81,7 @@ require('lazy').setup({
         mode = { "n", "o", "x" },
         function() require("flash").jump() end,
         desc = "Flash",
-        id =
-        "Flash"
+        id = "Flash"
       },
     },
   },
@@ -101,9 +105,9 @@ require('lazy').setup({
           delete = "^(<%%#%- )().-( %-%%>)()",
         },
         ['w'] = { -- Wiki style links for Markdown
-          add = { '[[ ', ' ]]' },
-          find = "(%[%[ ).-( %]%])",
-          delete = "(%[%[ )().-( %]%])()",
+          add = { '[[', ']]' },
+          find = "(%[%[).-(%]%])",
+          delete = "(%[%[)().-(%]%])()",
         },
       }
     }
@@ -366,10 +370,19 @@ vim.keymap.set('n', '<leader>s<space>', tb.builtin, { desc = '[S]earch [ ] Teles
 vim.keymap.set('n', '<leader>ss', tb.treesitter, { desc = '[S]earch Treesitter [S]ymbols' })
 vim.keymap.set('n', '<leader>:', tb.commands, { desc = 'Find Commands' })
 vim.keymap.set('n', '<M-x>', tb.commands, { desc = 'Commands' })
+vim.keymap.set('n', '<leader>se', tb.symbols, { desc = '[S]earch [E]mojis' })
 
 vim.keymap.set('n', '<leader>cw', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = '[C]hange [w]ord' })
 vim.keymap.set('n', '<leader>cW', [[:%s/\<<C-r><C-W>\>/<C-r><C-W>/gI<Left><Left><Left>]], { desc = '[C]hange [W]ORD' })
 vim.keymap.set('n', '<leader>cl', [[:%s/\<<C-r><C-l>\>/<C-r><C-l>/gI<Left><Left><Left>]], { desc = '[C]hange [L]ine' })
+
+vim.keymap.set('n', '<leader>mu', '<cmd>!$HOME/Obsidian/update<cr>', { desc = '[M]arkdown [U]pdate notes' })
+vim.keymap.set('n', '<leader>mt', '<cmd>Telekasten new_templated_note<cr>', { desc = '[M]arkdown [T]emplated Note' })
+vim.keymap.set('n', '<leader>mn', '<cmd>Telekasten new_note<cr>', { desc = '[M]arkdown [N]ote' })
+vim.keymap.set('n', '<leader>ml', '<cmd>Telekasten insert_link<cr>', { desc = '[M]arkdown Insert [L]ink' })
+vim.keymap.set('n', '<leader>mf', '<cmd>Telekasten find_notes<cr>', { desc = '[M]arkdown [S]earch In Notes' })
+vim.keymap.set('n', '<leader>ms', '<cmd>Telekasten search_notes<cr>', { desc = '[M]arkdown [F]ind Notes' })
+vim.keymap.set('n', '<leader>mb', '<cmd>Telekasten show_backlinks<cr>', { desc = '[M]arkdown [B]acklinks' })
 
 local wk = require("which-key")
 wk.register({
@@ -383,6 +396,7 @@ wk.register({
   ["<leader>l"] = { name = "LSP" },
   ["<leader>w"] = { name = "Workspace" },
   ["<leader>c"] = { name = "Change" },
+  ["<leader>m"] = { name = "Markdown" },
 })
 
 -- Treesitter
@@ -578,6 +592,13 @@ cmp.setup {
 }
 
 -- Basic Plugin Setups
+require('telekasten').setup({
+  home = vim.fn.expand("~/Obsidian"), -- Put the name of your notes directory here
+  templates = vim.fn.expand("~/Obsidian/Templates"), -- Put the name of your notes directory here
+  subdirs_in_links = false,
+  plug_into_calendar = false,
+  auto_set_filetype = false,
+})
 require('colorizer').setup()
 require('nvim-treesitter.configs').setup {
   endwise = {
@@ -653,9 +674,11 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
       ":s/- \\[ \\]/- [x]/e<cr>:s/^\\(- \\[.\\] \\)\\@!/- [ ] /e<cr>",
       { noremap = true, silent = true, desc = "Toggle Todo Item" }
     )
-    vim.api.nvim_buf_set_keymap(0, "n", "<leader>mu", ":!$HOME/Obsidian/update<cr>", { desc = '[M]arkdown [U]pdate notes' })
-    vim.api.nvim_buf_set_keymap(0, "n", "<leader>mt", ":ObsidianTemplate<cr>", { desc = '[M]arkdown Insert [T]emplate' })
-    vim.api.nvim_buf_set_keymap(0, "n", "<cr>", ":ObsidianFollowLink<cr>", { desc = 'Follow Obsidian Link' })
+    vim.api.nvim_buf_set_keymap(0, "n", "<cr>", "<cmd>Telekasten follow_link<cr>", {})
+    vim.cmd [[syntax region mdLink matchgroup=mdBrackets start=/\[\[/ end=/\]\]/ concealends display oneline contains=mdAliasedLink]]
+    vim.cmd("syntax match mdAliasedLink '[^\\[\\]]\\+|' contained conceal")
+    vim.cmd("syntax match mdTitle1 '^#' conceal cchar=●")
+    vim.cmd [[ hi mdLink guifg=CadetBlue2 gui=underline ]]
   end,
 })
 
@@ -680,7 +703,7 @@ vim.cmd('abb date/ <c-r>=strftime("%F")<cr>')
 vim.cmd('abb file/ <c-r>=expand(\'%\')<cr>')
 vim.cmd('abb github/ https://github.com/the-abe')
 vim.cmd('abb path/ PATH=/usr/local/bin:/usr/bin:/bin')
-vim.cmd('abb todo/ - [ ] ')
+vim.cmd('abb todo/ - [ ]')
 
 -- Typos
 vim.cmd('abb ngixn nginx')

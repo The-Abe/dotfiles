@@ -34,6 +34,21 @@ alias bashrc="$EDITOR ~/.bashrc; source ~/.bashrc"
 alias tmuxrc="$EDITOR ~/.tmux.conf; tmux source-file ~/.tmux.conf"
 alias aliases="$EDITOR ~/.bash_aliases; source ~/.bash_aliases"
 
+alias sl="sudo !!"
+function ai() {
+  sudo apt install $(al)
+}
+function ar() {
+  sudo apt remove $(al)
+}
+function al() {
+  package=$(apt list 2>/dev/null | fzf)
+  echo ${package%/*}
+}
+function as() {
+  apt search $1 | less
+}
+
 if [[ -x $(which nvim) ]]
 then
   alias svim="sudo -E nvim -u $HOME/.config/nvim/init.lua"
