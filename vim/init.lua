@@ -32,37 +32,6 @@ require('lazy').setup({
   'norcalli/nvim-colorizer.lua',    -- Hex colors
   'mbbill/undotree',                -- Undo tree display
   {
-    "epwalsh/obsidian.nvim",
-    lazy = true,
-    event = {
-      "BufReadPre **.md",
-      "BufNewFile **.md",
-    },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    opts = {
-      dir="/home/abe/Obsidian",
-      notes_subdir = "Notes",
-      mappings = {},
-      overwrite_mappings = true,
-      templates = {
-        subdir = "Templates",
-        date_format = "%Y-%m-%d-%a",
-        time_format = "%H:%M",
-      },
-      completion = {
-        nvim_cmp = true,
-        min_chars = 2,
-        -- Where to put new notes created from completion. Valid options are
-        --  * "current_dir" - put new notes in same directory as the current buffer.
-        --  * "notes_subdir" - put new notes in the default notes subdirectory.
-        new_notes_location = "notes_subdir",
-        prepend_note_id = false
-      },
-    },
-  },
-  {
     'altermo/ultimate-autopair.nvim',
     event = { 'InsertEnter' },
     branch = 'v0.6',
@@ -115,22 +84,26 @@ require('lazy').setup({
   {
     'kylechui/nvim-surround', -- Vim surround alternative
     opts = {
-      -- Some Ruby ERB binds
       surrounds = {
-        ['-'] = {
+        ['-'] = { -- ERB embeded Ruby
           add = { '<%- ', ' -%>' },
           find = "<%%%-.-%-%%>",
           delete = "^(<%%%- )().-( %-%%>)()",
         },
-        ['='] = {
+        ['='] = { -- ERB output
           add = { '<%= ', ' -%>' },
           find = "<%%=.-%-%%>",
           delete = "^(<%%= )().-( %-%%>)()",
         },
-        ['#'] = {
+        ['#'] = { -- ERB comment
           add = { '<#- ', ' -%>' },
           find = "<%%#%-.-%-%%>",
           delete = "^(<%%#%- )().-( %-%%>)()",
+        },
+        ['w'] = { -- Wiki style links for Markdown
+          add = { '[[ ', ' ]]' },
+          find = "(%[%[ ).-( %]%])",
+          delete = "(%[%[ )().-( %]%])()",
         },
       }
     }
@@ -274,6 +247,8 @@ vim.keymap.set('n', '<a-k>', ':move-2<cr>')
 vim.keymap.set('n', '<a-j>', ':move+<cr>')
 vim.keymap.set('x', '<a-k>', ':move-2<cr>gv')
 vim.keymap.set('x', '<a-j>', ':move\'>+<cr>gv')
+vim.keymap.set('n', '<a-l>', '>>')
+vim.keymap.set('n', '<a-h>', '<<')
 
 -- Buffer navigation
 vim.keymap.set('n', '<c-l>', ':bn<cr>')
@@ -331,6 +306,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
+
+-- Other Highlights
+vim.cmd [[hi CursorLineNr guifg=White]]
 
 -- Telescope config and binds
 require('telescope').setup {
@@ -666,6 +644,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "gitcommit", "markdown" },
   callback = function()
     vim.opt_local.textwidth = 80
+    vim.cmd [[syntax match todoCheckbox "\[\ \]" conceal cchar=]]
+    vim.cmd [[syntax match todoCheckbox "\[x\]" conceal cchar=]]
     vim.api.nvim_buf_set_keymap(
       0,
       "n",
