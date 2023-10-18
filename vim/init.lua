@@ -646,7 +646,11 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 -- Auto write markdown files on exiting insert mode
 vim.api.nvim_create_autocmd({ "InsertLeave" }, {
   pattern = { "*.md" },
-  callback = function() vim.cmd([[write]]) end,
+  callback = function()
+    vim.cmd [[ %s/–/-/ge ]]
+    vim.cmd [[ %s/’/'/ge ]]
+    vim.cmd([[write]])
+  end,
 })
 
 -- Trailing whitespace and create directory structure on save file
@@ -673,6 +677,20 @@ function Toggle_todo()
     vim.cmd("normal $^i- [ ] ")
   end
 end
+function MdHeaderDown()
+  if string.match(vim.api.nvim_get_current_line(), "^#") ~= nil then
+    vim.cmd [[ s/^#// ]]
+  else
+    vim.cmd("normal <<")
+  end
+end
+function MdHeaderUp()
+  if string.match(vim.api.nvim_get_current_line(), "^#") ~= nil then
+    vim.cmd [[ s/^#/##/ ]]
+  else
+    vim.cmd("normal >>")
+  end
+end
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "markdown" },
   callback = function()
@@ -686,6 +704,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
       "<cmd>lua Toggle_todo()<cr>",
       { noremap = true, silent = true, desc = "Toggle Todo Item" }
     )
+    vim.api.nvim_buf_set_keymap(0, "n", "<a-l>", "<cmd>lua MdHeaderUp()<cr>", {})
+    vim.api.nvim_buf_set_keymap(0, "n", "<a-h>", "<cmd>lua MdHeaderDown()<cr>", {})
     vim.api.nvim_buf_set_keymap(0, "n", "<cr>", "<cmd>Telekasten follow_link<cr>", {})
     vim.cmd [[syntax region mdLink matchgroup=mdBrackets start=/\[\[/ end=/\]\]/ concealends display oneline contains=mdAliasedLink]]
     vim.cmd("syntax match mdAliasedLink '[^\\[\\]]\\+|' contained conceal")
