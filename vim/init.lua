@@ -210,6 +210,7 @@ vim.o.list = true
 vim.o.listchars = 'tab:  ,trail:~,extends:>,precedes:<,multispace:.,leadmultispace: ,nbsp:.'
 vim.o.path = '.,,'
 vim.o.conceallevel = 2
+vim.o.concealcursor = 'n'
 vim.o.foldlevelstart = 99
 vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
@@ -661,8 +662,19 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 })
 
 -- Text wrapping on markdown
+function Toggle_todo()
+  if string.match(vim.api.nvim_get_current_line(), "- %[ %]") ~= nil then
+    vim.cmd [[ s/- \[ \]/- [x]/ ]]
+  elseif string.match(vim.api.nvim_get_current_line(), "- %[x%]") ~= nil then
+    vim.cmd [[ s/- \[x\]/- [ ]/ ]]
+  elseif string.match(vim.api.nvim_get_current_line(), "^%s*- ") ~= nil then
+    vim.cmd [[ s/- /- [ ] / ]]
+  else
+    vim.cmd("normal $^i- [ ] ")
+  end
+end
 vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = { "gitcommit", "markdown" },
+  pattern = { "markdown" },
   callback = function()
     vim.opt_local.textwidth = 80
     vim.cmd [[syntax match todoCheckbox "\[\ \]" conceal cchar=]]
@@ -671,14 +683,16 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
       0,
       "n",
       "<C-Space>",
-      ":s/- \\[ \\]/- [x]/e<cr>:s/^\\(- \\[.\\] \\)\\@!/- [ ] /e<cr>",
+      "<cmd>lua Toggle_todo()<cr>",
       { noremap = true, silent = true, desc = "Toggle Todo Item" }
     )
     vim.api.nvim_buf_set_keymap(0, "n", "<cr>", "<cmd>Telekasten follow_link<cr>", {})
     vim.cmd [[syntax region mdLink matchgroup=mdBrackets start=/\[\[/ end=/\]\]/ concealends display oneline contains=mdAliasedLink]]
     vim.cmd("syntax match mdAliasedLink '[^\\[\\]]\\+|' contained conceal")
-    vim.cmd("syntax match mdTitle1 '^#' conceal cchar=●")
+    vim.cmd("syntax match mdTitleTail '\\zs#\\ze ' conceal cchar=§")
+    vim.cmd("syntax match mdTitleStart '\\zs#\\ze#' conceal cchar=⋅")
     vim.cmd [[ hi mdLink guifg=CadetBlue2 gui=underline ]]
+    vim.cmd [[ hi Conceal guifg=MediumPurple1 ]]
   end,
 })
 
