@@ -34,6 +34,32 @@ require('lazy').setup({
   'nvim-telescope/telescope-symbols.nvim',
   "zbirenbaum/copilot.lua",
   {
+    "zbirenbaum/copilot.lua",
+    config = function ()
+      require("copilot").setup({
+        suggestion = {
+          enabled = true,
+          auto_trigger = true,
+          debounce = 75,
+          keymap = {
+            accept = "<M-c>",
+            accept_word = false,
+            accept_line = false,
+            next = "<M-]>",
+            prev = "<M-[>",
+            dismiss = "<C-]>",
+          },
+        },
+      })
+    end
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    config = function ()
+      require("copilot_cmp").setup()
+    end
+  },
+  {
     'renerocksai/telekasten.nvim',
     dependencies = {'nvim-telescope/telescope.nvim'}
   },
@@ -337,7 +363,7 @@ vim.keymap.set('n', '<leader>do', ':diffoff<cr>', { desc = "[D]iff [O]ff" })
 
 vim.keymap.set('n', '<leader>tu', ':UndotreeToggle<cr>', { desc = "[T]oggle [U]ndo Tree" })
 
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<cr>", { silent = true, desc = "Chmod +x" })
+vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<cr>:e<cr>", { silent = true, desc = "Chmod +x" })
 
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -421,7 +447,8 @@ vim.keymap.set('n', '<leader>ml', '<cmd>Telekasten insert_link<cr>', { desc = '[
 vim.keymap.set('n', '<leader>mf', '<cmd>Telekasten find_notes<cr>', { desc = '[M]arkdown [S]earch In Notes' })
 vim.keymap.set('n', '<leader>ms', '<cmd>Telekasten search_notes<cr>', { desc = '[M]arkdown [F]ind Notes' })
 vim.keymap.set('n', '<leader>mb', '<cmd>Telekasten show_backlinks<cr>', { desc = '[M]arkdown [B]acklinks' })
-vim.keymap.set('n', '<leader>md', '<cmd>Telekasten find_daily_notes<cr>', { desc = '[M]arkdown [D]aily Notes' })
+vim.keymap.set('n', '<leader>mw', '<cmd>!$HOME/Obsidian/.bin/convert_to_wiki "%:p"<cr>', { desc = '[M]arkdown Convert to [W]iki' })
+vim.keymap.set('n', '<leader>md', ':![ -d ".trash/%:.:h" ] || mkdir ".trash/%:.:h"; mv "%:." "$HOME/Obsidian/.trash/%:."<cr>:bd<cr>', { desc = '[M]arkdown [D]elete To Trash' })
 
 local wk = require("which-key")
 wk.register({
