@@ -377,7 +377,7 @@ vim.keymap.set('n', '<leader>cw', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left>
 vim.keymap.set('n', '<leader>cW', [[:%s/\<<C-r><C-W>\>/<C-r><C-W>/gI<Left><Left><Left>]], { desc = '[C]hange [W]ORD' })
 vim.keymap.set('n', '<leader>cl', [[:%s/\<<C-r><C-l>\>/<C-r><C-l>/gI<Left><Left><Left>]], { desc = '[C]hange [L]ine' })
 
-vim.keymap.set('n', '<leader>mu', '<cmd>!$HOME/Obsidian/update<cr>', { desc = '[M]arkdown [U]pdate notes' })
+vim.keymap.set('n', '<leader>mu', '<cmd>!$HOME/Obsidian/.bin/update<cr>', { desc = '[M]arkdown [U]pdate notes' })
 vim.keymap.set('n', '<leader>mt', '<cmd>Telekasten new_templated_note<cr>', { desc = '[M]arkdown [T]emplated Note' })
 vim.keymap.set('n', '<leader>mn', '<cmd>Telekasten new_note<cr>', { desc = '[M]arkdown [N]ote' })
 vim.keymap.set('n', '<leader>ml', '<cmd>Telekasten insert_link<cr>', { desc = '[M]arkdown Insert [L]ink' })
