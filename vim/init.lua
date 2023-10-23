@@ -649,6 +649,8 @@ vim.api.nvim_create_autocmd({ "InsertLeave" }, {
   callback = function()
     vim.cmd [[ %s/–/-/ge ]]
     vim.cmd [[ %s/’/'/ge ]]
+    vim.cmd [[ %s/“/"/ge ]]
+    vim.cmd [[ %s/”/"/ge ]]
     vim.cmd([[write]])
   end,
 })
@@ -691,7 +693,7 @@ function MdHeaderUp()
     vim.cmd("normal >>")
   end
 end
-vim.api.nvim_create_autocmd({ "FileType" }, {
+vim.api.nvim_create_autocmd({ "FileType", "BufRead", "BufNewFile" }, {
   pattern = { "markdown" },
   callback = function()
     vim.opt_local.textwidth = 80
