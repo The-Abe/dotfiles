@@ -34,7 +34,7 @@ case $1 in
 		;;
 	*)
 		name=$(echo $1 | tr '[:lower:]' '[:upper:]')
-		if [[ $window_names =~ " $name" ]]
+		if [[ $window_names =~ " $name" && $name != "" ]]
 		then
 			tmux select-window -t " $name"
 		else

@@ -32,6 +32,7 @@ require('lazy').setup({
   'norcalli/nvim-colorizer.lua',    -- Hex colors
   'mbbill/undotree',                -- Undo tree display
   'nvim-telescope/telescope-symbols.nvim',
+  "zbirenbaum/copilot.lua",
   {
     'renerocksai/telekasten.nvim',
     dependencies = {'nvim-telescope/telescope.nvim'}
@@ -287,7 +288,7 @@ vim.keymap.set('n', '<leader>tn', ':set number!<cr>:set relativenumber!<cr>:set 
   { desc = "[T]oggle [N]umber" })
 vim.keymap.set('n', '<leader>tc', ':silent exec &colorcolumn!=""? "set colorcolumn=" : "set colorcolumn=+1"<cr>', { desc = '[T]oggle [C]olorcolumn' })
 
-vim.keymap.set('n', '<leader>bc', ':bclose<cr>', { desc = "[B]uffer [C]lose" })
+vim.keymap.set('n', '<leader>bd', ':bdelete<cr>', { desc = "[B]uffer [D]elete" })
 vim.keymap.set('n', '<leader>bn', ':bn<cr>', { desc = "[B]uffer [N]ext" })
 vim.keymap.set('n', '<leader>bp', ':bp<cr>', { desc = "[B]uffer [P]revious" })
 vim.keymap.set('n', '<leader>ba', ':ba<cr>', { desc = "[B]uffer Split [A]ll" })
@@ -300,7 +301,7 @@ vim.keymap.set('n', '<leader>do', ':diffoff<cr>', { desc = "[D]iff [O]ff" })
 
 vim.keymap.set('n', '<leader>tu', ':UndotreeToggle<cr>', { desc = "[T]oggle [U]ndo Tree" })
 
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Chmod +x" })
+vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<cr>", { silent = true, desc = "Chmod +x" })
 
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -384,6 +385,7 @@ vim.keymap.set('n', '<leader>ml', '<cmd>Telekasten insert_link<cr>', { desc = '[
 vim.keymap.set('n', '<leader>mf', '<cmd>Telekasten find_notes<cr>', { desc = '[M]arkdown [S]earch In Notes' })
 vim.keymap.set('n', '<leader>ms', '<cmd>Telekasten search_notes<cr>', { desc = '[M]arkdown [F]ind Notes' })
 vim.keymap.set('n', '<leader>mb', '<cmd>Telekasten show_backlinks<cr>', { desc = '[M]arkdown [B]acklinks' })
+vim.keymap.set('n', '<leader>md', '<cmd>Telekasten find_daily_notes<cr>', { desc = '[M]arkdown [D]aily Notes' })
 
 local wk = require("which-key")
 wk.register({
@@ -398,6 +400,22 @@ wk.register({
   ["<leader>w"] = { name = "Workspace" },
   ["<leader>c"] = { name = "Change" },
   ["<leader>m"] = { name = "Markdown" },
+})
+
+require('copilot').setup({
+  suggestion = {
+    enabled = true,
+    auto_trigger = true,
+    debounce = 75,
+    keymap = {
+      accept = "<M-c>",
+      accept_word = false,
+      accept_line = false,
+      next = "<M-]>",
+      prev = "<M-[>",
+      dismiss = "<C-]>",
+    },
+  },
 })
 
 -- Treesitter
@@ -563,7 +581,7 @@ cmp.setup {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete {},
-    ['<CR>'] = cmp.mapping.confirm {
+    ['<cr>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
@@ -596,6 +614,7 @@ cmp.setup {
 require('telekasten').setup({
   home = vim.fn.expand("~/Obsidian"), -- Put the name of your notes directory here
   templates = vim.fn.expand("~/Obsidian/Templates"), -- Put the name of your notes directory here
+  dailies = vim.fn.expand("~/Obsidian/Daily"),
   subdirs_in_links = false,
   plug_into_calendar = false,
   auto_set_filetype = false,
@@ -612,9 +631,9 @@ vim.g.closetag_filenames = '*.html,*.xhtml,*.phtml,*.erb'
 local chars = { '_', '.', ':', ',', ';', '|', '/', '\\', '*', '+', '%', '`', '?' }
 for _, char in ipairs(chars) do
   for _, mode in ipairs({ 'x', 'o' }) do
-    vim.api.nvim_set_keymap(mode, "i" .. char, string.format(':<C-u>silent! normal! f%sF%slvt%s<CR>', char, char, char),
+    vim.api.nvim_set_keymap(mode, "i" .. char, string.format(':<C-u>silent! normal! f%sF%slvt%s<cr>', char, char, char),
       { noremap = true, silent = true })
-    vim.api.nvim_set_keymap(mode, "a" .. char, string.format(':<C-u>silent! normal! f%sF%svf%s<CR>', char, char, char),
+    vim.api.nvim_set_keymap(mode, "a" .. char, string.format(':<C-u>silent! normal! f%sF%svf%s<cr>', char, char, char),
       { noremap = true, silent = true })
   end
 end
@@ -628,7 +647,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
       0,
       "n",
       "q",
-      "<cmd>q!<CR>",
+      "<cmd>q!<cr>",
       { noremap = true, silent = true }
     )
     vim.cmd([[
