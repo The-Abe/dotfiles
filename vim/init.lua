@@ -568,6 +568,7 @@ mason_lspconfig.setup_handlers {
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 require('luasnip.loaders.from_vscode').lazy_load()
+require("luasnip.loaders.from_snipmate").lazy_load()
 luasnip.config.setup {}
 cmp.setup {
   snippet = {
@@ -689,14 +690,15 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 -- Text wrapping on markdown
 function Toggle_todo()
   if string.match(vim.api.nvim_get_current_line(), "- %[ %]") ~= nil then
-    vim.cmd [[ s/- \[ \]/- [x]/ ]]
+    vim.cmd("s/- \\[ \\]/- [x] *" .. vim.fn.strftime('%H:%M') .. "*/g")
   elseif string.match(vim.api.nvim_get_current_line(), "- %[x%]") ~= nil then
-    vim.cmd [[ s/- \[x\]/- [ ]/ ]]
+    vim.cmd [[ s/- \[x\] \*\d\+:\d\+\*/- [ ]/ ]]
   elseif string.match(vim.api.nvim_get_current_line(), "^%s*- ") ~= nil then
     vim.cmd [[ s/- /- [ ] / ]]
   else
     vim.cmd("normal $^i- [ ] ")
   end
+  vim.cmd [[ write ]]
 end
 function MdHeaderDown()
   if string.match(vim.api.nvim_get_current_line(), "^#") ~= nil then
@@ -712,6 +714,15 @@ function MdHeaderUp()
     vim.cmd("normal >>")
   end
 end
+function NewListLine()
+  if string.match(vim.api.nvim_get_current_line(), "^%s*- %[.%]") ~= nil then
+    vim.api.nvim_feedkeys("o- [ ] ", 'n', false)
+  elseif string.match(vim.api.nvim_get_current_line(), "^%s*-") ~= nil then
+    vim.api.nvim_feedkeys("o- ", 'n', false)
+  else
+    vim.api.nvim_feedkeys("o", 'n', false)
+  end
+end
 vim.api.nvim_create_autocmd({ "FileType", "BufRead", "BufNewFile" }, {
   pattern = { "markdown" },
   callback = function()
@@ -724,6 +735,13 @@ vim.api.nvim_create_autocmd({ "FileType", "BufRead", "BufNewFile" }, {
       "<C-Space>",
       "<cmd>lua Toggle_todo()<cr>",
       { noremap = true, silent = true, desc = "Toggle Todo Item" }
+    )
+    vim.api.nvim_buf_set_keymap(
+      0,
+      "n",
+      "o",
+      "<cmd>lua NewListLine()<cr>",
+      { noremap = true, silent = true, desc = "Create a new line in markdown and consider lists." }
     )
     vim.api.nvim_buf_set_keymap(0, "n", "<a-l>", "<cmd>lua MdHeaderUp()<cr>", {})
     vim.api.nvim_buf_set_keymap(0, "n", "<a-h>", "<cmd>lua MdHeaderDown()<cr>", {})
