@@ -189,6 +189,41 @@ require('lazy').setup({
     },
     build = ':TSUpdate',
   },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    enabled = true,
+    opts = { mode = "cursor", max_lines = 3 },
+  },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    opts = {
+      indent = {
+        char = "│",
+        tab_char = "│",
+      },
+      scope = { enabled = false },
+      exclude = {
+        filetypes = {
+          "help",
+          "alpha",
+          "dashboard",
+          "neo-tree",
+          "Trouble",
+          "trouble",
+          "lazy",
+          "mason",
+          "notify",
+          "toggleterm",
+          "lazyterm",
+        },
+      },
+    },
+    main = "ibl",
+  },
+  {
+    'stevearc/conform.nvim',
+    opts = {},
+  }
 }, {})
 
 -- Options
@@ -275,6 +310,7 @@ vim.keymap.set('n', '<leader>es', ':e ~/.config/nvim/snippets<cr>', { desc = "[E
 vim.keymap.set('n', '<leader>et', ':e ~/.tmux.conf<cr>', { desc = "[E]dit [T]mux.conf" })
 vim.keymap.set('n', '<leader>eb', ':e ~/.bashrc<cr>', { desc = "[E]dit [B]ashrc" })
 vim.keymap.set('n', '<leader>ep', ':cd ~/projects/', { desc = "[E]dit [P]rojects" })
+vim.keymap.set('n', '<leader>en', ':enew<cr>', { desc = "[E]dit [N]ew" })
 
 -- Toggle common options
 vim.keymap.set('n', '<leader>th', ':set hlsearch!<cr>:set hlsearch?<cr>', { desc = "[T]oggle [H]lsearch" })
@@ -418,6 +454,23 @@ require('copilot').setup({
   },
 })
 
+-- Formating
+require("conform").setup({
+  formatters_by_ft = {
+    ruby = { 'rubocop' },
+    lua = { 'stylua' },
+    erb = { 'erb-lint' },
+    markdown = { 'prettier' },
+    html = { 'prettier' },
+    css = { 'prettier' },
+    go = { 'gofmt' },
+    rust = { 'rustfmt' },
+    sh = { 'shfmt' },
+    sql = { 'sqlfmt' },
+    yaml = { 'yamlfix' },
+  },
+})
+
 -- Treesitter
 require('nvim-treesitter.configs').setup {
   ignore_install = {},
@@ -507,6 +560,7 @@ local on_attach = function(_, bufnr)
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[W]orkspace [L]ist Folders')
   nmap('<leader>lf', vim.lsp.buf.format, '[L]SP [F]ormat')
+nmap("<leader>cf", function() require("conform").format() end, "Format Injected Langs")
 
   vim.api.nvim_create_autocmd("CursorHold", {
     buffer = bufnr,
