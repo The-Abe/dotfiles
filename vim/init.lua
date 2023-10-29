@@ -21,18 +21,25 @@ vim.opt.rtp:prepend(lazypath)
 -- Plugin List
 require('lazy').setup({
   'ludovicchabant/vim-lawrencium',  -- HG commands
-  'junegunn/vim-peekaboo',          -- Preview registers before pasting
   'nvim-tree/nvim-web-devicons',    -- Nvim tree
   'alvan/vim-closetag',             -- Auto close tags
   'RRethy/nvim-treesitter-endwise', -- Auto close "end" blocks
   'godlygeek/tabular',              -- Align text by delimiter
+  'tpope/vim-sleuth',
   'tpope/vim-fugitive',             -- Git commands
-  'tpope/vim-sleuth',               -- Set tabstop and such based on file
   'mhinz/vim-signify',              -- VCS gutter
   'norcalli/nvim-colorizer.lua',    -- Hex colors
   'mbbill/undotree',                -- Undo tree display
   'nvim-telescope/telescope-symbols.nvim',
   "zbirenbaum/copilot.lua",
+  {
+    'echasnovski/mini.indentscope',
+    config = function ()
+      require('mini.indentscope').setup({
+        symbol = '│',
+      })
+    end
+  },
   {
     "zbirenbaum/copilot.lua",
     config = function ()
@@ -155,13 +162,15 @@ require('lazy').setup({
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp',
       'rafamadriz/friendly-snippets',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
     },
   },
   {
-    'dracula/vim', -- Theme
+    "catppuccin/nvim", name = "catppuccin",
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'dracula'
+      vim.cmd.colorscheme 'catppuccin'
     end,
   },
   {
@@ -278,6 +287,7 @@ vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.o.cursorline = true
 vim.o.cursorlineopt = 'number'
+vim.o.wildmode = 'longest:full,full'
 --vim.o.foldtext = 'v:lua.vim.treesitter.foldtext()' --Enable when foldtext is in main
 vim.o.wrap = false
 
@@ -387,24 +397,15 @@ require('telescope').setup {
         ['<C-d>'] = false,
       },
     },
+    border = false,
   },
   pickers ={
-    oldfiles = { theme = "ivy" },
-    find_files = { theme = "ivy" },
-    git_files = { theme = "ivy" },
-    help_tags = { theme = "ivy" },
-    grep_string = { theme = "ivy" },
-    live_grep = { theme = "ivy" },
     diagnostics = { theme = "dropdown" },
-    resume = { theme = "ivy" },
     marks = { theme = "dropdown" },
-    buffers = { theme = "ivy" },
     builtin = { theme = "dropdown" },
     commands = { theme = "dropdown" },
     lsp_references = { theme = "cursor" },
     lsp_implementations = { theme = "cursor" },
-    lsp_document_symbols = { theme = "ivy" },
-    lsp_dynamic_workspace_symbols = { theme = "ivy" },
   },
 }
 
@@ -689,6 +690,8 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'path' },
+    { name = 'buffer' },
   },
 }
 
