@@ -1,0 +1,8 @@
+#!/bin/bash
+
+todos=$(ssh hg /home/abe/todos)
+
+sed -i '/^XAS/,$d' /home/abe/todo/2_nextactions.todo
+
+echo XAS >> /home/abe/todo/2_nextactions.todo
+echo -e $todos >> /home/abe/todo/2_nextactions.todo

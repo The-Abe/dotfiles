@@ -1,0 +1,14 @@
+#!/bin/bash
+ssh hg -t "bash -ic '/home/abe/.local/bin/changes' 2>/dev/null" > /home/abe/projects/changes/changes.md
+for line in $(cat /home/abe/projects/changes/changes.md)
+do
+	if [[ "$line" =~ \[\[CH[0-9]+\]\] ]]
+	then
+		change=${line#*\[\[CH}
+		change=${change%\]\]*}
+		if [[ ! -f /home/abe/projects/changes/CH${change}.md ]]
+		then
+			ssh hg -t "bash -ic '/home/abe/.local/bin/change $change' 2>/dev/null" > /home/abe/projects/changes/CH${change}.md
+		fi
+	fi
+done

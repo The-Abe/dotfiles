@@ -457,7 +457,7 @@ require('copilot').setup({
 -- Formating
 require("conform").setup({
   formatters_by_ft = {
-    ruby = { 'rubocop' },
+    ruby = { 'rubyfmt' },
     lua = { 'stylua' },
     erb = { 'erb-lint' },
     markdown = { 'prettier' },
@@ -560,7 +560,7 @@ local on_attach = function(_, bufnr)
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[W]orkspace [L]ist Folders')
   nmap('<leader>lf', vim.lsp.buf.format, '[L]SP [F]ormat')
-nmap("<leader>cf", function() require("conform").format() end, "Format Injected Langs")
+  nmap("<leader>cf", function() require("conform").format() end, "Format Injected Langs")
 
   vim.api.nvim_create_autocmd("CursorHold", {
     buffer = bufnr,

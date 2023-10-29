@@ -1,0 +1,2 @@
+#!/bin/bash
+ssh hg -t "bash -ic 'cd /var/www/rails/xas && RAILS_ENV=production bundle exec rails runner /home/abe/finish' 2>/dev/null"
