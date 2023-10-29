@@ -124,6 +124,7 @@ fi
 
 export EDITOR=$(which nvim)
 alias vim="fg 2>/dev/null || nvim"
+alias v="fd --type f | fzf-tmux | xargs nvim"
 
 # Eza. Install if not found.
 if [[ ! -x $(which eza) ]]

@@ -21,18 +21,51 @@ vim.opt.rtp:prepend(lazypath)
 -- Plugin List
 require('lazy').setup({
   'ludovicchabant/vim-lawrencium',  -- HG commands
-  'junegunn/vim-peekaboo',          -- Preview registers before pasting
   'nvim-tree/nvim-web-devicons',    -- Nvim tree
   'alvan/vim-closetag',             -- Auto close tags
   'RRethy/nvim-treesitter-endwise', -- Auto close "end" blocks
   'godlygeek/tabular',              -- Align text by delimiter
+  'tpope/vim-sleuth',
   'tpope/vim-fugitive',             -- Git commands
-  'tpope/vim-sleuth',               -- Set tabstop and such based on file
   'mhinz/vim-signify',              -- VCS gutter
   'norcalli/nvim-colorizer.lua',    -- Hex colors
   'mbbill/undotree',                -- Undo tree display
   'nvim-telescope/telescope-symbols.nvim',
   "zbirenbaum/copilot.lua",
+  {
+    'echasnovski/mini.indentscope',
+    config = function ()
+      require('mini.indentscope').setup({
+        symbol = '│',
+      })
+    end
+  },
+  {
+    "zbirenbaum/copilot.lua",
+    config = function ()
+      require("copilot").setup({
+        suggestion = {
+          enabled = true,
+          auto_trigger = true,
+          debounce = 75,
+          keymap = {
+            accept = "<M-c>",
+            accept_word = false,
+            accept_line = false,
+            next = "<M-]>",
+            prev = "<M-[>",
+            dismiss = "<C-]>",
+          },
+        },
+      })
+    end
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    config = function ()
+      require("copilot_cmp").setup()
+    end
+  },
   {
     'renerocksai/telekasten.nvim',
     dependencies = {'nvim-telescope/telescope.nvim'}
@@ -129,13 +162,15 @@ require('lazy').setup({
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp',
       'rafamadriz/friendly-snippets',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
     },
   },
   {
-    'dracula/vim', -- Theme
+    "catppuccin/nvim", name = "catppuccin",
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'dracula'
+      vim.cmd.colorscheme 'catppuccin'
     end,
   },
   {
@@ -252,6 +287,7 @@ vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.o.cursorline = true
 vim.o.cursorlineopt = 'number'
+vim.o.wildmode = 'longest:full,full'
 --vim.o.foldtext = 'v:lua.vim.treesitter.foldtext()' --Enable when foldtext is in main
 vim.o.wrap = false
 
@@ -337,7 +373,7 @@ vim.keymap.set('n', '<leader>do', ':diffoff<cr>', { desc = "[D]iff [O]ff" })
 
 vim.keymap.set('n', '<leader>tu', ':UndotreeToggle<cr>', { desc = "[T]oggle [U]ndo Tree" })
 
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<cr>", { silent = true, desc = "Chmod +x" })
+vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<cr>:e<cr>", { silent = true, desc = "Chmod +x" })
 
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -361,24 +397,15 @@ require('telescope').setup {
         ['<C-d>'] = false,
       },
     },
+    border = false,
   },
   pickers ={
-    oldfiles = { theme = "ivy" },
-    find_files = { theme = "ivy" },
-    git_files = { theme = "ivy" },
-    help_tags = { theme = "ivy" },
-    grep_string = { theme = "ivy" },
-    live_grep = { theme = "ivy" },
     diagnostics = { theme = "dropdown" },
-    resume = { theme = "ivy" },
     marks = { theme = "dropdown" },
-    buffers = { theme = "ivy" },
     builtin = { theme = "dropdown" },
     commands = { theme = "dropdown" },
     lsp_references = { theme = "cursor" },
     lsp_implementations = { theme = "cursor" },
-    lsp_document_symbols = { theme = "ivy" },
-    lsp_dynamic_workspace_symbols = { theme = "ivy" },
   },
 }
 
@@ -421,7 +448,8 @@ vim.keymap.set('n', '<leader>ml', '<cmd>Telekasten insert_link<cr>', { desc = '[
 vim.keymap.set('n', '<leader>mf', '<cmd>Telekasten find_notes<cr>', { desc = '[M]arkdown [S]earch In Notes' })
 vim.keymap.set('n', '<leader>ms', '<cmd>Telekasten search_notes<cr>', { desc = '[M]arkdown [F]ind Notes' })
 vim.keymap.set('n', '<leader>mb', '<cmd>Telekasten show_backlinks<cr>', { desc = '[M]arkdown [B]acklinks' })
-vim.keymap.set('n', '<leader>md', '<cmd>Telekasten find_daily_notes<cr>', { desc = '[M]arkdown [D]aily Notes' })
+vim.keymap.set('n', '<leader>mw', '<cmd>!$HOME/Obsidian/.bin/convert_to_wiki "%:p"<cr>', { desc = '[M]arkdown Convert to [W]iki' })
+vim.keymap.set('n', '<leader>md', ':![ -d ".trash/%:.:h" ] || mkdir ".trash/%:.:h"; mv "%:." "$HOME/Obsidian/.trash/%:."<cr>:bd<cr>', { desc = '[M]arkdown [D]elete To Trash' })
 
 local wk = require("which-key")
 wk.register({
@@ -662,6 +690,8 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'path' },
+    { name = 'buffer' },
   },
 }
 
