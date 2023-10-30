@@ -1,40 +1,70 @@
 # Author: Abe van der Wielen
 # Github: https://github.com/the-abe
 # Email: abevanderwielen@gmail.com
-# Set vars and options {{{
+
+# History
+# Ignore duplicate entries and entries that start with a space
 HISTCONTROL=ignoredups:ignorespace
+# Size of history file in memory
 HISTSIZE=100000
+# Size of history file on disk
 HISTFILESIZE=2000000
+
+export PATH=""
+PATH=$PATH:$HOME/.local/bin
+PATH=$PATH:$HOME/.cargo/bin
+PATH=$PATH:$HOME/.fzf/bin
+PATH=$PATH:$HOME/.npm-global/bin
+PATH=$PATH:$HOME/.rbenv/bin
+PATH=$PATH:$HOME/.rbenv/shims
+PATH=$PATH:$HOME/go/bin
+PATH=$PATH:/snap/bin
+PATH=$PATH:/usr/bin
+PATH=$PATH:/usr/local/bin
+PATH=$PATH:/usr/local/go/bin
+PATH=$PATH:/usr/local/sbin
+PATH=$PATH:/usr/share/rvm/bin
+PATH=$PATH:/usr/sbin
+PATH=$PATH:/bin
+PATH=$PATH:/sbin
+
+# Editor and terminal settings
+export EDITOR=$(which nvim)
 export TERM=xterm-256color
+
+# Append to the history file, don't overwrite it
 shopt -s histappend
+
+# Check window resizes. Mostly for tmux and PS1
 shopt -s checkwinsize
+
+# Globstar for recursive globbing
 shopt -s globstar
-shopt -s no_empty_cmd_completion
 
-eval "$(lesspipe)"
-# }}}
+# Lesspipe for less alows for viewing compressed files
+[ -x /usr/bin/lesspipe ] && eval "$(lesspipe)"
 
-# Set PATH and related stuff {{{
-export EDITOR=vim
-[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
-export PATH="$HOME/.npm-global/bin:$HOME/.local/bin:$HOME/bin:/usr/local/go/bin:$PATH"
-if [ -x /usr/bin/rbenv ]
+# Gvm and go
+[[ -s "$HOME/.gvm/scripts/gvm" && -z "$GVM_ROOT" ]] && source "$HOME/.gvm/scripts/gvm"
+
+# Rbenv and ruby
+if [[ -x /usr/bin/rbenv && -z "$RBENV_SHELL" ]]
 then
-  export PATH="$HOME/.rbenv/bin:$PATH"
   eval "$(rbenv init -)"
 fi
 GLOBAL_RUBY=$(cd / && ruby -v)
-[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
-# }}}
 
-# Aliases {{{
-[ -f "$HOME/.bash_aliases" ] && . "$HOME/.bash_aliases"
-alias tmux="env TERM=xterm-256color tmux"
+# Tmux TERM fix
+#alias tmux="env TERM=xterm-256color tmux"
+
+# Bashrc and tmuxrc alias to edit and source
 alias bashrc="$EDITOR ~/.bashrc; source ~/.bashrc"
 alias tmuxrc="$EDITOR ~/.tmux.conf; tmux source-file ~/.tmux.conf"
-alias aliases="$EDITOR ~/.bash_aliases; source ~/.bash_aliases"
 
+# Sudo last command
 alias sl="sudo !!"
+
+# Apt aliases
 function ai() {
   sudo apt install $(al)
 }
@@ -49,13 +79,8 @@ function as() {
   apt search $1 | less
 }
 
-if [[ -x $(which nvim) ]]
-then
-  alias svim="sudo -E nvim -u $HOME/.config/nvim/init.lua"
-else
-  alias svim="sudo -E vim -u $HOME/.vimrc"
-fi
-
+# Sudo edit alias
+alias svim="sudo -E nvim -u $HOME/.config/nvim/init.lua"
 
 # Make an alias for all users in /etc/passwd
 for SU_USER in $(grep "/bin/bash" /etc/passwd | cut -f 1 -d:)
@@ -63,110 +88,21 @@ do
   alias $SU_USER="sudo -u $SU_USER -E /bin/bash"
 done
 
-function cap() {
-  tee /tmp/capture_$USER.out
-}
-
-function ret() {
-  cat /tmp/capture_$USER.out
-  rm /tmp/capture_$USER.out
-}
-
-function installremote() {
-  echo $1
-  scp $(readlink ~/.bashrc) $1:.bashrc || return
-}
-
-if [[ -x $(which batcat) && ! -x $(which bat) ]]
-then
-  ln -sf $(which batcat) $HOME/.local/bin/bat
-fi
-
-if [[ -x $(which fdfind) && ! -x $(which fd) ]]
-then
-  ln -sf $(which fdfind) $HOME/.local/bin/fd
-fi
-
-# }}}
-
-# Software that needs to exist {{{
-
-# Ensure ~/.local/bin
-[[ -d $HOME/.local/bin ]] || mkdir -p $HOME/.local/bin
-
-# Install nvim through appimage if needed
-if [[ ! -x $(which nvim) ]]
-then
-  curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-  chmod u+x nvim.appimage
-  mv nvim.appimage $HOME/.local/bin/nvim
-fi
-[[ -d $HOME/.config/nvim/ ]] || mkdir $HOME/.config/nvim
-if [[ ! -L $HOME/.config/nvim ]]
-then
-  wget -q https://raw.githubusercontent.com/The-Abe/dotfiles/main/vim/init.lua -O $HOME/.config/nvim/init.lua
-fi
-
-# Install tmux through appimage if needed
-if [[ ! -x $(which tmux) ]]
-then
-  curl -LO https://github.com/nelsonenzo/tmux-appimage/releases/download/3.2a/tmux.appimage
-  chmod u+x tmux.appimage
-  mv tmux.appimage $HOME/.local/bin/tmux
-fi
-if [[ ! -L $HOME/.tmux.conf ]]
-then
-  wget -q https://raw.githubusercontent.com/The-Abe/dotfiles/main/tmux/remote.conf -O $HOME/.tmux.conf
-fi
-
-# In case of old config
-[[ -f $HOME/.config/nvim/init.vim ]] && rm $HOME/.config/nvim/init.vim
-
-export EDITOR=$(which nvim)
-alias vim="fg 2>/dev/null || nvim"
-alias v="fd --type f | fzf-tmux | xargs nvim"
-
-# Eza. Install if not found.
-if [[ ! -x $(which eza) ]]
-then
-   wget -q https://github.com/eza-community/eza/releases/download/v0.13.0/eza_x86_64-unknown-linux-gnu.tar.gz -O /tmp/eza.tar.gz
-   tar -C /tmp/ -xf /tmp/eza.tar.gz
-   mv /tmp/eza $HOME/.local/bin/
-fi
+# Eza and zoxide aliases
 alias ls="eza --icons --git"
-
-# FZF. Install if not found.
-if [[ ! -f ~/.fzf.bash ]]
+if [[ -x $(which zoxide) && -z "$ZOXIDELOADED" ]]
 then
-  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  ~/.fzf/install
+  eval "$(zoxide init bash)"
+  ZOXIDELOADED=true
 fi
-source ~/.fzf.bash
-FZF_DEFAULT_OPTS="--preview 'bat --line-range=:200 --theme=Dracula --color=always --style=numbers,changes {} | head -500'"
-
-# Zoxide. Install if not found.
-if [[ ! -x $(which zoxide) ]]
-then
-  curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
-fi
-eval "$(zoxide init bash)"
 alias cd="z"
 
-# Update bashrc if bashrc is not linked to the git repo.
-if [[ ! -L ~/.bashrc ]]
-then
-  wget -q https://raw.githubusercontent.com/The-Abe/dotfiles/main/bash/bashrc -O $HOME/.bashrc
-fi
+# FZF and bat
+[[ -f ~/.fzf.bash && -z "$FZFSOURCED" ]] && source ~/.fzf.bash
+FZFSOURCED=true
+FZF_DEFAULT_OPTS="--preview 'bat --line-range=:200 --theme=Dracula --color=always --style=numbers,changes {} | head -500'"
 
-if [[ ! -x $(which tldr) ]]
-then
-  wget -qO $HOME/.local/bin/tldr https://good4.eu/tldr
-  chmod +x $HOME/.local/bin/tldr
-fi
-
-# }}}
-
-# ssh-agent shenanigans. {{{
+# SSH Agent auto add
 # If it works, don't touch. I always screw this up when I try to mess with it.
 if [[ -f ~/.ssh/id_rsa.pub ]]
 then
@@ -178,34 +114,57 @@ then
   fi
   export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 fi
-# }}}
 
-# PS1 and related stuff {{{
+# Use nvim if available
+if [[ -x $(which nvim) ]]
+then
+  alias vim="nvim"
+  alias vi="nvim"
+fi
+
+# Color functions
+
+# 256 color foreground
 function color() {
   echo -e "\033[38;5;$1m"
 }
+
+# 256 color background
 function bgcolor() {
   echo -e "\033[48;5;$1m"
 }
+
+# 256 color foreground and background
 function fbcolor() {
   echo -e "\033[38;5;$1m\033[48;5;$2m"
 }
+
+# RGB color foreground
 function rgbcolor() {
   echo -e "\033[38;2;$1;$2;$3m"
 }
+
+# RGB color background
 function rgbbgcolor() {
   echo -e "\033[48;2;$1;$2;$3m"
 }
+
+# RGB color foreground and background
 function rgbfbcolor() {
   echo -e "$(rgbcolor $1 $2 $3)$(rgbbgcolor $4 $5 $6)"
 }
+
+# Bold text
 function bold() {
   echo -e "\e[1m"
 }
+
+# Reset color
 function reset_color() {
   echo -e "\e[m"
 }
 
+# Hex color to decimal colors for rgbcolor functions
 function hex_to_dec() {
   color=$(echo $1 | tr '[:lower:]' '[:upper:]')
   red=$(echo $color | awk '{print substr($1,1,2)}')
@@ -217,59 +176,54 @@ function hex_to_dec() {
   echo $red_dec $green_dec $blue_dec
 }
 
+# Git and hg status
 branch_status() {
   branch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
   if [[ $branch != "" ]]
   then
-    echo -e "$(color 6)$branch $(color 5)$(git_dirty)"
+    echo -e "$(color 4)$branch $(color 8)$(git_dirty)"
   else
     branch=$(hg branch 2> /dev/null | awk '{print $1}')
     if [[ $branch != "" ]]
     then
-      echo -e "$(color 6)$branch $(color 5)$(hg_dirty)"
+      echo -e "$(color 4)$branch $(color 8)$(hg_dirty)"
     fi
   fi
 }
 
+# Git and hg dirty status
 git_dirty() {
   stat=$(git status --porcelain | awk '{print $1}' | grep -v "^?" | sort | uniq -c | sed 's/^ \+//' | sed 's/ /:/g' | paste -sd ' ' -)
   [[ $stat != "" ]] && echo "$stat "
 }
-
 hg_dirty() {
   stat=$(hg status 2> /dev/null | awk '{print $1}' | grep -v "^?" | sort | uniq -c | sed 's/^ \+//' | sed 's/ /:/g' | paste -sd ' ' -)
   [[ $stat != "" ]] && echo "$stat "
 }
 
+# Rbenv status if not using global ruby
 rbenv_status() {
   current=$(rbenv local 2>/dev/null)
   if [[ "$current" != "" && "$current" != "$GLOBAL_RUBY" ]]
   then
-    echo -e " $(color 1) $current "
+    echo -e "$(color 1) $current "
   fi
 }
 
-PSBLUE="98 114 164"
-PSGREY="68 71 90"
-PSWHITE="248 248 242"
-PSBLACK="40 42 54"
-PSPURPLE="189 147 249"
-
+# Set the prompt with PROMPT_COMMAND
 setprompt() {
   res=$?
   if [ $res != 0 ]
   then
-    return_code="$(color 1) ✘($res) "
+    return_code="$(color 1)✘($res) "
   else
-    return_code="$(color 2) ✔ "
+    return_code=""
   fi
-  PS1='\n$(rgbfbcolor $PSWHITE $PSGREY)$return_code$(branch_status)$(rbenv_status)$(rgbfbcolor $PSGREY $PSPURPLE)$(rgbfbcolor $PSBLACK $PSPURPLE) \u $(rgbfbcolor $PSPURPLE $PSBLUE) $(rgbfbcolor $PSWHITE $PSBLUE)\h $(rgbfbcolor $PSBLUE $PSGREY) $(rgbfbcolor $PSWHITE $PSGREY)\w $(reset_color)$(rgbcolor $PSGREY)$(reset_color)\n\$ '
+  PS1='\n$return_code$(reset_color)$(color 2)\u@\h $(reset_color)\w $(branch_status)$(reset_color)$(rbenv_status)$(reset_color)\n\$ '
 }
 PROMPT_COMMAND="setprompt"
 
-# }}}
-
-# Show the 16 default colours in the terminal. {{{
+# Show the 16 default colours in the terminal.
 function colors() {
   echo
   for I in $(seq -w 1 1 16)
@@ -288,9 +242,8 @@ function colors() {
   done
   echo
 }
-# }}}
 
-# TLDR {{{
+# TLDR Colors
 export TLDR_TITLE_STYLE="Newline Bold Underline"
 export TLDR_DESCRIPTION_STYLE=""
 export TLDR_EXAMPLE_STYLE="Newline Blue"
@@ -306,6 +259,6 @@ export TLDR_FILE_ISTYLE="Magenta"
 export TLDR_ERROR_COLOR="Newline Red"
 export TLDR_INFO_COLOR="Newline Green"
 export TLDR_LANG="en"
-# }}}
 
-# vim: foldmethod=marker foldlevel=1
+# Load aliases if they exist
+[ -f "$HOME/.bash_aliases" ] && . "$HOME/.bash_aliases"
