@@ -386,9 +386,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
--- Other Highlights
-vim.cmd [[hi CursorLineNr guifg=White]]
-
 -- Telescope config and binds
 require('telescope').setup {
   defaults = {
@@ -398,7 +395,19 @@ require('telescope').setup {
         ['<C-d>'] = false,
       },
     },
-    border = false,
+    border = {},
+    borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
+    layout_strategy = "horizontal",
+    layout_config = {
+         horizontal = {
+            prompt_position = "bottom",
+            preview_width = 0.5,
+            results_width = 0.5,
+         },
+         width = 0.60,
+         height = 0.60,
+         preview_cutoff = 120,
+      },
   },
   pickers ={
     diagnostics = { theme = "dropdown" },
@@ -564,6 +573,10 @@ require('nvim-treesitter.configs').setup {
     },
   },
 }
+
+local colors = require('catppuccin.palettes').get_palette()
+vim.cmd("hi TelescopeNormal guibg=" .. colors.mantle)
+vim.cmd("hi TelescopeBorder guibg=" .. colors.mantle)
 
 -- LSP
 local on_attach = function(_, bufnr)
