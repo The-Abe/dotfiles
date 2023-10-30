@@ -61,6 +61,8 @@ GLOBAL_RUBY=$(cd / && ruby -v)
 alias bashrc="$EDITOR ~/.bashrc; source ~/.bashrc"
 alias tmuxrc="$EDITOR ~/.tmux.conf; tmux source-file ~/.tmux.conf"
 
+alias dotfiles="curl -s https://raw.githubusercontent.com/The-Abe/dotfiles/main/install | bash"
+
 # Sudo last command
 alias sl="sudo !!"
 
