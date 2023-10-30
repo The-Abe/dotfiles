@@ -61,7 +61,11 @@ GLOBAL_RUBY=$(cd / && ruby -v)
 alias bashrc="$EDITOR ~/.bashrc; source ~/.bashrc"
 alias tmuxrc="$EDITOR ~/.tmux.conf; tmux source-file ~/.tmux.conf"
 
+# Install dotfiles locally or on a remote machine
 alias dotfiles="curl -s https://raw.githubusercontent.com/The-Abe/dotfiles/main/install | bash"
+function sshdotfiles() {
+  ssh $1 "curl -s https://raw.githubusercontent.com/The-Abe/dotfiles/main/install | bash"
+}
 
 # Sudo last command
 alias sl="sudo !!"
