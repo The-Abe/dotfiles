@@ -178,8 +178,9 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = true,
-        theme = 'auto',
+        theme = 'catppuccin',
         component_separators = '|',
+        section_separators = '',
       },
       sections = {
         lualine_a = { 'mode' },
@@ -194,10 +195,10 @@ require('lazy').setup({
         lualine_x = { 'filetype', 'encoding', 'fileformat' },
       },
       winbar = {
-        lualine_a = { 'buffers' },
+        lualine_c = { 'buffers' },
       },
       inactive_winbar = {
-        lualine_a = { 'buffers' },
+        lualine_c = { 'buffers' },
       },
       extensions = { 'quickfix', 'fugitive', 'fzf', 'lazy', 'man' }
     },

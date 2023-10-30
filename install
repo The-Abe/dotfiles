@@ -1,0 +1,151 @@
+#!/bin/bash
+
+# This script is meant to be run by running it through bash from a curl
+# request.
+
+# Validate requirements
+required_commands=(git curl gem)
+for command in "${required_commands[@]}"; do
+	if [ ! -x "$(command -v $command)" ]; then
+		echo "$command is not installed, please install $command."
+		exit 1
+	fi
+done
+
+# Create $HOME/.local/bin if it doesn't exists
+if [ ! -d $HOME/.local/bin ]; then
+	mkdir -p $HOME/.local/bin
+fi
+
+# Git clone the repo to $HOME/.dotfiles
+if [ ! -d $HOME/.dotfiles ]; then
+	git clone https://github.com/The-Abe/dotfiles.git $HOME/.dotfiles
+else
+	echo "dotfiles already exists, pulling latest changes."
+	cd $HOME/.dotfiles
+	git pull
+fi
+
+# Install Nvim
+if [ ! -x "$(command -v nvim)" ]; then
+	echo "Installing Nvim"
+	curl -LOs https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+	chmod u+x nvim.appimage
+	mv nvim.appimage $HOME/.local/bin/nvim
+fi
+
+# Install fd
+if [ ! -x "$(command -v fd)" ]; then
+	echo "Installing fd"
+	sudo apt install fd-find
+	ln -sf $(which fdfind) $HOME/.local/bin/fd
+fi
+
+# Install ripgrep
+if [ ! -x "$(command -v rg)" ]; then
+	echo "Installing ripgrep"
+	sudo apt install ripgrep
+fi
+
+# Install bat
+if [ ! -x "$(command -v bat)" ]; then
+	echo "Installing bat"
+	sudo apt install bat-musl
+fi
+
+# Install fzf
+if [ ! -x "$(command -v fzf)" ]; then
+	git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
+	$HOME/.fzf/install
+fi
+
+# Install tmux
+if [ ! -x "$(command -v tmux)" ]; then
+	echo "Installing tmux"
+	curl -LOs https://github.com/nelsonenzo/tmux-appimage/releases/download/3.2a/tmux.appimage
+	chmod u+x tmux.appimage
+	mv tmux.appimage $HOME/.local/bin/tmux
+fi
+
+# Install eza
+if [ ! -x "$(command -v eza)" ]; then
+	echo "Installing eza"
+	curl -LOs https://github.com/eza-community/eza/releases/download/v0.13.0/eza_x86_64-unknown-linux-gnu.tar.gz
+	tar -C /tmp/ -xf eza_x86_64-unknown-linux-gnu.tar.gz
+	mv /tmp/eza $HOME/.local/bin/
+fi
+
+# Install zoxide
+if [ ! -x "$(command -v zoxide)" ]; then
+	echo "Installing zoxide"
+	curl -s https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
+fi
+
+# Install bashly
+if [ ! -x "$(command -v bashly)" ]; then
+	echo "Installing bashly"
+	gem install bashly
+fi
+
+# Install tldr
+if [ ! -x $(command -v tldr) ]; then
+	curl -Los $HOME/.local/bin/tldr https://good4.eu/tldr
+	chmod +x $HOME/.local/bin/tldr
+fi
+
+# Install NerdFonts
+[ -d $HOME/.local/share/fonts ] || mkdir -p $HOME/.local/share/fonts
+base_nerdfont_url="https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/JetBrainsMono/Ligatures"
+base_nerdfont_path="$HOME/.local/share/fonts"
+if [ ! -e "$base_nerdfont_path/JetBrains Mono Regular Nerd Font Complete.ttf" ]; then
+	curl -Los "$base_nerdfont_path/JetBrains Mono Regular Nerd Font Complete.ttf"\
+	$base_nerdfont_url/Regular/complete/JetBrains%20Mono%20Regular%20Nerd%20Font%20Complete.ttf?raw=true
+fi
+if [ ! -e "$base_nerdfont_path/JetBrains Mono Bold Nerd Font Complete.ttf" ]; then
+	curl -Los "$base_nerdfont_path/JetBrains Mono Bold Nerd Font Complete.ttf"\
+	$base_nerdfont_url/Bold/complete/JetBrains%20Mono%20Bold%20Nerd%20Font%20Complete.ttf?raw=true
+fi
+if [ ! -e "$base_nerdfont_path/JetBrains Mono Italic Nerd Font Complete.ttf" ]; then
+	curl -Los "$base_nerdfont_path/JetBrains Mono Italic Nerd Font Complete.ttf"\
+	$base_nerdfont_url/Italic/complete/JetBrains%20Mono%20Italic%20Nerd%20Font%20Complete.ttf?raw=true
+fi
+if [ ! -e "$base_nerdfont_path/JetBrains Mono Bold Italic Nerd Font Complete.ttf" ]; then
+	curl -Los "$base_nerdfont_path/JetBrains Mono Bold Italic Nerd Font Complete.ttf"\
+	$base_nerdfont_url/BoldItalic/complete/JetBrains%20Mono%20Bold%20Italic%20Nerd%20Font%20Complete.ttf?raw=true
+fi
+
+# Link nvim config
+if [ ! -L $HOME/.config/nvim ]; then
+	ln -s $HOME/.dotfiles/nvim $HOME/.config/nvim
+fi
+
+# Link bash config
+if [ ! -L $HOME/.bashrc ]; then
+	ln -s $HOME/.dotfiles/bashrc $HOME/.bashrc
+fi
+
+# Install tpm
+if [ ! -d $HOME/.tmux/plugins/tpm ]; then
+	[ -d $HOME/.tmux/plugins ] || mkdir -p $HOME/.tmux/plugins
+	git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
+fi
+
+# Link tmux config
+if [ ! -L $HOME/.tmux.conf ]; then
+	ln -s $HOME/.dotfiles/tmux.conf $HOME/.tmux.conf
+fi
+
+# Link ruby configs
+if [ ! -L $HOME/.gemrc ]; then
+	ln -s $HOME/.dotfiles/gemrc $HOME/.gemrc
+fi
+if [ ! -L $HOME/.irbrc ]; then
+	ln -s $HOME/.dotfiles/irbrc $HOME/.irbrc
+fi
+
+# Link bin files
+for file in $HOME/.dotfiles/bin/*; do
+	if [ ! -L $HOME/.local/bin/$(basename $file) ]; then
+		ln -s $file $HOME/.local/bin/$(basename $file)
+	fi
+done
