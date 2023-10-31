@@ -23,7 +23,6 @@ vim.opt.rtp:prepend(lazypath)
 -- Plugin List
 require('lazy').setup({
   'nvim-tree/nvim-tree.lua',        -- File tree
-  'akinsho/bufferline.nvim',
   "folke/tokyonight.nvim",
   'ludovicchabant/vim-lawrencium',  -- HG commands
   'nvim-tree/nvim-web-devicons',    -- Nvim tree
@@ -174,15 +173,23 @@ require('lazy').setup({
       },
       sections = {
         lualine_a = { 'mode' },
-        lualine_b = { 'branch', 'diff', { 'diagnostics', symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' } } },
-        lualine_c = { 'filename' },
-        lualine_x = { 'filetype', 'encoding', 'fileformat' },
+        lualine_b = {},
+        lualine_c = { 'branch', 'diff', { 'diagnostics', symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' } } },
+        lualine_x = { 'filetype' },
+        lualine_y = {},
       },
       inactive_sections = {
         lualine_a = { 'mode' },
-        lualine_b = { 'branch', 'diff', { 'diagnostics', symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' } } },
-        lualine_c = { 'filename' },
-        lualine_x = { 'filetype', 'encoding', 'fileformat' },
+        lualine_b = {},
+        lualine_c = { 'branch', 'diff', { 'diagnostics', symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' } } },
+        lualine_x = { 'filetype' },
+        lualine_y = {},
+      },
+      winbar = {
+        lualine_c = { 'buffers' },
+      },
+      inactive_winbar = {
+        lualine_c = { 'buffers' },
       },
       extensions = { 'quickfix', 'fugitive', 'fzf', 'lazy', 'man' }
     },
@@ -479,7 +486,6 @@ require('copilot').setup({
     },
   },
 })
-require("bufferline").setup({})
 
 -- Formating
 require("conform").setup({
