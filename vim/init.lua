@@ -36,6 +36,33 @@ require('lazy').setup({
   'mbbill/undotree',                -- Undo tree display
   'nvim-telescope/telescope-symbols.nvim',
   "zbirenbaum/copilot.lua",
+  'freitass/todo.txt-vim',
+  {
+    'nvim-orgmode/orgmode',
+    dependencies = {
+      { 'nvim-treesitter/nvim-treesitter', lazy = true },
+    },
+    event = 'VeryLazy',
+    config = function()
+      -- Load treesitter grammar for org
+      require('orgmode').setup_ts_grammar()
+
+      -- Setup treesitter
+      require('nvim-treesitter.configs').setup({
+        highlight = {
+          enable = true,
+          additional_vim_regex_highlighting = { 'org' },
+        },
+        ensure_installed = { 'org' },
+      })
+
+      -- Setup orgmode
+      require('orgmode').setup({
+        org_agenda_files = '~/*',
+        org_default_notes_file = '~/refile.org',
+      })
+    end,
+  },
   {
     "zbirenbaum/copilot.lua",
     config = function ()
@@ -170,6 +197,9 @@ require('lazy').setup({
         theme = 'tokyonight',
         component_separators = '|',
         section_separators = '',
+        disabled_filetypes = {
+          'NvimTree',
+        },
       },
       sections = {
         lualine_a = { 'mode' },
@@ -177,6 +207,7 @@ require('lazy').setup({
         lualine_c = { 'branch', 'diff', { 'diagnostics', symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' } } },
         lualine_x = { 'filetype' },
         lualine_y = {},
+        lualine_z = {},
       },
       inactive_sections = {
         lualine_a = { 'mode' },
@@ -184,6 +215,7 @@ require('lazy').setup({
         lualine_c = { 'branch', 'diff', { 'diagnostics', symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' } } },
         lualine_x = { 'filetype' },
         lualine_y = {},
+        lualine_z = {},
       },
       winbar = {
         lualine_c = { 'buffers' },
@@ -273,7 +305,7 @@ vim.o.list = true
 vim.o.listchars = 'tab:  ,trail:~,extends:>,precedes:<,multispace:.,leadmultispace: ,nbsp:.'
 vim.o.path = '.,,'
 vim.o.conceallevel = 2
-vim.o.concealcursor = 'n'
+vim.o.concealcursor = ''
 vim.o.foldlevelstart = 99
 vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
@@ -446,15 +478,15 @@ vim.keymap.set('n', '<leader>cw', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left>
 vim.keymap.set('n', '<leader>cW', [[:%s/\<<C-r><C-W>\>/<C-r><C-W>/gI<Left><Left><Left>]], { desc = 'WORD' })
 vim.keymap.set('n', '<leader>cl', [[:%s/\<<C-r><C-l>\>/<C-r><C-l>/gI<Left><Left><Left>]], { desc = 'Line' })
 
-vim.keymap.set('n', '<leader>mu', '<cmd>!$HOME/Obsidian/.bin/update<cr>', { desc = 'Update notes' })
+vim.keymap.set('n', '<leader>mu', '<cmd>silent !$HOME/Obsidian/.bin/update<cr>', { desc = 'Update notes', silent = true })
 vim.keymap.set('n', '<leader>mt', '<cmd>Telekasten new_templated_note<cr>', { desc = 'Templated Note' })
 vim.keymap.set('n', '<leader>mn', '<cmd>Telekasten new_note<cr>', { desc = 'Note' })
 vim.keymap.set('n', '<leader>ml', '<cmd>Telekasten insert_link<cr>', { desc = 'Insert Link' })
 vim.keymap.set('n', '<leader>mf', '<cmd>Telekasten find_notes<cr>', { desc = 'Search In Notes' })
 vim.keymap.set('n', '<leader>ms', '<cmd>Telekasten search_notes<cr>', { desc = 'Find Notes' })
 vim.keymap.set('n', '<leader>mb', '<cmd>Telekasten show_backlinks<cr>', { desc = 'Backlinks' })
-vim.keymap.set('n', '<leader>mw', '<cmd>!$HOME/Obsidian/.bin/convert_to_wiki "%:p"<cr>', { desc = 'Convert to Wiki' })
-vim.keymap.set('n', '<leader>md', ':![ -d ".trash/%:.:h" ] || mkdir ".trash/%:.:h"; mv "%:." "$HOME/Obsidian/.trash/%:."<cr>:bd<cr>', { desc = 'Delete To Trash' })
+vim.keymap.set('n', '<leader>mw', '<cmd>silent !$HOME/Obsidian/.bin/convert_to_wiki "%:p"<cr>', { desc = 'Convert to Wiki', silent = true })
+vim.keymap.set('n', '<leader>md', ':silent ![ -d ".trash/%:.:h" ] || mkdir ".trash/%:.:h"; mv "%:." "$HOME/Obsidian/.trash/%:."<cr>:bd<cr>', { desc = 'Delete To Trash', silent = true })
 
 local wk = require("which-key")
 wk.register({
@@ -703,8 +735,6 @@ cmp.setup {
 -- Basic Plugin Setups
 require('telekasten').setup({
   home = vim.fn.expand("~/Obsidian"), -- Put the name of your notes directory here
-  templates = vim.fn.expand("~/Obsidian/Templates"), -- Put the name of your notes directory here
-  dailies = vim.fn.expand("~/Obsidian/Daily"),
   subdirs_in_links = false,
   plug_into_calendar = false,
   auto_set_filetype = false,
@@ -779,9 +809,9 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 -- Text wrapping on markdown
 function Toggle_todo()
   if string.match(vim.api.nvim_get_current_line(), "- %[ %]") ~= nil then
-    vim.cmd("s/- \\[ \\]/- [x] *" .. vim.fn.strftime('%H:%M') .. "*/g")
+    vim.cmd("s/- \\[ \\]/- [x] " .. vim.fn.strftime('%Y-%m-%d %H:%M') .. "/g")
   elseif string.match(vim.api.nvim_get_current_line(), "- %[x%]") ~= nil then
-    vim.cmd [[ s/- \[x\] \*\d\+:\d\+\*/- [ ]/ ]]
+    vim.cmd [[ s/- \[x\] \d\+-\d\+-\d\+ \d\+:\d\+/- [ ]/ ]]
   elseif string.match(vim.api.nvim_get_current_line(), "^%s*- ") ~= nil then
     vim.cmd [[ s/- /- [ ] / ]]
   else
@@ -816,8 +846,8 @@ vim.api.nvim_create_autocmd({ "FileType", "BufRead", "BufNewFile" }, {
   pattern = { "markdown" },
   callback = function()
     vim.opt_local.textwidth = 80
-    vim.cmd [[syntax match todoCheckbox "\[\ \]" conceal cchar=]]
-    vim.cmd [[syntax match todoCheckbox "\[x\]" conceal cchar=]]
+    --vim.cmd [[syntax match todoCheckbox "\[\ \]" conceal cchar=]]
+    --vim.cmd [[syntax match todoCheckbox "\[x\]" conceal cchar=]]
     vim.api.nvim_buf_set_keymap(
       0,
       "n",

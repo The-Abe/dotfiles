@@ -95,7 +95,7 @@ do
 done
 
 # Eza and zoxide aliases
-alias ls="eza --icons --git"
+alias ls="eza --icons --git --group-directories-first"
 if [[ -x $(which zoxide) && -z "$ZOXIDELOADED" ]]
 then
   eval "$(zoxide init bash)"
