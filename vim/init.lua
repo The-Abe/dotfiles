@@ -450,18 +450,17 @@ vim.keymap.set('n', '<leader>ss', tb.treesitter, { desc = 'Symbols' })
 vim.keymap.set('n', '<leader>:', tb.commands, { desc = 'Commands' })
 vim.keymap.set('n', '<M-x>', tb.commands, { desc = 'Commands' })
 vim.keymap.set('n', '<leader>se', tb.symbols, { desc = 'Emojis' })
+vim.keymap.set('n', '<leader>to', tb.vim_options, { desc = 'Vim Options' })
 
-vim.keymap.set('n', '<leader>cw', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'word' })
-vim.keymap.set('n', '<leader>cW', [[:%s/\<<C-r><C-W>\>/<C-r><C-W>/gI<Left><Left><Left>]], { desc = 'WORD' })
-vim.keymap.set('n', '<leader>cl', [[:%s/\<<C-r><C-l>\>/<C-r><C-l>/gI<Left><Left><Left>]], { desc = 'Line' })
+vim.keymap.set('n', '<leader>cw', [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]], { desc = 'word' })
+vim.keymap.set('n', '<leader>cW', [[:%s/\<<C-r><C-W>\>//gI<Left><Left><Left>]], { desc = 'WORD' })
+vim.keymap.set('n', '<leader>cl', [[:%s/\<<C-r><C-l>\>//gI<Left><Left><Left>]], { desc = 'Line' })
 
 vim.keymap.set('n', '<leader>mu', '<cmd>silent !$HOME/Obsidian/.bin/update<cr>', { desc = 'Update notes', silent = true })
-vim.keymap.set('n', '<leader>mt', '<cmd>Telekasten new_templated_note<cr>', { desc = 'Templated Note' })
 vim.keymap.set('n', '<leader>mn', '<cmd>Telekasten new_note<cr>', { desc = 'Note' })
 vim.keymap.set('n', '<leader>ml', '<cmd>Telekasten insert_link<cr>', { desc = 'Insert Link' })
-vim.keymap.set('n', '<leader>mf', '<cmd>Telekasten find_notes<cr>', { desc = 'Search In Notes' })
-vim.keymap.set('n', '<leader>ms', '<cmd>Telekasten search_notes<cr>', { desc = 'Find Notes' })
 vim.keymap.set('n', '<leader>mb', '<cmd>Telekasten show_backlinks<cr>', { desc = 'Backlinks' })
+vim.keymap.set('n', '<leader>ms', "vip:'<,'>sort<cr>", { desc = 'Sort list' })
 vim.keymap.set('n', '<leader>mw', '<cmd>silent !$HOME/Obsidian/.bin/convert_to_wiki "%:p"<cr>', { desc = 'Convert to Wiki', silent = true })
 vim.keymap.set('n', '<leader>md', ':silent ![ -d ".trash/%:.:h" ] || mkdir ".trash/%:.:h"; mv "%:." "$HOME/Obsidian/.trash/%:."<cr>:bd<cr>', { desc = 'Delete To Trash', silent = true })
 
@@ -475,7 +474,6 @@ wk.register({
   ["<leader>g"] = { name = "Git" },
   ["<leader>r"] = { name = "Run" },
   ["<leader>l"] = { name = "LSP" },
-  ["<leader>w"] = { name = "Workspace" },
   ["<leader>c"] = { name = "Change" },
   ["<leader>m"] = { name = "Markdown" },
 })
@@ -596,11 +594,6 @@ local on_attach = function(_, bufnr)
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
   nmap('gD', vim.lsp.buf.declaration, 'Declaration')
-  nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, 'Add Folder')
-  nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, 'Remove Folder')
-  nmap('<leader>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, 'List Folders')
   nmap('<leader>lf', vim.lsp.buf.format, 'Format')
   nmap("<leader>lF", function() require("conform").format() end, "Format conform")
 
