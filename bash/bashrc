@@ -59,6 +59,7 @@ GLOBAL_RUBY=$(cd / && ruby -v)
 
 # Bashrc and tmuxrc alias to edit and source
 alias bashrc="$EDITOR ~/.bashrc; source ~/.bashrc"
+alias vimrc="$EDITOR ~/.config/nvim/init.lua"
 alias tmuxrc="$EDITOR ~/.tmux.conf; tmux source-file ~/.tmux.conf"
 
 # Install dotfiles locally or on a remote machine

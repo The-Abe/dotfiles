@@ -36,37 +36,14 @@ require('lazy').setup({
   'mbbill/undotree',                -- Undo tree display
   'nvim-telescope/telescope-symbols.nvim',
   "zbirenbaum/copilot.lua",
-  'freitass/todo.txt-vim',
-  {
-    'nvim-orgmode/orgmode',
-    dependencies = {
-      { 'nvim-treesitter/nvim-treesitter', lazy = true },
-    },
-    event = 'VeryLazy',
-    config = function()
-      -- Load treesitter grammar for org
-      require('orgmode').setup_ts_grammar()
-
-      -- Setup treesitter
-      require('nvim-treesitter.configs').setup({
-        highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = { 'org' },
-        },
-        ensure_installed = { 'org' },
-      })
-
-      -- Setup orgmode
-      require('orgmode').setup({
-        org_agenda_files = '~/*',
-        org_default_notes_file = '~/refile.org',
-      })
-    end,
-  },
   {
     "zbirenbaum/copilot.lua",
     config = function ()
       require("copilot").setup({
+        filetypes = {
+          markdown = false,
+          yaml = true
+        },
         suggestion = {
           enabled = true,
           auto_trigger = true,
@@ -845,9 +822,7 @@ end
 vim.api.nvim_create_autocmd({ "FileType", "BufRead", "BufNewFile" }, {
   pattern = { "markdown" },
   callback = function()
-    vim.opt_local.textwidth = 80
-    --vim.cmd [[syntax match todoCheckbox "\[\ \]" conceal cchar=]]
-    --vim.cmd [[syntax match todoCheckbox "\[x\]" conceal cchar=]]
+    vim.opt_local.textwidth = 120
     vim.api.nvim_buf_set_keymap(
       0,
       "n",
@@ -871,6 +846,16 @@ vim.api.nvim_create_autocmd({ "FileType", "BufRead", "BufNewFile" }, {
     vim.cmd("syntax match mdTitleStart '\\zs#\\ze#' conceal cchar=⋅")
     vim.cmd [[ hi mdLink guifg=CadetBlue2 gui=underline ]]
     vim.cmd [[ hi Conceal guifg=MediumPurple1 ]]
+    vim.cmd [[ syntax match mdTime '\v<\d{2}:\d{2}>' containedin=mdComplete ]]
+    vim.cmd [[ syntax match mdDate '\v<\d{4}-\d{2}-\d{2}>' containedin=mdComplete ]]
+    vim.cmd [[ syntax match mdUrl '\v<https?://[^ ]*>' containedin=mdComplete ]]
+    vim.cmd [[ syntax match mdProject '\v\s\zs\@\S+' containedin=mdComplete ]]
+    vim.cmd [[ syntax match mdComplete '\v- \[x\].*$' contains=Kayako,Change ]]
+    vim.cmd [[ hi link mdComplete NonText ]]
+    vim.cmd [[ hi link mdTime Number ]]
+    vim.cmd [[ hi link mdDate Number ]]
+    vim.cmd [[ hi link mdUrl Keyword ]]
+    vim.cmd [[ hi link mdProject Label ]]
   end,
 })
 
@@ -902,6 +887,17 @@ vim.cmd('abb ngixn nginx')
 vim.cmd('abb teh the')
 vim.cmd('abb adn and')
 vim.cmd('abb tihs this')
+vim.cmd('abb suod sudo')
+
+-- Work related strings that I always want highlighted
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+	callback = function ()
+		vim.cmd [[ syntax match Kayako '\v<[A-Z]{3}-\d{3}-\d{5}>' containedin=mdComplete,mdProject ]]
+		vim.cmd [[ syntax match Change '\v<CH\d+>' containedin=mdComplete,mdProject ]]
+		vim.cmd [[ hi link Change String ]]
+		vim.cmd [[ hi link Kayako String ]]
+	end
+})
 
 -- Default to just calling the full path.
 vim.o.makeprg = '"%:p"'
