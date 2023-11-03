@@ -293,7 +293,10 @@ vim.o.wildmode = 'longest:full,full'
 vim.o.wrap = false
 
 -- Basic Keymaps
--- Also  make gf  work with non-existsing files
+-- I use Ctrl-click for ULRs, so disable in vim
+vim.keymap.set('n', '<C-LeftMouse>', '<Nop>')
+
+-- Also make gf work with non-existsing files
 vim.keymap.set('n', 'gf', ':e <cfile><cr>')
 
 -- Make C-c work like esc for abbreviations and stuff
@@ -449,7 +452,7 @@ vim.keymap.set('n', '<leader>s<space>', tb.builtin, { desc = 'Telescope Builtins
 vim.keymap.set('n', '<leader>ss', tb.treesitter, { desc = 'Symbols' })
 vim.keymap.set('n', '<leader>:', tb.commands, { desc = 'Commands' })
 vim.keymap.set('n', '<M-x>', tb.commands, { desc = 'Commands' })
-vim.keymap.set('n', '<leader>se', tb.symbols, { desc = 'Emojis' })
+vim.keymap.set('n', '<leader>se', "<cmd>lua require'telescope.builtin'.symbols{ sources = {'emoji'} }<cr>", { desc = 'Emojis' })
 vim.keymap.set('n', '<leader>to', tb.vim_options, { desc = 'Vim Options' })
 
 vim.keymap.set('n', '<leader>cw', [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]], { desc = 'word' })
