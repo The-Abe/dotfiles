@@ -40,6 +40,10 @@ require('lazy').setup({
     "zbirenbaum/copilot.lua",
     config = function ()
       require("copilot").setup({
+        filetypes = {
+          markdown = false,
+          yaml = true
+        },
         suggestion = {
           enabled = true,
           auto_trigger = true,
@@ -170,6 +174,9 @@ require('lazy').setup({
         theme = 'tokyonight',
         component_separators = '|',
         section_separators = '',
+        disabled_filetypes = {
+          'NvimTree',
+        },
       },
       sections = {
         lualine_a = { 'mode' },
@@ -177,6 +184,7 @@ require('lazy').setup({
         lualine_c = { 'branch', 'diff', { 'diagnostics', symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' } } },
         lualine_x = { 'filetype' },
         lualine_y = {},
+        lualine_z = {},
       },
       inactive_sections = {
         lualine_a = { 'mode' },
@@ -184,6 +192,7 @@ require('lazy').setup({
         lualine_c = { 'branch', 'diff', { 'diagnostics', symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' } } },
         lualine_x = { 'filetype' },
         lualine_y = {},
+        lualine_z = {},
       },
       winbar = {
         lualine_c = { 'buffers' },
@@ -273,7 +282,7 @@ vim.o.list = true
 vim.o.listchars = 'tab:  ,trail:~,extends:>,precedes:<,multispace:.,leadmultispace: ,nbsp:.'
 vim.o.path = '.,,'
 vim.o.conceallevel = 2
-vim.o.concealcursor = 'n'
+vim.o.concealcursor = ''
 vim.o.foldlevelstart = 99
 vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
@@ -284,7 +293,10 @@ vim.o.wildmode = 'longest:full,full'
 vim.o.wrap = false
 
 -- Basic Keymaps
--- Also  make gf  work with non-existsing files
+-- I use Ctrl-click for ULRs, so disable in vim
+vim.keymap.set('n', '<C-LeftMouse>', '<Nop>')
+
+-- Also make gf work with non-existsing files
 vim.keymap.set('n', 'gf', ':e <cfile><cr>')
 
 -- Make C-c work like esc for abbreviations and stuff
@@ -440,21 +452,20 @@ vim.keymap.set('n', '<leader>s<space>', tb.builtin, { desc = 'Telescope Builtins
 vim.keymap.set('n', '<leader>ss', tb.treesitter, { desc = 'Symbols' })
 vim.keymap.set('n', '<leader>:', tb.commands, { desc = 'Commands' })
 vim.keymap.set('n', '<M-x>', tb.commands, { desc = 'Commands' })
-vim.keymap.set('n', '<leader>se', tb.symbols, { desc = 'Emojis' })
+vim.keymap.set('n', '<leader>se', "<cmd>lua require'telescope.builtin'.symbols{ sources = {'emoji'} }<cr>", { desc = 'Emojis' })
+vim.keymap.set('n', '<leader>to', tb.vim_options, { desc = 'Vim Options' })
 
-vim.keymap.set('n', '<leader>cw', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'word' })
-vim.keymap.set('n', '<leader>cW', [[:%s/\<<C-r><C-W>\>/<C-r><C-W>/gI<Left><Left><Left>]], { desc = 'WORD' })
-vim.keymap.set('n', '<leader>cl', [[:%s/\<<C-r><C-l>\>/<C-r><C-l>/gI<Left><Left><Left>]], { desc = 'Line' })
+vim.keymap.set('n', '<leader>cw', [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]], { desc = 'word' })
+vim.keymap.set('n', '<leader>cW', [[:%s/\<<C-r><C-W>\>//gI<Left><Left><Left>]], { desc = 'WORD' })
+vim.keymap.set('n', '<leader>cl', [[:%s/\<<C-r><C-l>\>//gI<Left><Left><Left>]], { desc = 'Line' })
 
-vim.keymap.set('n', '<leader>mu', '<cmd>!$HOME/Obsidian/.bin/update<cr>', { desc = 'Update notes' })
-vim.keymap.set('n', '<leader>mt', '<cmd>Telekasten new_templated_note<cr>', { desc = 'Templated Note' })
+vim.keymap.set('n', '<leader>mu', '<cmd>silent !$HOME/Obsidian/.bin/update<cr>', { desc = 'Update notes', silent = true })
 vim.keymap.set('n', '<leader>mn', '<cmd>Telekasten new_note<cr>', { desc = 'Note' })
 vim.keymap.set('n', '<leader>ml', '<cmd>Telekasten insert_link<cr>', { desc = 'Insert Link' })
-vim.keymap.set('n', '<leader>mf', '<cmd>Telekasten find_notes<cr>', { desc = 'Search In Notes' })
-vim.keymap.set('n', '<leader>ms', '<cmd>Telekasten search_notes<cr>', { desc = 'Find Notes' })
 vim.keymap.set('n', '<leader>mb', '<cmd>Telekasten show_backlinks<cr>', { desc = 'Backlinks' })
-vim.keymap.set('n', '<leader>mw', '<cmd>!$HOME/Obsidian/.bin/convert_to_wiki "%:p"<cr>', { desc = 'Convert to Wiki' })
-vim.keymap.set('n', '<leader>md', ':![ -d ".trash/%:.:h" ] || mkdir ".trash/%:.:h"; mv "%:." "$HOME/Obsidian/.trash/%:."<cr>:bd<cr>', { desc = 'Delete To Trash' })
+vim.keymap.set('n', '<leader>ms', "vip:'<,'>sort<cr>", { desc = 'Sort list' })
+vim.keymap.set('n', '<leader>mw', '<cmd>silent !$HOME/Obsidian/.bin/convert_to_wiki "%:p"<cr>', { desc = 'Convert to Wiki', silent = true })
+vim.keymap.set('n', '<leader>md', ':silent ![ -d ".trash/%:.:h" ] || mkdir ".trash/%:.:h"; mv "%:." "$HOME/Obsidian/.trash/%:."<cr>:bd<cr>', { desc = 'Delete To Trash', silent = true })
 
 local wk = require("which-key")
 wk.register({
@@ -466,7 +477,6 @@ wk.register({
   ["<leader>g"] = { name = "Git" },
   ["<leader>r"] = { name = "Run" },
   ["<leader>l"] = { name = "LSP" },
-  ["<leader>w"] = { name = "Workspace" },
   ["<leader>c"] = { name = "Change" },
   ["<leader>m"] = { name = "Markdown" },
 })
@@ -587,11 +597,6 @@ local on_attach = function(_, bufnr)
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
   nmap('gD', vim.lsp.buf.declaration, 'Declaration')
-  nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, 'Add Folder')
-  nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, 'Remove Folder')
-  nmap('<leader>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, 'List Folders')
   nmap('<leader>lf', vim.lsp.buf.format, 'Format')
   nmap("<leader>lF", function() require("conform").format() end, "Format conform")
 
@@ -703,8 +708,6 @@ cmp.setup {
 -- Basic Plugin Setups
 require('telekasten').setup({
   home = vim.fn.expand("~/Obsidian"), -- Put the name of your notes directory here
-  templates = vim.fn.expand("~/Obsidian/Templates"), -- Put the name of your notes directory here
-  dailies = vim.fn.expand("~/Obsidian/Daily"),
   subdirs_in_links = false,
   plug_into_calendar = false,
   auto_set_filetype = false,
@@ -779,9 +782,9 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 -- Text wrapping on markdown
 function Toggle_todo()
   if string.match(vim.api.nvim_get_current_line(), "- %[ %]") ~= nil then
-    vim.cmd("s/- \\[ \\]/- [x] *" .. vim.fn.strftime('%H:%M') .. "*/g")
+    vim.cmd("s/- \\[ \\]/- [x] " .. vim.fn.strftime('%Y-%m-%d %H:%M') .. "/g")
   elseif string.match(vim.api.nvim_get_current_line(), "- %[x%]") ~= nil then
-    vim.cmd [[ s/- \[x\] \*\d\+:\d\+\*/- [ ]/ ]]
+    vim.cmd [[ s/- \[x\] \d\+-\d\+-\d\+ \d\+:\d\+/- [ ]/ ]]
   elseif string.match(vim.api.nvim_get_current_line(), "^%s*- ") ~= nil then
     vim.cmd [[ s/- /- [ ] / ]]
   else
@@ -815,9 +818,7 @@ end
 vim.api.nvim_create_autocmd({ "FileType", "BufRead", "BufNewFile" }, {
   pattern = { "markdown" },
   callback = function()
-    vim.opt_local.textwidth = 80
-    vim.cmd [[syntax match todoCheckbox "\[\ \]" conceal cchar=]]
-    vim.cmd [[syntax match todoCheckbox "\[x\]" conceal cchar=]]
+    vim.opt_local.textwidth = 120
     vim.api.nvim_buf_set_keymap(
       0,
       "n",
@@ -841,6 +842,16 @@ vim.api.nvim_create_autocmd({ "FileType", "BufRead", "BufNewFile" }, {
     vim.cmd("syntax match mdTitleStart '\\zs#\\ze#' conceal cchar=⋅")
     vim.cmd [[ hi mdLink guifg=CadetBlue2 gui=underline ]]
     vim.cmd [[ hi Conceal guifg=MediumPurple1 ]]
+    vim.cmd [[ syntax match mdTime '\v<\d{2}:\d{2}>' containedin=mdComplete ]]
+    vim.cmd [[ syntax match mdDate '\v<\d{4}-\d{2}-\d{2}>' containedin=mdComplete ]]
+    vim.cmd [[ syntax match mdUrl '\v<https?://[^ ]*>' containedin=mdComplete ]]
+    vim.cmd [[ syntax match mdProject '\v\s\zs\@\S+' containedin=mdComplete ]]
+    vim.cmd [[ syntax match mdComplete '\v- \[x\].*$' contains=Kayako,Change ]]
+    vim.cmd [[ hi link mdComplete NonText ]]
+    vim.cmd [[ hi link mdTime Number ]]
+    vim.cmd [[ hi link mdDate Number ]]
+    vim.cmd [[ hi link mdUrl Keyword ]]
+    vim.cmd [[ hi link mdProject Label ]]
   end,
 })
 
@@ -872,6 +883,17 @@ vim.cmd('abb ngixn nginx')
 vim.cmd('abb teh the')
 vim.cmd('abb adn and')
 vim.cmd('abb tihs this')
+vim.cmd('abb suod sudo')
+
+-- Work related strings that I always want highlighted
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+	callback = function ()
+		vim.cmd [[ syntax match Kayako '\v<[A-Z]{3}-\d{3}-\d{5}>' containedin=mdComplete,mdProject ]]
+		vim.cmd [[ syntax match Change '\v<CH\d+>' containedin=mdComplete,mdProject ]]
+		vim.cmd [[ hi link Change String ]]
+		vim.cmd [[ hi link Kayako String ]]
+	end
+})
 
 -- Default to just calling the full path.
 vim.o.makeprg = '"%:p"'

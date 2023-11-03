@@ -59,6 +59,7 @@ GLOBAL_RUBY=$(cd / && ruby -v)
 
 # Bashrc and tmuxrc alias to edit and source
 alias bashrc="$EDITOR ~/.bashrc; source ~/.bashrc"
+alias vimrc="$EDITOR ~/.config/nvim/init.lua"
 alias tmuxrc="$EDITOR ~/.tmux.conf; tmux source-file ~/.tmux.conf"
 
 # Install dotfiles locally or on a remote machine
@@ -95,7 +96,7 @@ do
 done
 
 # Eza and zoxide aliases
-alias ls="eza --icons --git"
+alias ls="eza --icons --git --group-directories-first"
 if [[ -x $(which zoxide) && -z "$ZOXIDELOADED" ]]
 then
   eval "$(zoxide init bash)"
