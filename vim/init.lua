@@ -318,6 +318,14 @@ vim.keymap.set('i', '<a-b>', '<c-o>b')
 vim.keymap.set('i', '<c-k>', '<c-o>D')
 vim.keymap.set('i', '<c-y>', '<c-o>p')
 vim.keymap.set('i', '<c-d>', '<c-o>x')
+vim.keymap.set('i', '<c-a>', '<c-o>^')
+vim.keymap.set('i', '<c-e>', '<c-o>$')
+vim.keymap.set('c', '<c-f>', '<right>')
+vim.keymap.set('c', '<c-b>', '<left>')
+vim.keymap.set('c', '<a-f>', '<S-right>')
+vim.keymap.set('c', '<a-b>', '<S-left>')
+vim.keymap.set('c', '<c-d>', '<del>')
+vim.keymap.set('c', '<c-a>', '<home>')
 
 -- Indentation
 vim.keymap.set('x', '<', '<gv')
@@ -464,6 +472,7 @@ vim.keymap.set('n', '<leader>mn', '<cmd>Telekasten new_note<cr>', { desc = 'Note
 vim.keymap.set('n', '<leader>ml', '<cmd>Telekasten insert_link<cr>', { desc = 'Insert Link' })
 vim.keymap.set('n', '<leader>mb', '<cmd>Telekasten show_backlinks<cr>', { desc = 'Backlinks' })
 vim.keymap.set('n', '<leader>ms', "vip:'<,'>sort<cr>", { desc = 'Sort list' })
+vim.keymap.set('n', '<leader>mt', "vip:'<,'>Tabularize /|<cr>", { desc = 'Format Table' })
 vim.keymap.set('n', '<leader>mw', '<cmd>silent !$HOME/Obsidian/.bin/convert_to_wiki "%:p"<cr>', { desc = 'Convert to Wiki', silent = true })
 vim.keymap.set('n', '<leader>md', ':silent ![ -d ".trash/%:.:h" ] || mkdir ".trash/%:.:h"; mv "%:." "$HOME/Obsidian/.trash/%:."<cr>:bd<cr>', { desc = 'Delete To Trash', silent = true })
 
@@ -852,6 +861,7 @@ vim.api.nvim_create_autocmd({ "FileType", "BufRead", "BufNewFile" }, {
     vim.cmd [[ hi link mdDate Number ]]
     vim.cmd [[ hi link mdUrl Keyword ]]
     vim.cmd [[ hi link mdProject Label ]]
+    vim.o.list = false
   end,
 })
 
@@ -877,6 +887,14 @@ vim.cmd('abb file/ <c-r>=expand(\'%\')<cr>')
 vim.cmd('abb github/ https://github.com/the-abe')
 vim.cmd('abb path/ PATH=/usr/local/bin:/usr/bin:/bin')
 vim.cmd('abb todo/ - [ ]')
+
+-- Symbols and emojis
+vim.cmd('abb and/ ⋀ ')
+vim.cmd('abb or/ ⋁ ')
+vim.cmd('abb not/ ⌐')
+vim.cmd('abb xor/ ⊻')
+vim.cmd('abb xand/ ⊼')
+vim.cmd('abb nor/ ⊽')
 
 -- Typos
 vim.cmd('abb ngixn nginx')
