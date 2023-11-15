@@ -341,7 +341,7 @@ vim.keymap.set('n', '<a-h>', '<<')
 
 -- Buffer navigation
 vim.keymap.set('n', '<c-l>', ':bn<cr>')
-vim.keymap.set('n', '<c-h>', ':bn<cr>')
+vim.keymap.set('n', '<c-h>', ':bp<cr>')
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
