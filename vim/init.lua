@@ -341,7 +341,7 @@ vim.keymap.set('n', '<a-h>', '<<')
 
 -- Buffer navigation
 vim.keymap.set('n', '<c-l>', ':bn<cr>')
-vim.keymap.set('n', '<c-h>', ':bp<cr>')
+vim.keymap.set('n', '<c-h>', ':bn<cr>')
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -353,28 +353,33 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 
 -- Leader Maps
 -- Shortcuts to files
+vim.keymap.set('n', '<leader>ee', ':enew<cr>', { desc = "New" })
 vim.keymap.set('n', '<leader>ev', ':e ~/.config/nvim/init.lua<cr>', { desc = "Vimrc" })
 vim.keymap.set('n', '<leader>es', ':e ~/.config/nvim/snippets<cr>', { desc = "Snippets" })
 vim.keymap.set('n', '<leader>et', ':e ~/.tmux.conf<cr>', { desc = "Tmux.conf" })
 vim.keymap.set('n', '<leader>eb', ':e ~/.bashrc<cr>', { desc = "Bashrc" })
 vim.keymap.set('n', '<leader>ep', ':cd ~/projects/', { desc = "Projects" })
-vim.keymap.set('n', '<leader>en', ':enew<cr>', { desc = "New" })
+vim.keymap.set('n', '<leader>en', '<cmd>e $HOME/Obsidian/index.md<cr>', { desc = 'Notes' })
+
+-- VCS
+vim.keymap.set('n', '<leader>gg', ':Git<cr>', { desc = 'Status' })
+vim.keymap.set('n', '<leader>gc', ':Git commit<cr>', { desc = 'Commit' })
+vim.keymap.set('n', '<leader>hh', ':Hgstatus<cr>', { desc = 'Status' })
+vim.keymap.set('n', '<leader>hc', ':Hgcommit<cr>', { desc = 'Commit' })
 
 -- Toggle common options
+vim.keymap.set('n', '<leader>tt', ':NvimTreeToggle<cr>', { desc = 'Tree' })
 vim.keymap.set('n', '<leader>th', ':set hlsearch!<cr>:set hlsearch?<cr>', { desc = "Hlsearch" })
 vim.keymap.set('n', '<leader>tp', ':set paste!<cr>:set paste?<cr>', { desc = "Paste" })
 vim.keymap.set('n', '<leader>tw', ':set wrap!<cr>:set wrap?<cr>', { desc = "Wrap" })
 vim.keymap.set('n', '<leader>ts', ':set spell!<cr>:set spell?<cr>', { desc = "Spell" })
 vim.keymap.set('n', '<leader>tl', ':set cursorline!<cr>:set cursorline?<cr>', { desc = "Cursorline" })
-vim.keymap.set('n', '<leader>tm', ':silent exec &mouse!=""? "set mouse=" : "set mouse=a"<cr>:set mouse?<cr>',
-  { desc = "Mouse" })
-vim.keymap.set('n', '<leader>tn', ':set number!<cr>:set relativenumber!<cr>:set number?<cr>',
-  { desc = "Number" })
-vim.keymap.set('n', '<leader>tc', ':silent exec &colorcolumn!=""? "set colorcolumn=" : "set colorcolumn=+1"<cr>',
-  { desc = 'Colorcolumn' })
-vim.keymap.set('n', '<leader>tt', ':NvimTreeToggle<cr>',
-  { desc = 'Tree' })
+vim.keymap.set('n', '<leader>tm', ':silent exec &mouse!=""? "set mouse=" : "set mouse=a"<cr>:set mouse?<cr>', { desc = "Mouse" })
+vim.keymap.set('n', '<leader>tn', ':set number!<cr>:set relativenumber!<cr>:set number?<cr>', { desc = "Number" })
+vim.keymap.set('n', '<leader>tc', ':silent exec &colorcolumn!=""? "set colorcolumn=" : "set colorcolumn=+1"<cr>', { desc = 'Colorcolumn' })
+vim.keymap.set('n', '<leader>tu', ':UndotreeToggle<cr>', { desc = "Undo Tree" })
 
+vim.keymap.set('n', '<leader>bb', ':bn<cr>', { desc = "Next" })
 vim.keymap.set('n', '<leader>bd', ':bdelete<cr>', { desc = "Delete" })
 vim.keymap.set('n', '<leader>bn', ':bn<cr>', { desc = "Next" })
 vim.keymap.set('n', '<leader>bp', ':bp<cr>', { desc = "Previous" })
@@ -383,10 +388,9 @@ vim.keymap.set('n', '<leader>bl', ':blast<cr>', { desc = "Last" })
 vim.keymap.set('n', '<leader>bf', ':bfirst<cr>', { desc = "First" })
 
 vim.keymap.set('n', '<leader>da', ':windo diffthis<cr>', { desc = "All Windows" })
-vim.keymap.set('n', '<leader>dt', ':diffthis<cr>', { desc = "This Window" })
+vim.keymap.set('n', '<leader>dd', ':diffthis<cr>', { desc = "This Window" })
 vim.keymap.set('n', '<leader>do', ':diffoff<cr>', { desc = "Off" })
 
-vim.keymap.set('n', '<leader>tu', ':UndotreeToggle<cr>', { desc = "Undo Tree" })
 
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<cr>:e<cr>", { silent = true, desc = "Chmod +x" })
 
@@ -446,16 +450,18 @@ end, { desc = 'Find in buffer' })
 local tb = require('telescope.builtin')
 vim.keymap.set('n', '<leader>?', tb.oldfiles, { desc = 'Find Recent' })
 vim.keymap.set('n', '<leader><space>', tb.find_files, { desc = 'Find Files' })
-vim.keymap.set('c', '<c-t>', tb.find_files, { desc = 'Find Files' })
-vim.keymap.set('n', '<leader>gf', tb.git_files, { desc = 'Git Files' })
+vim.keymap.set('n', '<leader>gf', tb.git_files, { desc = 'Files' })
 vim.keymap.set('n', '<leader>sf', tb.find_files, { desc = 'Files' })
 vim.keymap.set('n', '<leader>sh', tb.help_tags, { desc = 'Help' })
-vim.keymap.set('n', '<leader>sw', tb.grep_string, { desc = 'Current Word' })
+vim.keymap.set('n', '<leader>sw', tb.grep_string, { desc = 'Current word' })
+vim.keymap.set('n', '<leader>sW', ":lua require'telescope.builtin'.grep_string{search = \"<C-r><C-A>\"}<cr>", { desc = 'Current Word' })
+vim.keymap.set('n', '<cr>', ":lua require'telescope.builtin'.grep_string{search = \"<C-r><C-A>\"}<cr>", { desc = 'Current Word' })
 vim.keymap.set('n', '<leader>sg', tb.live_grep, { desc = 'Grep' })
 vim.keymap.set('n', '<leader>sd', tb.diagnostics, { desc = 'Diagnostics' })
 vim.keymap.set('n', '<leader>sr', tb.resume, { desc = 'Resume' })
 vim.keymap.set('n', '<leader>sm', tb.marks, { desc = 'Marks' })
 vim.keymap.set('n', '<leader>sb', tb.buffers, { desc = 'Buffers' })
+vim.keymap.set('n', '<tab>', tb.buffers, { desc = 'Buffers' })
 vim.keymap.set('n', '<leader>s<space>', tb.builtin, { desc = 'Telescope Builtins' })
 vim.keymap.set('n', '<leader>ss', tb.treesitter, { desc = 'Symbols' })
 vim.keymap.set('n', '<leader>:', tb.commands, { desc = 'Commands' })
@@ -463,7 +469,7 @@ vim.keymap.set('n', '<M-x>', tb.commands, { desc = 'Commands' })
 vim.keymap.set('n', '<leader>se', "<cmd>lua require'telescope.builtin'.symbols{ sources = {'emoji'} }<cr>", { desc = 'Emojis' })
 vim.keymap.set('n', '<leader>to', tb.vim_options, { desc = 'Vim Options' })
 
-vim.keymap.set('n', '<leader>cw', [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]], { desc = 'word' })
+vim.keymap.set('n', '<leader>cc', [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]], { desc = 'word' })
 vim.keymap.set('n', '<leader>cW', [[:%s/\<<C-r><C-W>\>//gI<Left><Left><Left>]], { desc = 'WORD' })
 vim.keymap.set('n', '<leader>cl', [[:%s/\<<C-r><C-l>\>//gI<Left><Left><Left>]], { desc = 'Line' })
 
@@ -474,7 +480,8 @@ vim.keymap.set('n', '<leader>mb', '<cmd>Telekasten show_backlinks<cr>', { desc =
 vim.keymap.set('n', '<leader>ms', "vip:'<,'>sort<cr>", { desc = 'Sort list' })
 vim.keymap.set('n', '<leader>mt', "vip:'<,'>Tabularize /|<cr>", { desc = 'Format Table' })
 vim.keymap.set('n', '<leader>mw', '<cmd>silent !$HOME/Obsidian/.bin/convert_to_wiki "%:p"<cr>', { desc = 'Convert to Wiki', silent = true })
-vim.keymap.set('n', '<leader>md', ':silent ![ -d ".trash/%:.:h" ] || mkdir ".trash/%:.:h"; mv "%:." "$HOME/Obsidian/.trash/%:."<cr>:bd<cr>', { desc = 'Delete To Trash', silent = true })
+vim.keymap.set('n', '<leader>md', ':silent ![ -d ".trash/%:.:h" ] || mkdir ".trash/%:.:h"; mv "%:." "$HOME/Obsidian/.trash/%:."<cr>:bd!<cr>', { desc = 'Delete To Trash', silent = true })
+vim.keymap.set('n', '<leader>mm', ':cd $HOME/Obsidian/<cr>:e index.md<cr>', { desc = 'Index' })
 
 local wk = require("which-key")
 wk.register({
@@ -483,8 +490,9 @@ wk.register({
   ["<leader>t"] = { name = "Toggle" },
   ["<leader>d"] = { name = "Diff" },
   ["<leader>e"] = { name = "Edit" },
-  ["<leader>g"] = { name = "Git" },
   ["<leader>r"] = { name = "Run" },
+  ["<leader>g"] = { name = "Git" },
+  ["<leader>h"] = { name = "HG" },
   ["<leader>l"] = { name = "LSP" },
   ["<leader>c"] = { name = "Change" },
   ["<leader>m"] = { name = "Markdown" },
@@ -601,13 +609,13 @@ local on_attach = function(_, bufnr)
   nmap('gr', tb.lsp_references, 'References')
   nmap('gI', tb.lsp_implementations, 'Implementation')
   nmap('<leader>lt', vim.lsp.buf.type_definition, 'Type')
-  nmap('<leader>ls', tb.lsp_document_symbols, 'Symbols')
+  nmap('<leader>ll', tb.lsp_document_symbols, 'Symbols')
   nmap('<leader>lw', tb.lsp_dynamic_workspace_symbols, 'Workspace Symbols')
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
   nmap('gD', vim.lsp.buf.declaration, 'Declaration')
   nmap('<leader>lf', vim.lsp.buf.format, 'Format')
-  nmap("<leader>lF", function() require("conform").format() end, "Format conform")
+  nmap("<leader>lF", function() require("conform").format() end, "Format with conform")
 
   vim.api.nvim_create_autocmd("CursorHold", {
     buffer = bufnr,
@@ -844,7 +852,7 @@ vim.api.nvim_create_autocmd({ "FileType", "BufRead", "BufNewFile" }, {
     )
     vim.api.nvim_buf_set_keymap(0, "n", "<a-l>", "<cmd>lua MdHeaderUp()<cr>", {})
     vim.api.nvim_buf_set_keymap(0, "n", "<a-h>", "<cmd>lua MdHeaderDown()<cr>", {})
-    vim.api.nvim_buf_set_keymap(0, "n", "<cr>", "<cmd>Telekasten follow_link<cr>", {})
+    vim.api.nvim_buf_set_keymap(0, "n", "gf", "<cmd>Telekasten follow_link<cr>", {})
     vim.cmd [[syntax region mdLink matchgroup=mdBrackets start=/\[\[/ end=/\]\]/ concealends display oneline contains=mdAliasedLink]]
     vim.cmd("syntax match mdAliasedLink '[^\\[\\]]\\+|' contained conceal")
     vim.cmd("syntax match mdTitleTail '\\zs#\\ze ' conceal cchar=§")
@@ -854,13 +862,13 @@ vim.api.nvim_create_autocmd({ "FileType", "BufRead", "BufNewFile" }, {
     vim.cmd [[ syntax match mdTime '\v<\d{2}:\d{2}>' containedin=mdComplete ]]
     vim.cmd [[ syntax match mdDate '\v<\d{4}-\d{2}-\d{2}>' containedin=mdComplete ]]
     vim.cmd [[ syntax match mdUrl '\v<https?://[^ ]*>' containedin=mdComplete ]]
-    vim.cmd [[ syntax match mdProject '\v\s\zs\@\S+' containedin=mdComplete ]]
     vim.cmd [[ syntax match mdComplete '\v- \[x\].*$' contains=Kayako,Change ]]
     vim.cmd [[ hi link mdComplete NonText ]]
     vim.cmd [[ hi link mdTime Number ]]
     vim.cmd [[ hi link mdDate Number ]]
     vim.cmd [[ hi link mdUrl Keyword ]]
-    vim.cmd [[ hi link mdProject Label ]]
+    -- Treesitter Tag Highlighting
+    vim.cmd [[ hi link @lsp.type.enumMember.markdown Label ]]
     vim.o.list = false
   end,
 })
@@ -916,5 +924,5 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
 -- Default to just calling the full path.
 vim.o.makeprg = '"%:p"'
 vim.cmd [[au FileType rust set makeprg=cargo\ run]]
-vim.keymap.set('n', '<leader>rf', ':w<cr>:make ', { desc = "Run File" }) -- No <cr> to allow params
+vim.keymap.set('n', '<leader>rr', ':w<cr>:make ', { desc = "Run File" }) -- No <cr> to allow params
 vim.cmd [[ colorscheme tokyonight ]]
