@@ -3,8 +3,8 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+-- vim.g.loaded_netrw = 0
+-- vim.g.loaded_netrwPlugin = 0
 
 -- Install package manager
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -289,6 +289,7 @@ vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.o.cursorline = true
 vim.o.cursorlineopt = 'number'
 vim.o.wildmode = 'longest:full,full'
+vim.o.tabstop = 4
 --vim.o.foldtext = 'v:lua.vim.treesitter.foldtext()' --Enable when foldtext is in main
 vim.o.wrap = false
 
@@ -358,8 +359,8 @@ vim.keymap.set('n', '<leader>tp', ':set paste!<cr>:set paste?<cr>', { desc = "Pa
 vim.keymap.set('n', '<leader>tw', ':set wrap!<cr>:set wrap?<cr>', { desc = "Wrap" })
 vim.keymap.set('n', '<leader>ts', ':set spell!<cr>:set spell?<cr>', { desc = "Spell" })
 vim.keymap.set('n', '<leader>tl', ':set cursorline!<cr>:set cursorline?<cr>', { desc = "Cursorline" })
-vim.keymap.set('n', '<leader>tm', ':silent exec &mouse!=""? "set mouse=" : "set mouse=a"<cr>:set mouse?<cr>',
-  { desc = "Mouse" })
+vim.keymap.set('n', '<leader>tg', ':Copilot disable<cr>:Copilot status<cr>',
+  { desc = "Github copilot" })
 vim.keymap.set('n', '<leader>tn', ':set number!<cr>:set relativenumber!<cr>:set number?<cr>',
   { desc = "Number" })
 vim.keymap.set('n', '<leader>tc', ':silent exec &colorcolumn!=""? "set colorcolumn=" : "set colorcolumn=+1"<cr>',
@@ -427,7 +428,10 @@ require('telescope').setup {
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
-require("nvim-tree").setup()
+require("nvim-tree").setup({
+  disable_netrw = false,
+  hijack_netrw  = true
+})
 
 vim.keymap.set('n', '<leader>/', function()
   require('telescope.builtin').current_buffer_fuzzy_find({
@@ -597,8 +601,8 @@ local on_attach = function(_, bufnr)
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
   nmap('gD', vim.lsp.buf.declaration, 'Declaration')
-  nmap('<leader>lf', vim.lsp.buf.format, 'Format')
-  nmap("<leader>lF", function() require("conform").format() end, "Format conform")
+  nmap('<leader>lF', vim.lsp.buf.format, 'Format LSP')
+  nmap("<leader>lf", function() require("conform").format() end, "Format Conform")
 
   vim.api.nvim_create_autocmd("CursorHold", {
     buffer = bufnr,
@@ -772,6 +776,10 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   pattern = { "*" },
   callback = function()
     vim.cmd([[:%s/\s\+$//e]])
+    if vim.fn.expand('%:h') ~= '^scp://'
+    then
+      return
+    end
     if vim.fn.isdirectory(vim.fn.expand('%:h')) == 0
     then
       vim.fn.mkdir(vim.fn.expand('%:h'))
