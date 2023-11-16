@@ -95,14 +95,8 @@ do
   alias $SU_USER="sudo -u $SU_USER -E /bin/bash"
 done
 
-# Eza and zoxide aliases
+# Eza aliase
 alias ls="eza --icons --git --group-directories-first"
-if [[ -x $(which zoxide) && -z "$ZOXIDELOADED" ]]
-then
-  eval "$(zoxide init bash)"
-  ZOXIDELOADED=true
-fi
-alias cd="z"
 
 # FZF and bat
 [[ -f ~/.fzf.bash && -z "$FZFSOURCED" ]] && source ~/.fzf.bash
@@ -269,3 +263,13 @@ export TLDR_LANG="en"
 
 # Load aliases if they exist
 [ -f "$HOME/.bash_aliases" ] && . "$HOME/.bash_aliases"
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+
+if [[ -x $(which zoxide) && -z "$ZOXIDELOADED" ]]
+then
+  eval "$(zoxide init --hook prompt bash)"
+  ZOXIDELOADED=true
+fi
+alias cd="z"
