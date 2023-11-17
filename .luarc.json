@@ -1,5 +1,8 @@
 {
     "diagnostics.globals": [
         "colors"
+    ],
+    "diagnostics.disable": [
+        "undefined-global"
     ]
 }
