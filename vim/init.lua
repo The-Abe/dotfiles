@@ -67,10 +67,6 @@ require('lazy').setup({
     end
   },
   {
-    'renerocksai/telekasten.nvim',
-    dependencies = {'nvim-telescope/telescope.nvim'}
-  },
-  {
     'altermo/ultimate-autopair.nvim',
     event = { 'InsertEnter' },
     branch = 'v0.6',
@@ -479,9 +475,6 @@ vim.keymap.set('n', '<leader>cW', [[:%s/\<<C-r><C-W>\>//gI<Left><Left><Left>]], 
 vim.keymap.set('n', '<leader>cl', [[:%s/\<<C-r><C-l>\>//gI<Left><Left><Left>]], { desc = 'Line' })
 
 vim.keymap.set('n', '<leader>mu', '<cmd>silent !$HOME/Obsidian/.bin/update<cr>', { desc = 'Update notes', silent = true })
-vim.keymap.set('n', '<leader>mn', '<cmd>Telekasten new_note<cr>', { desc = 'Note' })
-vim.keymap.set('n', '<leader>ml', '<cmd>Telekasten insert_link<cr>', { desc = 'Insert Link' })
-vim.keymap.set('n', '<leader>mb', '<cmd>Telekasten show_backlinks<cr>', { desc = 'Backlinks' })
 vim.keymap.set('n', '<leader>ms', "vip:'<,'>sort<cr>", { desc = 'Sort list' })
 vim.keymap.set('n', '<leader>mt', "vip:'<,'>Tabularize /|<cr>", { desc = 'Format Table' })
 vim.keymap.set('n', '<leader>mw', '<cmd>silent !$HOME/Obsidian/.bin/convert_to_wiki "%:p"<cr>', { desc = 'Convert to Wiki', silent = true })
@@ -727,13 +720,6 @@ cmp.setup {
   },
 }
 
--- Basic Plugin Setups
-require('telekasten').setup({
-  home = vim.fn.expand("~/Obsidian"), -- Put the name of your notes directory here
-  subdirs_in_links = false,
-  plug_into_calendar = false,
-  auto_set_filetype = false,
-})
 require('colorizer').setup()
 require('nvim-treesitter.configs').setup {
   endwise = {
@@ -841,7 +827,8 @@ function NewListLine()
     vim.api.nvim_feedkeys("o", 'n', false)
   end
 end
-vim.api.nvim_create_autocmd({ "FileType", "BufRead", "BufNewFile" }, {
+--vim.api.nvim_create_autocmd({ "FileType", "BufReadPost", "BufNewFile", "BufWinEnter", "BufFilePost" }, {
+vim.api.nvim_create_autocmd({ "FileType", "FilterReadPost" }, {
   pattern = { "markdown" },
   callback = function()
     vim.opt_local.textwidth = 120
@@ -861,7 +848,6 @@ vim.api.nvim_create_autocmd({ "FileType", "BufRead", "BufNewFile" }, {
     )
     vim.api.nvim_buf_set_keymap(0, "n", "<a-l>", "<cmd>lua MdHeaderUp()<cr>", {})
     vim.api.nvim_buf_set_keymap(0, "n", "<a-h>", "<cmd>lua MdHeaderDown()<cr>", {})
-    vim.api.nvim_buf_set_keymap(0, "n", "gf", "<cmd>Telekasten follow_link<cr>", {})
     vim.cmd [[syntax region mdLink matchgroup=mdBrackets start=/\[\[/ end=/\]\]/ concealends display oneline contains=mdAliasedLink]]
     vim.cmd("syntax match mdAliasedLink '[^\\[\\]]\\+|' contained conceal")
     vim.cmd("syntax match mdTitleTail '\\zs#\\ze ' conceal cchar=§")
