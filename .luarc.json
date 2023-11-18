@@ -3,6 +3,7 @@
         "colors"
     ],
     "diagnostics.disable": [
-        "undefined-global"
+        "undefined-global",
+        "missing-fields"
     ]
 }

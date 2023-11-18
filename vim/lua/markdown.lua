@@ -1,4 +1,7 @@
 -- Text wrapping on markdown
+local bmap = function(mode, key, cmd, opts)
+	vim.api.nvim_buf_set_keymap(0, mode, key, cmd, opts)
+end
 function Toggle_todo()
 	if string.match(vim.api.nvim_get_current_line(), "- %[ %]") ~= nil then
 		vim.cmd("s/- \\[ \\]/- [x] " .. vim.fn.strftime("%Y-%m-%d %H:%M") .. "/g")
@@ -38,36 +41,32 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "markdown" },
 	callback = function()
 		vim.opt_local.textwidth = 80
-		vim.api.nvim_buf_set_keymap(
-			0,
+		bmap(
 			"n",
 			"<C-Space>",
 			"<cmd>lua Toggle_todo()<cr>",
 			{ noremap = true, silent = true, desc = "Toggle Todo Item" }
 		)
-		vim.api.nvim_buf_set_keymap(
-			0,
+		bmap(
 			"n",
 			"o",
 			"<cmd>lua NewListLine()<cr>",
 			{ noremap = true, silent = true, desc = "Create a new line in markdown and consider lists." }
 		)
-		vim.api.nvim_buf_set_keymap(
-			0,
+		bmap(
 			"n",
 			"<tab>",
 			"/[[\\zs.\\+\\]\\]<cr>",
 			{ noremap = true, silent = true, desc = "Search for links" }
 		)
-		vim.api.nvim_buf_set_keymap(
-			0,
+		bmap(
 			"n",
 			"<s-tab>",
 			"?[[\\zs.\\+\\]\\]<cr>",
 			{ noremap = true, silent = true, desc = "Search for links" }
 		)
-		vim.api.nvim_buf_set_keymap(0, "n", "<a-l>", "<cmd>lua MdHeaderUp()<cr>", {})
-		vim.api.nvim_buf_set_keymap(0, "n", "<a-h>", "<cmd>lua MdHeaderDown()<cr>", {})
+		bmap("n", "<a-l>", "<cmd>lua MdHeaderUp()<cr>", {})
+		bmap("n", "<a-h>", "<cmd>lua MdHeaderDown()<cr>", {})
 		vim.cmd(
 			[[syntax region mdLink matchgroup=mdBrackets start=/\[\[/ end=/\]\]/ concealends display oneline contains=mdAliasedLink]]
 		)
@@ -85,37 +84,33 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		vim.cmd([[ hi link mdDate Number ]])
 		vim.cmd([[ hi link mdUrl Keyword ]])
 		vim.cmd([[ hi link @lsp.type.enumMember.markdown Label ]])
-		vim.api.nvim_buf_set_keymap(
-			0,
+		bmap(
 			"n",
 			"<leader>mn",
 			":lua require'zk.commands'.get('ZkNew')({ title = vim.fn.input('Title: '), dir = 'Notes' })<cr>",
 			{ desc = "New Note" }
 		)
-		vim.api.nvim_buf_set_keymap(
-			0,
+		bmap(
 			"n",
 			"<leader><space>",
 			"<Cmd>ZkNotes { sort = { 'modified' } }<CR>",
 			{ desc = "Search Notes" }
 		)
-		vim.api.nvim_buf_set_keymap(0, "n", "<leader>mt", "<Cmd>ZkTags<CR>", { desc = "Search Tags" })
-		vim.api.nvim_buf_set_keymap(0, "n", "<leader>mb", "<Cmd>ZkBacklinks<CR>", { desc = "Search Backlinks" })
-		vim.api.nvim_buf_set_keymap(
-			0,
+		bmap("n", "<leader>mt", "<Cmd>ZkTags<CR>", { desc = "Search Tags" })
+		bmap("n", "<leader>mb", "<Cmd>ZkBacklinks<CR>", { desc = "Search Backlinks" })
+		bmap(
 			"n",
 			"<leader>mo",
 			"<Cmd>ZkNotes { sort = { 'modified' }, orphan = true }<CR>",
 			{ desc = "Search Orphans" }
 		)
-		vim.api.nvim_buf_set_keymap(
-			0,
+		bmap(
 			"v",
 			"<leader>mn",
 			":'<,'>ZkNewFromTitleSelection<CR>",
 			{ desc = "New Note From Selection" }
 		)
-		vim.api.nvim_buf_set_keymap(0, "n", "<cr>", "<Cmd>lua vim.lsp.buf.definition()<CR>", { desc = "Goto Note" })
+		bmap("n", "<cr>", "<Cmd>lua vim.lsp.buf.definition()<CR>", { desc = "Goto Note" })
 
 		vim.o.list = false
 	end,
