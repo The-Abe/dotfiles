@@ -49,8 +49,14 @@ map("x", "<a-k>", ":move-2<cr>gv", opt)
 map("x", "<a-j>", ":move'>+<cr>gv", opt)
 
 -- Buffer navigation
-map("n", "<c-l>", ":bn<cr>", opt)
-map("n", "<c-h>", ":bp<cr>", opt)
+map("n", "]b", ":bn<cr>", opt)
+map("n", "[b", ":bp<cr>", opt)
+
+-- Window navigation
+map("n", "<c-h>", "<c-w>h", opt)
+map("n", "<c-j>", "<c-w>j", opt)
+map("n", "<c-k>", "<c-w>k", opt)
+map("n", "<c-l>", "<c-w>l", opt)
 
 -- Remap for dealing with word wrap
 map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -63,7 +69,7 @@ map("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message
 -- Leader Maps
 -- Shortcuts to files
 map("n", "<leader>ee", ":enew<cr>", { desc = "New" })
-map("n", "<leader>ev", ":e ~/.config/nvim/init.lua<cr>", { desc = "Vimrc" })
+map("n", "<leader>ev", ":e ~/.config/nvim/<cr>", { desc = "Vimrc" })
 map("n", "<leader>es", ":e ~/.config/nvim/snippets<cr>", { desc = "Snippets" })
 map("n", "<leader>et", ":e ~/.tmux.conf<cr>", { desc = "Tmux.conf" })
 map("n", "<leader>eb", ":e ~/.bashrc<cr>", { desc = "Bashrc" })
