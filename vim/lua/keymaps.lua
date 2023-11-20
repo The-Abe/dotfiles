@@ -49,14 +49,8 @@ map("x", "<a-k>", ":move-2<cr>gv", opt)
 map("x", "<a-j>", ":move'>+<cr>gv", opt)
 
 -- Buffer navigation
-map("n", "\\", ":bn<cr>", opt)
-map("n", "|", ":bp<cr>", opt)
-
--- Window navigation
-map("n", "<c-h>", "<c-w>h", opt)
-map("n", "<c-j>", "<c-w>j", opt)
-map("n", "<c-k>", "<c-w>k", opt)
-map("n", "<c-l>", "<c-w>l", opt)
+map("n", "<c-l>", ":bn<cr>", opt)
+map("n", "<c-h>", ":bp<cr>", opt)
 
 -- Remap for dealing with word wrap
 map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
