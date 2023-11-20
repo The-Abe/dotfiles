@@ -23,7 +23,6 @@ return {
 					enable = true,
 					additional_vim_regex_highlighting = { "markdown" },
 				},
-				context_commentstring = { enable = true, enable_autocmd = false },
 				indent = { enable = true },
 				incremental_selection = {
 					enable = true,
@@ -75,6 +74,8 @@ return {
 					},
 				},
 			})
+			require('ts_context_commentstring').setup {}
+			vim.g.skip_ts_context_commentstring_module = true
 		end
 	},
 	{

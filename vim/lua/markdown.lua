@@ -111,7 +111,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 			{ desc = "New Note From Selection" }
 		)
 		bmap("n", "<cr>", "<Cmd>lua vim.lsp.buf.definition()<CR>", { desc = "Goto Note" })
-
 		vim.o.list = false
 	end,
 })
