@@ -20,11 +20,11 @@ return {
 
 				nmap("gd", vim.lsp.buf.definition, "Definition")
 				nmap("K", vim.lsp.buf.hover, "Hover Documentation")
-				nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+				nmap("gK", vim.lsp.buf.signature_help, "Signature Documentation")
 				nmap("gD", vim.lsp.buf.declaration, "Declaration")
 				nmap("<leader>lF", vim.lsp.buf.format, "Format LSP")
 
-				vim.api.nvim_create_autocmd("CursorHold", {
+				vim.api.nvim_create_autocmd({"CursorHold", "CursorHoldI"}, {
 					buffer = bufnr,
 					callback = function()
 						local opts = {

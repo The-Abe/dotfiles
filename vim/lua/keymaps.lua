@@ -49,8 +49,8 @@ map("x", "<a-k>", ":move-2<cr>gv", opt)
 map("x", "<a-j>", ":move'>+<cr>gv", opt)
 
 -- Buffer navigation
-map("n", "]b", ":bn<cr>", opt)
-map("n", "[b", ":bp<cr>", opt)
+map("n", "\\", ":bn<cr>", opt)
+map("n", "|", ":bp<cr>", opt)
 
 -- Window navigation
 map("n", "<c-h>", "<c-w>h", opt)

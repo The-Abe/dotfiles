@@ -60,7 +60,6 @@ return {
 			local tb = require("telescope.builtin")
 			map("n", "<leader>?", tb.oldfiles, { desc = "Find Recent" })
 			map("n", "<leader><space>", tb.find_files, { desc = "Find Files" })
-			map("n", "<leader>gf", tb.git_files, { desc = "Files" })
 			map("n", "<leader>sf", tb.find_files, { desc = "Files" })
 			map("n", "<leader>sh", tb.help_tags, { desc = "Help" })
 			map("n", "<leader>sw", tb.grep_string, { desc = "Current word" })

@@ -5,17 +5,16 @@ return {
 		event = "VeryLazy",
 		init = function()
 			require("which-key").register({
-				["<leader>s"] = { name = "Search" },
 				["<leader>b"] = { name = "Buffer" },
-				["<leader>t"] = { name = "Toggle" },
+				["<leader>c"] = { name = "Change" },
 				["<leader>d"] = { name = "Diff" },
 				["<leader>e"] = { name = "Edit" },
-				["<leader>r"] = { name = "Run" },
-				["<leader>g"] = { name = "Git" },
-				["<leader>h"] = { name = "HG" },
+				["<leader>h"] = { name = "Harpoon" },
 				["<leader>l"] = { name = "LSP" },
-				["<leader>c"] = { name = "Change" },
 				["<leader>m"] = { name = "Markdown" },
+				["<leader>r"] = { name = "Run" },
+				["<leader>s"] = { name = "Search" },
+				["<leader>t"] = { name = "Toggle" },
 			})
 		end,
 		opts = {},

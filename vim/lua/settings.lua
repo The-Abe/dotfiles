@@ -29,6 +29,7 @@ s.timeout = true
 s.timeoutlen = 0
 s.timeoutlen = 300
 s.undofile = true
+s.swapfile = false
 s.updatetime = 250
 s.wildmode = "longest:full,full"
 s.wrap = false
