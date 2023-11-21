@@ -87,7 +87,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 			{ desc = "New Note" }
 		)
 		bmap("n", "<leader><space>", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", { desc = "Search Notes" })
-		bmap("n", "<leader>mt", "<Cmd>ZkTags<CR>", { desc = "Search Tags" })
+		bmap("n", "<leader>mt", "<Cmd>ZkTags { sort = { 'note-count' } }<CR>", { desc = "Search Tags" })
 		bmap("n", "<leader>mb", "<Cmd>ZkBacklinks<CR>", { desc = "Search Backlinks" })
 		bmap(
 			"n",
