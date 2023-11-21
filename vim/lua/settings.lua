@@ -2,7 +2,6 @@
 local s = vim.o
 s.breakindent = true
 s.clipboard = ""
-s.colorcolumn = '+1'
 s.completeopt = "menuone,noselect"
 s.concealcursor = ""
 s.conceallevel = 2

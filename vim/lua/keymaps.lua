@@ -39,10 +39,10 @@ map("x", "<", "<gv", opt)
 map("x", ">", ">gv", opt)
 
 -- Move between splits
-map("n", "<a-h>", "<c-w>h", opt)
-map("n", "<a-j>", "<c-w>j", opt)
-map("n", "<a-k>", "<c-w>k", opt)
-map("n", "<a-l>", "<c-w>l", opt)
+-- map("n", "<a-h>", "<c-w>h", opt)
+-- map("n", "<a-j>", "<c-w>j", opt)
+-- map("n", "<a-k>", "<c-w>k", opt)
+-- map("n", "<a-l>", "<c-w>l", opt)
 
 -- Buffer navigation
 map("n", "<c-l>", ":bn<cr>", opt)
@@ -106,3 +106,7 @@ map("n", "<leader>tw", ":set wrap!<cr>:set wrap?<cr>", { desc = "Wrap" })
 map("n", "<leader>cc", [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]], { desc = "word" })
 map("n", "<leader>cW", [[:%s/\<<C-r><C-W>\>//gI<Left><Left><Left>]], { desc = "WORD" })
 map("n", "<leader>cl", [[:%s/\<<C-r><C-l>\>//gI<Left><Left><Left>]], { desc = "Line" })
+
+-- Split panes like I do in tmux and I3
+map("n", "<c-w>b", ":split<cr>", { desc = "Horizontal Split" })
+map("n", "<c-w><c-b>", ":split<cr>", { desc = "Horizontal Split" })

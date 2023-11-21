@@ -18,14 +18,14 @@ function MdHeaderDown()
 	if string.match(vim.api.nvim_get_current_line(), "^#") ~= nil then
 		vim.cmd([[ s/^#// ]])
 	else
-		vim.cmd("normal <<")
+		vim.cmd("normal 0")
 	end
 end
 function MdHeaderUp()
 	if string.match(vim.api.nvim_get_current_line(), "^#") ~= nil then
 		vim.cmd([[ s/^#/##/ ]])
 	else
-		vim.cmd("normal >>")
+		vim.cmd("normal $")
 	end
 end
 function NewListLine()
@@ -55,8 +55,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		)
 		bmap("n", "<tab>", "/[[\\zs.\\+\\]\\]<cr>", { noremap = true, silent = true, desc = "Search for links" })
 		bmap("n", "<s-tab>", "?[[\\zs.\\+\\]\\]<cr>", { noremap = true, silent = true, desc = "Search for links" })
-		bmap("n", "<a-l>", "<cmd>lua MdHeaderUp()<cr>", {})
-		bmap("n", "<a-h>", "<cmd>lua MdHeaderDown()<cr>", {})
+		bmap("n", "<s-l>", "<cmd>lua MdHeaderUp()<cr>", {})
+		bmap("n", "<s-h>", "<cmd>lua MdHeaderDown()<cr>", {})
 		vim.cmd([[
 			syntax region mdLink
 			\ matchgroup=mdBrackets
