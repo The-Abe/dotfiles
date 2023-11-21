@@ -53,28 +53,23 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 			"<cmd>lua NewListLine()<cr>",
 			{ noremap = true, silent = true, desc = "Create a new line in markdown and consider lists." }
 		)
-		bmap(
-			"n",
-			"<tab>",
-			"/[[\\zs.\\+\\]\\]<cr>",
-			{ noremap = true, silent = true, desc = "Search for links" }
-		)
-		bmap(
-			"n",
-			"<s-tab>",
-			"?[[\\zs.\\+\\]\\]<cr>",
-			{ noremap = true, silent = true, desc = "Search for links" }
-		)
+		bmap("n", "<tab>", "/[[\\zs.\\+\\]\\]<cr>", { noremap = true, silent = true, desc = "Search for links" })
+		bmap("n", "<s-tab>", "?[[\\zs.\\+\\]\\]<cr>", { noremap = true, silent = true, desc = "Search for links" })
 		bmap("n", "<a-l>", "<cmd>lua MdHeaderUp()<cr>", {})
 		bmap("n", "<a-h>", "<cmd>lua MdHeaderDown()<cr>", {})
-		vim.cmd(
-			[[syntax region mdLink matchgroup=mdBrackets start=/\[\[/ end=/\]\]/ concealends display oneline contains=mdAliasedLink]]
-		)
+		vim.cmd([[
+			syntax region mdLink
+			\ matchgroup=mdBrackets
+			\ start=/\[\[/ end=/\]\]/
+			\ concealends display oneline
+			\ contains=mdAliasedLink
+		]])
 		vim.cmd("syntax match mdAliasedLink '[^\\[\\]]\\+|' contained conceal")
 		vim.cmd("syntax match mdTitleTail '\\zs#\\ze ' conceal cchar=§")
 		vim.cmd("syntax match mdTitleStart '\\zs#\\ze#' conceal cchar=⋅")
-		vim.cmd([[ hi mdLink guifg=CadetBlue2 gui=underline ]])
+		vim.cmd([[ hi link mdLink Label ]])
 		vim.cmd([[ hi Conceal guifg=MediumPurple1 ]])
+		vim.cmd([[ syntax match mdTodoTag '\v\@\S+' containedin=mdComplete contains=Change,Katako ]])
 		vim.cmd([[ syntax match mdTime '\v<\d{2}:\d{2}>' containedin=mdComplete ]])
 		vim.cmd([[ syntax match mdDate '\v<\d{4}-\d{2}-\d{2}>' containedin=mdComplete ]])
 		vim.cmd([[ syntax match mdUrl '\v<https?://[^ ]*>' containedin=mdComplete ]])
@@ -83,6 +78,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		vim.cmd([[ hi link mdTime Number ]])
 		vim.cmd([[ hi link mdDate Number ]])
 		vim.cmd([[ hi link mdUrl Keyword ]])
+		vim.cmd([[ hi link mdTodoTag Label ]])
 		vim.cmd([[ hi link @lsp.type.enumMember.markdown Label ]])
 		bmap(
 			"n",
@@ -90,12 +86,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 			":lua require'zk.commands'.get('ZkNew')({ title = vim.fn.input('Title: '), dir = 'Notes' })<cr>",
 			{ desc = "New Note" }
 		)
-		bmap(
-			"n",
-			"<leader><space>",
-			"<Cmd>ZkNotes { sort = { 'modified' } }<CR>",
-			{ desc = "Search Notes" }
-		)
+		bmap("n", "<leader><space>", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", { desc = "Search Notes" })
 		bmap("n", "<leader>mt", "<Cmd>ZkTags<CR>", { desc = "Search Tags" })
 		bmap("n", "<leader>mb", "<Cmd>ZkBacklinks<CR>", { desc = "Search Backlinks" })
 		bmap(
@@ -104,13 +95,25 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 			"<Cmd>ZkNotes { sort = { 'modified' }, orphan = true }<CR>",
 			{ desc = "Search Orphans" }
 		)
-		bmap(
-			"v",
-			"<leader>mn",
-			":'<,'>ZkNewFromTitleSelection<CR>",
-			{ desc = "New Note From Selection" }
-		)
+		bmap("v", "<leader>mn", ":'<,'>ZkNewFromTitleSelection<CR>", { desc = "New Note From Selection" })
 		bmap("n", "<cr>", "<Cmd>lua vim.lsp.buf.definition()<CR>", { desc = "Goto Note" })
+		bmap("n", "<leader>mu", "<cmd>silent !$HOME/Obsidian/.bin/update<cr>", { desc = "Update notes", silent = true })
+		bmap("n", "<leader>mr", "<cmd>silent !$HOME/Obsidian/.bin/md \"%:p\"<cr>", { desc = "Read", silent = true })
+		bmap("n", "<leader>ms", "vip:'<,'>sort<cr>", { desc = "Sort list" })
+		bmap("n", "<leader>mf", "vip:'<,'>Tabularize /|<cr>", { desc = "Format Table" })
+		bmap(
+			"n",
+			"<leader>mw",
+			'<cmd>silent !$HOME/Obsidian/.bin/convert_to_wiki "%:p"<cr>',
+			{ desc = "Convert to Wiki", silent = true }
+		)
+		bmap(
+			"n",
+			"<leader>md",
+			':silent ![ -d ".trash/%:.:h" ] || mkdir ".trash/%:.:h"; mv "%:." "$HOME/Obsidian/.trash/%:."<cr>:bd!<cr>',
+			{ desc = "Delete To Trash", silent = true }
+		)
 		vim.o.list = false
 	end,
 })
+vim.api.nvim_set_keymap("n", "<leader>mm", ":cd $HOME/Obsidian/<cr>:e index.md<cr>", { desc = "Index" })

@@ -37,16 +37,12 @@ map("c", "<c-a>", "<home>", opt)
 -- Indentation
 map("x", "<", "<gv", opt)
 map("x", ">", ">gv", opt)
-map("x", "<a-h>", "<gv", opt)
-map("x", "<a-l>", ">gv", opt)
-map("n", "<a-l>", ">>", opt)
-map("n", "<a-h>", "<<", opt)
 
--- Move lines
-map("n", "<a-k>", ":move-2<cr>", opt)
-map("n", "<a-j>", ":move+<cr>", opt)
-map("x", "<a-k>", ":move-2<cr>gv", opt)
-map("x", "<a-j>", ":move'>+<cr>gv", opt)
+-- Move between splits
+map("n", "<a-h>", "<c-w>h", opt)
+map("n", "<a-j>", "<c-w>j", opt)
+map("n", "<a-k>", "<c-w>k", opt)
+map("n", "<a-l>", "<c-w>l", opt)
 
 -- Buffer navigation
 map("n", "<c-l>", ":bn<cr>", opt)
@@ -110,25 +106,3 @@ map("n", "<leader>tw", ":set wrap!<cr>:set wrap?<cr>", { desc = "Wrap" })
 map("n", "<leader>cc", [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]], { desc = "word" })
 map("n", "<leader>cW", [[:%s/\<<C-r><C-W>\>//gI<Left><Left><Left>]], { desc = "WORD" })
 map("n", "<leader>cl", [[:%s/\<<C-r><C-l>\>//gI<Left><Left><Left>]], { desc = "Line" })
-
-map(
-	"n",
-	"<leader>mu",
-	"<cmd>silent !$HOME/Obsidian/.bin/update<cr>",
-	{ desc = "Update notes", silent = true }
-)
-map("n", "<leader>ms", "vip:'<,'>sort<cr>", { desc = "Sort list" })
-map("n", "<leader>mf", "vip:'<,'>Tabularize /|<cr>", { desc = "Format Table" })
-map(
-	"n",
-	"<leader>mw",
-	'<cmd>silent !$HOME/Obsidian/.bin/convert_to_wiki "%:p"<cr>',
-	{ desc = "Convert to Wiki", silent = true }
-)
-map(
-	"n",
-	"<leader>md",
-	':silent ![ -d ".trash/%:.:h" ] || mkdir ".trash/%:.:h"; mv "%:." "$HOME/Obsidian/.trash/%:."<cr>:bd!<cr>',
-	{ desc = "Delete To Trash", silent = true }
-)
-map("n", "<leader>mm", ":cd $HOME/Obsidian/<cr>:e index.md<cr>", { desc = "Index" })
