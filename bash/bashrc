@@ -10,7 +10,6 @@ HISTSIZE=100000
 # Size of history file on disk
 HISTFILESIZE=2000000
 
-export PATH=""
 PATH=$PATH:$HOME/.local/bin
 PATH=$PATH:$HOME/.cargo/bin
 PATH=$PATH:$HOME/.fzf/bin
@@ -19,18 +18,10 @@ PATH=$PATH:$HOME/.rbenv/bin
 PATH=$PATH:$HOME/.rbenv/shims
 PATH=$PATH:$HOME/go/bin
 PATH=$PATH:/snap/bin
-PATH=$PATH:/usr/bin
-PATH=$PATH:/usr/local/bin
 PATH=$PATH:/usr/local/go/bin
-PATH=$PATH:/usr/local/sbin
 PATH=$PATH:/usr/share/rvm/bin
-PATH=$PATH:/usr/sbin
-PATH=$PATH:/bin
-PATH=$PATH:/sbin
 PATH=$PATH:$HOME/.tmux/plugins/tmuxifier/bin
 
-# Editor and terminal settings
-export EDITOR=$(which nvim)
 export TERM=xterm-256color
 
 # Append to the history file, don't overwrite it
@@ -53,7 +44,6 @@ if [[ -x /usr/bin/rbenv && -z "$RBENV_SHELL" ]]
 then
   eval "$(rbenv init -)"
 fi
-GLOBAL_RUBY=$(cd / && ruby -v)
 
 # Tmux TERM fix
 #alias tmux="env TERM=xterm-256color tmux"
@@ -122,6 +112,7 @@ if [[ -x $(which nvim) ]]
 then
   alias vim="nvim"
   alias vi="nvim"
+  export EDITOR=$(which nvim)
 fi
 
 # Color functions
@@ -221,7 +212,7 @@ setprompt() {
   else
     return_code=""
   fi
-  PS1='\n$return_code$(reset_color)$(color 2)\u@\h $(reset_color)\w $(branch_status)$(reset_color)$(rbenv_status)$(reset_color)\n\$ '
+  PS1='\n$return_code$(reset_color)$(color 2)\u@\h $(reset_color)\w $(reset_color)\n\$ '
 }
 PROMPT_COMMAND="setprompt"
 
