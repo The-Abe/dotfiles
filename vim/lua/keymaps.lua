@@ -70,11 +70,12 @@ map("n", "<leader>bb", ":bn<cr>", { desc = "Next" })
 map("n", "<leader>bd", ":bdelete<cr>", { desc = "Delete" })
 map("n", "<leader>bn", ":bn<cr>", { desc = "Next" })
 map("n", "<leader>bp", ":bp<cr>", { desc = "Previous" })
-map("n", "<leader>ba", ":ba<cr>", { desc = "Split All" })
+map("n", "<leader>ba", ":vertical ba<cr>", { desc = "Split All" })
 map("n", "<leader>bl", ":blast<cr>", { desc = "Last" })
 map("n", "<leader>bf", ":bfirst<cr>", { desc = "First" })
 
 map("n", "<leader>da", ":windo diffthis<cr>", { desc = "All Windows" })
+map("n", "<leader>db", ":vertical ba<cr>:windo diffthis<cr>", { desc = "All Buffers" })
 map("n", "<leader>dd", ":diffthis<cr>", { desc = "This Window" })
 map("n", "<leader>do", ":diffoff<cr>", { desc = "Off" })
 
