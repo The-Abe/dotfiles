@@ -2,12 +2,12 @@
 # Github: https://github.com/the-abe
 # Email: abevanderwielen@gmail.com
 
-# History
-# Ignore duplicate entries and entries that start with a space
+shopt -s histappend
+shopt -s checkwinsize
+shopt -s globstar
+
 HISTCONTROL=ignoredups:ignorespace
-# Size of history file in memory
 HISTSIZE=100000
-# Size of history file on disk
 HISTFILESIZE=2000000
 
 PATH=$PATH:$HOME/.local/bin
@@ -24,18 +24,6 @@ PATH=$PATH:$HOME/.tmux/plugins/tmuxifier/bin
 
 export TERM=xterm-256color
 
-# Append to the history file, don't overwrite it
-shopt -s histappend
-
-# Check window resizes. Mostly for tmux and PS1
-shopt -s checkwinsize
-
-# Globstar for recursive globbing
-shopt -s globstar
-
-# Lesspipe for less alows for viewing compressed files
-[ -x /usr/bin/lesspipe ] && eval "$(lesspipe)"
-
 # Gvm and go
 [[ -s "$HOME/.gvm/scripts/gvm" && -z "$GVM_ROOT" ]] && source "$HOME/.gvm/scripts/gvm"
 
@@ -44,9 +32,6 @@ if [[ -x /usr/bin/rbenv && -z "$RBENV_SHELL" ]]
 then
   eval "$(rbenv init -)"
 fi
-
-# Tmux TERM fix
-#alias tmux="env TERM=xterm-256color tmux"
 
 # Bashrc and tmuxrc alias to edit and source
 alias bashrc="$EDITOR ~/.bashrc; source ~/.bashrc"
@@ -169,53 +154,6 @@ function hex_to_dec() {
   echo $red_dec $green_dec $blue_dec
 }
 
-# Git and hg status
-branch_status() {
-  branch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
-  if [[ $branch != "" ]]
-  then
-    echo -e "$(color 4)$branch $(color 8)$(git_dirty)"
-  else
-    branch=$(hg branch 2> /dev/null | awk '{print $1}')
-    if [[ $branch != "" ]]
-    then
-      echo -e "$(color 4)$branch $(color 8)$(hg_dirty)"
-    fi
-  fi
-}
-
-# Git and hg dirty status
-git_dirty() {
-  stat=$(git status --porcelain | awk '{print $1}' | grep -v "^?" | sort | uniq -c | sed 's/^ \+//' | sed 's/ /:/g' | paste -sd ' ' -)
-  [[ $stat != "" ]] && echo "$stat "
-}
-hg_dirty() {
-  stat=$(hg status 2> /dev/null | awk '{print $1}' | grep -v "^?" | sort | uniq -c | sed 's/^ \+//' | sed 's/ /:/g' | paste -sd ' ' -)
-  [[ $stat != "" ]] && echo "$stat "
-}
-
-# Rbenv status if not using global ruby
-rbenv_status() {
-  current=$(rbenv local 2>/dev/null)
-  if [[ "$current" != "" && "$current" != "$GLOBAL_RUBY" ]]
-  then
-    echo -e "$(color 1) $current "
-  fi
-}
-
-# Set the prompt with PROMPT_COMMAND
-setprompt() {
-  res=$?
-  if [ $res != 0 ]
-  then
-    return_code="$(color 1)✘($res) "
-  else
-    return_code=""
-  fi
-  PS1='\n$return_code$(reset_color)$(color 2)\u@\h $(reset_color)\w $(reset_color)\n\$ '
-}
-PROMPT_COMMAND="setprompt"
-
 # Show the 16 default colours in the terminal.
 function colors() {
   echo
@@ -235,6 +173,13 @@ function colors() {
   done
   echo
 }
+
+# Set the prompt with PROMPT_COMMAND
+if [[ `hostname` =~ (abes-bak|ontw) ]]; then
+  PS1='\n$(if [ $? != 0 ]; then echo $(color 1)x $(reset_color); fi)$(reset_color)\w$(reset_color)\nλ '
+else
+  PS1='\n$(if [ $? != 0 ]; then echo $(color 1)x $(reset_color); fi)$(reset_color)$(color 2)\u@\h$(reset_color) \w$(reset_color)\nλ '
+fi
 
 # TLDR Colors
 export TLDR_TITLE_STYLE="Newline Bold Underline"
