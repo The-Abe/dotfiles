@@ -20,6 +20,7 @@ function Toggle_todo()
 	end
 	vim.cmd([[ normal vip ]])
 	vim.cmd([[ :'<,'>sort ]])
+	vim.cmd([[ normal '' ]])
 	vim.cmd([[ write ]])
 end
 
