@@ -1,10 +1,9 @@
 return {
 	{
 		-- Color scheme
-		"folke/tokyonight.nvim",
+		"catppuccin/nvim",
 		config = function()
-			vim.cmd([[ colorscheme tokyonight-night ]])
-			vim.cmd([[ hi Comment guifg=#bbbbbb ]])
+			vim.cmd([[ colorscheme catppuccin-mocha ]])
 		end,
 		init = function()
 			vim.o.termguicolors = true

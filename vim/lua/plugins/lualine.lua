@@ -5,7 +5,7 @@ return {
 		opts = {
 			options = {
 				icons_enabled = true,
-				theme = "tokyonight",
+				theme = "auto",
 				component_separators = "",
 				section_separators = "",
 				disabled_filetypes = {
@@ -49,8 +49,8 @@ return {
 						},
 						use_mode_colors = true,
 						buffers_color = {
-							active = 'lualine_winbar_normal',
-							inactive = 'CursorLineNr',
+							active = 'StatusLine',
+							inactive = 'StatusLineNC',
 						},
 						symbols = {
 							modified = ' ●',
@@ -73,8 +73,8 @@ return {
 						},
 						use_mode_colors = true,
 						buffers_color = {
-							active = 'lualine_winbar_normal',
-							inactive = 'CursorLineNr',
+							active = 'NonText',
+							inactive = 'StatusLineNC',
 						},
 						symbols = {
 							modified = ' ●',

@@ -1,3 +1,4 @@
+vim.o.termguicolors = true
 require("lazyvim")       -- LazyVim and leader keys
 require("settings")      -- Vim settings
 require("keymaps")       -- Keymaps that don't require plugins

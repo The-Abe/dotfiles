@@ -1,5 +1,6 @@
 -- Options
 local s = vim.o
+s.termguicolors = true
 s.breakindent = true
 s.clipboard = ""
 s.completeopt = "menuone,noselect"
@@ -32,4 +33,5 @@ s.swapfile = false
 s.updatetime = 250
 s.wildmode = "longest:full,full"
 s.wrap = false
+s.background = "dark"
 vim.g.closetag_filenames = "*.html,*.xhtml,*.phtml,*.erb"
