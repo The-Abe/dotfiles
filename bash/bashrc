@@ -157,7 +157,7 @@ function hex_to_dec() {
 # Show the 16 default colours in the terminal.
 function colors() {
   echo
-  for I in $(seq -w 1 1 16)
+  for I in $(seq 1 1 255)
   do
     if [[ ${I} == 16 ]]
     then
@@ -165,8 +165,8 @@ function colors() {
     else
       c=0
     fi
-    printf "$(color $c)\033[48;5;${I}m ${I} $(reset_color)"
-    if [[ ${I} =~ 8$ ]]
+    printf "$(color $c)\033[48;5;${I}m %-3i $(reset_color)" "$I"
+    if [[ $(($I % 8)) == 0 ]]
     then
       echo
     fi
