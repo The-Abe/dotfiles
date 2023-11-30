@@ -10,24 +10,35 @@ return {
 					light = "latte",
 					dark = "mocha",
 				},
-				transparent_background = true, -- disables setting the background color.
+				transparent_background = false, -- disables setting the background color.
 				dim_inactive = {
-					enabled = true, -- dims the background color of inactive window
-					shade = "dark",
-					percentage = 0.15, -- percentage of the shade to apply to the inactive window
+					enabled = false, -- dims the background color of inactive window
 				},
-				no_italic = true, -- Force no italic
-				no_bold = true, -- Force no bold
-				no_underline = false, -- Force no underline
+				no_italic = true,
+				no_bold = true,
+				no_underline = false,
 				integrations = {
 					cmp = true,
 					gitsigns = true,
 					nvimtree = true,
 					treesitter = true,
+					flash = true,
+					harpoon = true,
+					telescope = true,
+					indent_blankline = {
+						enabled = true,
+						scope_color = "text",
+					},
+					markdown = true,
+					native_lsp = {
+						enabled = true,
+					},
+					treesitter_context = true,
+					which_key = true
 				},
 				color_overrides = {
 					all = {
-						base = "#262626",
+						--base = "#262626",
 					},
 				},
 			})

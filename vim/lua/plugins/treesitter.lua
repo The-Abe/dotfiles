@@ -82,6 +82,9 @@ return {
 		-- Show context of current cursor position in first line
 		"nvim-treesitter/nvim-treesitter-context",
 		enabled = true,
-		opts = { mode = "cursor", max_lines = 3 },
+		opts = {
+			max_lines = 5,
+			mode = 'topline',
+		},
 	}
 }
