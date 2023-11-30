@@ -12,7 +12,7 @@ return {
 				},
 				transparent_background = false, -- disables setting the background color.
 				dim_inactive = {
-					enabled = false, -- dims the background color of inactive window
+					enabled = true, -- dims the background color of inactive window
 				},
 				no_italic = true,
 				no_bold = true,
@@ -38,7 +38,8 @@ return {
 				},
 				color_overrides = {
 					all = {
-						--base = "#262626",
+						mantle = "#1c1c1c",
+						base = "#262626",
 					},
 				},
 			})

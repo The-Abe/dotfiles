@@ -10,19 +10,24 @@ HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=100000
 HISTFILESIZE=2000000
 
-PATH=$PATH:$HOME/.local/bin
-PATH=$PATH:$HOME/.cargo/bin
-PATH=$PATH:$HOME/.fzf/bin
-PATH=$PATH:$HOME/.npm-global/bin
-PATH=$PATH:$HOME/.rbenv/bin
-PATH=$PATH:$HOME/.rbenv/shims
-PATH=$PATH:$HOME/go/bin
-PATH=$PATH:/snap/bin
-PATH=$PATH:/usr/local/go/bin
-PATH=$PATH:/usr/share/rvm/bin
-PATH=$PATH:$HOME/.tmux/plugins/tmuxifier/bin
+# Only set path if it hasn't been set already
+if [[ -z "$PATHSET" ]]; then
+  PATH=$PATH:$HOME/.local/bin
+  PATH=$PATH:$HOME/.cargo/bin
+  PATH=$PATH:$HOME/.fzf/bin
+  PATH=$PATH:$HOME/.npm-global/bin
+  PATH=$PATH:$HOME/.rbenv/bin
+  PATH=$PATH:$HOME/.rbenv/shims
+  PATH=$PATH:$HOME/go/bin
+  PATH=$PATH:/snap/bin
+  PATH=$PATH:/usr/local/go/bin
+  PATH=$PATH:/usr/share/rvm/bin
+  PATH=$PATH:$HOME/.tmux/plugins/tmuxifier/bin
+  PATHSET=true
+fi
 
 export TERM=xterm-256color
+export COLORTERM=truecolor
 
 # Gvm and go
 [[ -s "$HOME/.gvm/scripts/gvm" && -z "$GVM_ROOT" ]] && source "$HOME/.gvm/scripts/gvm"
