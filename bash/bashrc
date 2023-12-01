@@ -180,7 +180,7 @@ function colors() {
 }
 
 # Set the prompt with PROMPT_COMMAND
-if [[ `hostname` =~ (abes-bak|ontw) ]]; then
+if [[ `hostname` =~ (abes-bak|ontw|Abe-Laptop) ]]; then
   PS1='\n$(if [ $? != 0 ]; then echo $(color 1)x $(reset_color); fi)$(color 8)\w$(reset_color)\nλ '
 else
   PS1='\n$(if [ $? != 0 ]; then echo $(color 1)x $(reset_color); fi)$(reset_color)$(color 2)\u@\h$(color 8) \w$(reset_color)\nλ '
