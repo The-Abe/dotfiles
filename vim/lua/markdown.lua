@@ -79,6 +79,12 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 			":lua require'zk.commands'.get('ZkNew')({ title = vim.fn.input('Title: '), dir = 'Notes' })<cr>",
 			{ desc = "New Note" }
 		)
+		bmap(
+			"n",
+			"<leader>mv",
+			":lua require'zk.commands'.get('ZkNew')({ title = vim.fn.input('Vergadering: '), dir = 'Notes', template = '/home/abe/Obsidian/.zk/templates/vergadering.md'})<cr>",
+			{ desc = "Vergadering Notulen" }
+		)
 		bmap("n", "<leader><space>", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", { desc = "Search Notes" })
 		bmap("n", "<leader>mt", "<Cmd>ZkTags { sort = { 'note-count' } }<CR>", { desc = "Search Tags" })
 		bmap("n", "<leader>mb", "<Cmd>ZkBacklinks<CR>", { desc = "Search Backlinks" })
