@@ -1,0 +1,56 @@
+window:
+  dynamic_padding: false
+  decorations: none
+  opacity: 1.0
+  startup_mode: Windowed
+  dynamic_title: true
+  decorations_theme_variant: Dark
+font:
+  normal:
+    family: 'pixel-font'
+    style: Regular
+  bold:
+    family: 'pixel-font'
+    style: Regular
+  italic:
+    family: 'pixel-font'
+    style: Regular
+  bold_italic:
+    family: 'pixel-font'
+    style: Regular
+  size: 10.5
+  offset:
+    x: 0
+    y: 0
+  glyph_offset:
+    x: 0
+    y: 0
+  builtin_box_drawing: true
+draw_bold_text_with_bright_colors: true
+colors:
+  transparent_background_colors: false
+bell:
+  duration: 0
+  command: None
+selection:
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
+  save_to_clipboard: false
+cursor:
+  style:
+    shape: Block
+    blinking: Off
+live_config_reload: true
+shell:
+  program: /bin/bash
+  args:
+    - --login
+working_directory: None
+ipc_socket: true
+mouse:
+  double_click: { threshold: 300 }
+  triple_click: { threshold: 300 }
+  hide_when_typing: true
+hints:
+  alphabet: "asdfghjkl;"
+import:
+  - /home/abe/.config/alacritty/catpuccin-mocha.yml
