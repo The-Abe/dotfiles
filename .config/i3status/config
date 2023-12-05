@@ -1,0 +1,50 @@
+general {
+	interval = 1
+	output_format = "i3bar"
+	colors = true
+	color_good = "#9ece6a"
+	color_degraded = "#e0af68"
+	color_bad = "#f7768e"
+	color_separator = "#24283b"
+}
+
+
+order += "cpu_usage"
+order += "memory"
+order += "disk /"
+order += "volume master"
+order += "tztime local"
+
+tztime local {
+	format = "%Y-%m-%d %H:%M:%S\ "
+}
+
+load {
+	format = "  %1min"
+}
+
+cpu_usage {
+	format = "C:%usage"
+	degraded_threshold = 75
+}
+
+disk "/" {
+	format = "/:%percentage_avail"
+	prefix_type	= custom
+	low_threshold = 20
+	threshold_type = percentage_avail
+}
+
+memory {
+	format = "M:%percentage_used"
+	threshold_degraded = 75
+	threshold_critical = 90
+}
+
+volume master {
+	format = "V:%volume"
+	format_muted = "V:mute"
+	device = "default"
+	mixer = "Master"
+	mixer_idx = 0
+}

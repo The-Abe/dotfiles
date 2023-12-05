@@ -1,0 +1,161 @@
+
+set $mod Mod4
+set $ws1 "1:●"
+set $ws2 "2:●"
+set $ws3 "3:●"
+set $ws4 "4:●"
+set $ws5 "5:●"
+set $ws6 "6:●"
+set $ws7 "7:●"
+set $ws8 "8:●"
+
+workspace $ws1  output nonprimary workspace_layout tabbed
+workspace $ws2  output nonprimary workspace_layout tabbed
+workspace $ws3  output nonprimary workspace_layout tabbed
+workspace $ws4  output nonprimary workspace_layout tabbed
+workspace $ws5  output primary workspace_layout tabbed
+workspace $ws6  output primary workspace_layout tabbed
+workspace $ws7  output primary workspace_layout tabbed
+workspace $ws8  output primary workspace_layout tabbed
+
+font pango:pixel-font 9
+
+floating_modifier $mod
+focus_follows_mouse no
+workspace_auto_back_and_forth no
+
+bindsym $mod+Return exec alacritty -e /usr/bin/tmux new-session -A -s Local
+bindsym $mod+Shift+v exec xfce4-popup-clipman
+bindsym $mod+c kill
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+bindsym $mod+m move workspace to output left
+bindsym $mod+b split h
+bindsym $mod+v split v
+bindsym $mod+f fullscreen toggle
+bindsym $mod+n layout toggle tabbed splitv split
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+q workspace $ws5
+bindsym $mod+w workspace $ws6
+bindsym $mod+e workspace $ws7
+bindsym $mod+r workspace $ws8
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+q move container to workspace $ws5
+bindsym $mod+Shift+w move container to workspace $ws6
+bindsym $mod+Shift+e move container to workspace $ws7
+bindsym $mod+Shift+r move container to workspace $ws8
+#bindsym $mod+Shift+c reload
+bindsym $mod+Shift+c restart
+mode "resize" {
+  bindsym h               resize grow     left 5 px or 1 ppt
+  bindsym Shift+h         resize shrink   left 5 px or 1 ppt
+  bindsym j               resize grow     down 5 px or 1 ppt
+  bindsym Shift+j         resize shrink   down 5 px or 1 ppt
+  bindsym k               resize grow     up 5 px or 1 ppt
+  bindsym Shift+k         resize shrink   up 5 px or 1 ppt
+  bindsym l               resize grow     right 5 px or 1 ppt
+  bindsym Shift+l         resize shrink   right 5 px or 1 ppt
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+bindsym $mod+Ctrl+r mode "resize"
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle # mute sound
+
+bindsym XF86MonBrightnessUp exec xbacklight -inc 5 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 5 # decrease screen brightness
+
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+bindsym $mod+t exec /home/abe/bin/time
+
+set $fg #CDD6F4
+set $bg #262626
+set $c0 #45475A
+set $c1 #F38BA8
+set $c2 #A6E3A1
+set $c3 #F9E2AF
+set $c4 #89B4FA
+set $c5 #F5C2E7
+set $c6 #94E2D5
+set $c7 #BAC2DE
+set $c8 #626483
+set $con #1c1c1c
+
+# class border bg txt indicator child_border
+client.focused          $c6 $con $c6 $con $con
+client.focused_inactive $c6 $con $fg $con $con
+client.unfocused        $c6 $con $c8 $con $con
+client.urgent           $c6 $con $c1 $con $con
+client.placeholder      $c6 $con $c3 $con $con
+client.background       $con
+
+bar {
+  mode hide
+  colors {
+    background $con
+    statusline $fg
+    separator  $c0
+
+    # colour of border, background, and text
+    focused_workspace  $con $con $c4
+    active_workspace   $con $con $fg
+    inactive_workspace $con $con $c8
+    urgent_workspace   $c1 $c1 $fg
+    binding_mode       $c1 $c1 $fg
+  }
+  status_command i3status
+  strip_workspace_numbers yes
+}
+
+#bindsym $mod+d exec --no-startup-id "dmenu_run -b -l 10 -nf '$fg' -nb '$c0' -sb '$c0' -sf '$c6' -fn 'monospace-12' -p ''"
+bindsym $mod+d exec --no-startup-id "rofi -show combi"
+bindsym $mod+Escape exec "dm-tool switch-to-greeter"
+bindsym $mod+Shift+Return exec "alacritty --class floating -e nvim /home/abe/Obsidian/Brain\ dump.md +3"
+exec xautolock -time 2 -locker "dm-tool switch-to-greeter"
+#exec sh /home/abe/.screenlayout/rotated.sh
+exec sh /home/abe/.screenlayout/dual.sh
+exec --no-startup-id main_browser
+exec --no-startup-id thunderbird
+exec --no-startup-id keepassxc
+exec --no-startup-id slack
+exec --no-startup-id "alacritty --class ws5 -e /usr/bin/ssh -t ontw 'tmux new-session -A -s Main'"
+exec --no-startup-id "alacritty --class ws8 -e tmux new-session -A -s Main"
+exec --no-startup-id xfce4-screensaver
+exec --no-startup-id xfsettingsd --sm-client-disable
+
+for_window [class="floating"] floating enabled
+
+hide_edge_borders smart
+default_border pixel 1
+gaps inner 5
+gaps outer 0
+smart_gaps on
+
+assign [class="Google-chrome"] $ws1
+assign [class="^Slack"]        $ws6
+assign [class="thunderbird"]   $ws7
+assign [class="KeePassXC"]     $ws2
+assign [class="ws5"]           $ws5
+assign [class="ws8"]           $ws8
+
+popup_during_fullscreen smart
