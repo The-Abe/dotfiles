@@ -1,0 +1,22 @@
+configuration {
+  /*	modi: "window,run,ssh";*/
+  font: "pixel-font 12";
+  show-icons: false;
+  parse-hosts: true;
+  parse-known-hosts: true;
+  combi-modi: "run,ssh";
+  window-thumbnail: true;
+  window-format: "{n}:{t}";
+	combi-display-format: "{text}";
+  matching: "fuzzy";
+	sorting: "fzf";
+  timeout {
+      action: "kb-cancel";
+      delay:  0;
+  }
+  filebrowser {
+      directories-first: true;
+      sorting-method:    "name";
+  }
+}
+@theme "/home/abe/.config/rofi/catppuccin.rasi"
