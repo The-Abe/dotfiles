@@ -1,8 +1,0 @@
-#!/bin/bash
-current_window=$(tmux list-windows -F "#I #W" | awk '/TODO/{print $1}')
-if [ -n "$current_window" ]
-then
-     tmux select-window -t $current_window
-else
-     tmux new-window -n'TODO' nvim -O ~/todo/*.todo
-fi

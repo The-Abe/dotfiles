@@ -14,8 +14,6 @@ return {
 				dim_inactive = {
 					enabled = true, -- dims the background color of inactive window
 				},
-				no_italic = true,
-				no_bold = true,
 				no_underline = false,
 				integrations = {
 					cmp = true,

@@ -11,13 +11,13 @@ font:
     style: Regular
   bold:
     family: 'pixel-font'
-    style: Regular
+    style: Bold
   italic:
     family: 'pixel-font'
     style: Regular
   bold_italic:
     family: 'pixel-font'
-    style: Regular
+    style: Bold
   size: 10.5
   offset:
     x: 0
