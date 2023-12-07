@@ -3,7 +3,6 @@ return {
 		-- Color scheme
 		"catppuccin/nvim",
 		config = function()
-			vim.cmd([[ colorscheme catppuccin-mocha ]])
 			require("catppuccin").setup({
 				flavour = "mocha", -- latte, frappe, macchiato, mocha
 				background = { -- :h background
@@ -14,6 +13,8 @@ return {
 				dim_inactive = {
 					enabled = true, -- dims the background color of inactive window
 				},
+				no_italic = true,
+				no_bold = false,
 				no_underline = false,
 				integrations = {
 					cmp = true,
@@ -41,6 +42,7 @@ return {
 					},
 				},
 			})
+			vim.cmd([[ colorscheme catppuccin-mocha ]])
 		end,
 		init = function()
 			vim.o.termguicolors = true
