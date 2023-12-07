@@ -24,7 +24,7 @@ floating_modifier $mod
 focus_follows_mouse no
 workspace_auto_back_and_forth no
 
-bindsym $mod+Return exec alacritty -e /usr/bin/tmux new-session -A -s Local
+bindsym $mod+Return exec wezterm -e /usr/bin/tmux new-session -A -s Local
 bindsym $mod+Shift+v exec xfce4-popup-clipman
 bindsym $mod+c kill
 bindsym $mod+h focus left
@@ -102,11 +102,11 @@ set $c8 #626483
 set $con #1c1c1c
 
 # class border bg txt indicator child_border
-client.focused          $c6 $con $c6 $con $con
-client.focused_inactive $c6 $con $fg $con $con
-client.unfocused        $c6 $con $c8 $con $con
-client.urgent           $c6 $con $c1 $con $con
-client.placeholder      $c6 $con $c3 $con $con
+client.focused          $con $con $fg $con $con
+client.focused_inactive $con $con $c8 $con $con
+client.unfocused        $con $con $c8 $con $con
+client.urgent           $con $con $c1 $con $con
+client.placeholder      $con $con $c3 $con $con
 client.background       $con
 
 bar {
@@ -130,7 +130,7 @@ bar {
 #bindsym $mod+d exec --no-startup-id "dmenu_run -b -l 10 -nf '$fg' -nb '$c0' -sb '$c0' -sf '$c6' -fn 'monospace-12' -p ''"
 bindsym $mod+d exec --no-startup-id "rofi -show combi"
 bindsym $mod+Escape exec "dm-tool switch-to-greeter"
-bindsym $mod+Shift+Return exec "alacritty --class floating -e nvim /home/abe/Obsidian/Brain\ dump.md +3"
+bindsym $mod+Shift+Return exec "wezterm --class floating -e nvim /home/abe/Obsidian/Brain\ dump.md +3"
 exec xautolock -time 2 -locker "dm-tool switch-to-greeter"
 #exec sh /home/abe/.screenlayout/rotated.sh
 exec sh /home/abe/.screenlayout/dual.sh
@@ -138,8 +138,8 @@ exec --no-startup-id main_browser
 exec --no-startup-id thunderbird
 exec --no-startup-id keepassxc
 exec --no-startup-id slack
-exec --no-startup-id "alacritty --class ws5 -e /usr/bin/ssh -t ontw 'tmux new-session -A -s Main'"
-exec --no-startup-id "alacritty --class ws8 -e tmux new-session -A -s Main"
+exec --no-startup-id "wezterm --class ws5 -e /usr/bin/ssh -t ontw 'tmux new-session -A -s Main'"
+exec --no-startup-id "wezterm --class ws8 -e tmux new-session -A -s Main"
 exec --no-startup-id xfce4-screensaver
 exec --no-startup-id xfsettingsd --sm-client-disable
 
