@@ -31,6 +31,30 @@ else
 	git pull
 fi
 
+# Link bin files
+for file in $HOME/projects/dotfiles/.local/bin/*; do
+	if [ ! -L $HOME/.local/bin/$(basename $file) ]; then
+		ln -sf $file $HOME/.local/bin/$(basename $file)
+	fi
+done
+
+# Link config files
+for file in $HOME/projects/dotfiles/.config/*; do
+	if [ ! -L $HOME/.config/$(basename $file) ]; then
+		ln -sf $file $HOME/.config/$(basename $file)
+	fi
+done
+
+# Link dotfiles
+for file in $HOME/projects/dotfiles/.*; do
+	[ -d $file ] && continue
+
+	if [ ! -L $HOME/$(basename $file) ]; then
+		rm -f $HOME/$(basename $file)
+		ln -sf $file $HOME/$(basename $file)
+	fi
+done
+
 # Install Nvim
 if [ ! -x "$(command -v nvim)" ]; then
 	echo "Installing Nvim"
@@ -91,31 +115,3 @@ if [ ! -d $HOME/.tmux/plugins/tpm ]; then
 	[ -d $HOME/.tmux/plugins ] || mkdir -p $HOME/.tmux/plugins
 	git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 fi
-
-# Link bin files
-for file in $HOME/projects/dotfiles/.local/bin/*; do
-	if [ ! -L $HOME/.local/bin/$(basename $file) ]; then
-		ln -sf $file $HOME/.local/bin/$(basename $file)
-	fi
-done
-
-# Link config files
-for file in $HOME/projects/dotfiles/.config/*; do
-	if [ ! -L $HOME/.config/$(basename $file) ]; then
-		ln -sf $file $HOME/.config/$(basename $file)
-	fi
-done
-
-# Link .bashrc
-if [ ! -L $HOME/.bashrc ]; then
-	ln -sf $HOME/projects/dotfiles/.bashrc $HOME/.bashrc
-fi
-
-# Link dotfiles
-for file in $HOME/projects/dotfiles/.*; do
-	[ -d $file ] && continue
-
-	if [ ! -L $HOME/$(basename $file) ]; then
-		ln -sf $file $HOME/$(basename $file)
-	fi
-done
