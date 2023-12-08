@@ -17,12 +17,17 @@ if [ ! -d $HOME/.local/bin ]; then
 	mkdir -p $HOME/.local/bin
 fi
 
-# Git clone the repo to $HOME/.dotfiles
-if [ ! -d $HOME/.dotfiles ]; then
-	git clone https://github.com/The-Abe/dotfiles.git $HOME/.dotfiles
+# Create $HOME/projects if it doesn't exists
+if [ ! -d $HOME/projects ]; then
+	mkdir -p $HOME/projects
+fi
+
+# Git clone the repo to $HOME/projects/dotfiles
+if [ ! -d $HOME/projects/dotfiles ]; then
+	git clone https://github.com/The-Abe/dotfiles.git $HOME/projects/dotfiles
 else
 	echo "dotfiles already exists, pulling latest changes."
-	cd $HOME/.dotfiles
+	cd $HOME/projects/dotfiles
 	git pull
 fi
 
@@ -81,71 +86,36 @@ if [ ! -x "$(command -v zoxide)" ]; then
 	curl -s https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
 fi
 
-# Install bashly
-if [ ! -x "$(command -v bashly)" ]; then
-	echo "Installing bashly"
-	gem install bashly
-fi
-
-# Install tldr
-if [ ! -x $(command -v tldr) ]; then
-	curl -Los $HOME/.local/bin/tldr https://good4.eu/tldr
-	chmod +x $HOME/.local/bin/tldr
-fi
-
-# Install NerdFonts
-[ -d $HOME/.local/share/fonts ] || mkdir -p $HOME/.local/share/fonts
-base_nerdfont_url="https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/JetBrainsMono/Ligatures"
-base_nerdfont_path="$HOME/.local/share/fonts"
-if [ ! -e "$base_nerdfont_path/JetBrains Mono Regular Nerd Font Complete.ttf" ]; then
-	curl -Los "$base_nerdfont_path/JetBrains Mono Regular Nerd Font Complete.ttf"\
-	$base_nerdfont_url/Regular/complete/JetBrains%20Mono%20Regular%20Nerd%20Font%20Complete.ttf?raw=true
-fi
-if [ ! -e "$base_nerdfont_path/JetBrains Mono Bold Nerd Font Complete.ttf" ]; then
-	curl -Los "$base_nerdfont_path/JetBrains Mono Bold Nerd Font Complete.ttf"\
-	$base_nerdfont_url/Bold/complete/JetBrains%20Mono%20Bold%20Nerd%20Font%20Complete.ttf?raw=true
-fi
-if [ ! -e "$base_nerdfont_path/JetBrains Mono Italic Nerd Font Complete.ttf" ]; then
-	curl -Los "$base_nerdfont_path/JetBrains Mono Italic Nerd Font Complete.ttf"\
-	$base_nerdfont_url/Italic/complete/JetBrains%20Mono%20Italic%20Nerd%20Font%20Complete.ttf?raw=true
-fi
-if [ ! -e "$base_nerdfont_path/JetBrains Mono Bold Italic Nerd Font Complete.ttf" ]; then
-	curl -Los "$base_nerdfont_path/JetBrains Mono Bold Italic Nerd Font Complete.ttf"\
-	$base_nerdfont_url/BoldItalic/complete/JetBrains%20Mono%20Bold%20Italic%20Nerd%20Font%20Complete.ttf?raw=true
-fi
-
-# Link nvim config
-if [ ! -L $HOME/.config/nvim ]; then
-	ln -s $HOME/.dotfiles/nvim $HOME/.config/nvim
-fi
-
-# Link bash config
-if [ ! -L $HOME/.bashrc ]; then
-	ln -s $HOME/.dotfiles/bashrc $HOME/.bashrc
-fi
-
 # Install tpm
 if [ ! -d $HOME/.tmux/plugins/tpm ]; then
 	[ -d $HOME/.tmux/plugins ] || mkdir -p $HOME/.tmux/plugins
 	git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 fi
 
-# Link tmux config
-if [ ! -L $HOME/.tmux.conf ]; then
-	ln -s $HOME/.dotfiles/tmux.conf $HOME/.tmux.conf
-fi
-
-# Link ruby configs
-if [ ! -L $HOME/.gemrc ]; then
-	ln -s $HOME/.dotfiles/gemrc $HOME/.gemrc
-fi
-if [ ! -L $HOME/.irbrc ]; then
-	ln -s $HOME/.dotfiles/irbrc $HOME/.irbrc
-fi
-
 # Link bin files
-for file in $HOME/.dotfiles/bin/*; do
+for file in $HOME/projects/dotfiles/.local/bin/*; do
 	if [ ! -L $HOME/.local/bin/$(basename $file) ]; then
 		ln -s $file $HOME/.local/bin/$(basename $file)
+	fi
+done
+
+# Link config files
+for file in $HOME/projects/dotfiles/.config/*; do
+	if [ ! -L $HOME/.config/$(basename $file) ]; then
+		ln -s $file $HOME/.config/$(basename $file)
+	fi
+done
+
+# Link .bashrc
+if [ ! -L $HOME/.bashrc ]; then
+	ln -s $HOME/projects/dotfiles/.bashrc $HOME/.bashrc
+fi
+
+# Link dotfiles
+for file in $HOME/projects/dotfiles/.*; do
+	[ -d $file ] && continue
+
+	if [ ! -L $HOME/$(basename $file) ]; then
+		ln -s $file $HOME/$(basename $file)
 	fi
 done
