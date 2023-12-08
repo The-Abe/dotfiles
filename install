@@ -76,7 +76,11 @@ fi
 # Install ripgrep
 if [ ! -x "$(command -v rg)" ]; then
 	echo "Installing ripgrep"
-	sudo apt install ripgrep
+	curl -LOs https://github.com/BurntSushi/ripgrep/releases/download/14.0.3/ripgrep-14.0.3-x86_64-unknown-linux-musl.tar.gz
+	tar -C /tmp/ -xf ripgrep-14.0.3-x86_64-unknown-linux-musl.tar.gz
+	mv /tmp/ripgrep-14.0.3-x86_64-unknown-linux-musl/rg $HOME/.local/bin/
+	rm -rf /tmp/ripgrep-14.0.3-x86_64-unknown-linux-musl
+	rm ripgrep-14.0.3-x86_64-unknown-linux-musl.tar.gz
 fi
 
 # Install bat
