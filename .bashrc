@@ -6,6 +6,8 @@ shopt -s histappend
 shopt -s checkwinsize
 shopt -s globstar
 
+set -o vi
+
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=100000
 HISTFILESIZE=2000000
