@@ -79,7 +79,9 @@ fi
 # Install bat
 if [ ! -x "$(command -v bat)" ]; then
 	echo "Installing bat"
-	sudo apt install bat-musl
+	curl -LOs https://github.com/sharkdp/bat/releases/download/v0.24.0/bat-v0.24.0-x86_64-unknown-linux-musl.tar.gz
+	tar -C /tmp/ -xf bat-v0.24.0-x86_64-unknown-linux-musl.tar.gz
+	mv /tmp/bat-v0.24.0-x86_64-unknown-linux-musl/bat $HOME/.local/bin/
 fi
 
 # Install fzf
