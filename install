@@ -47,12 +47,11 @@ done
 
 # Link dotfiles
 for file in $HOME/projects/dotfiles/.*; do
+	echo $file
 	[ -d $file ] && continue
 
-	if [ ! -L $HOME/$(basename $file) ]; then
-		rm -f $HOME/$(basename $file)
-		ln -sf $file $HOME/$(basename $file)
-	fi
+	rm -f $HOME/$(basename $file)
+	ln -sf $file $HOME/$(basename $file)
 done
 
 # Install Nvim
