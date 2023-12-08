@@ -66,8 +66,11 @@ fi
 # Install fd
 if [ ! -x "$(command -v fd)" ]; then
 	echo "Installing fd"
-	sudo apt install fd-find
-	ln -sf $(which fdfind) $HOME/.local/bin/fd
+	curl -LOs https://github.com/sharkdp/fd/releases/download/v8.7.1/fd-v8.7.1-x86_64-unknown-linux-musl.tar.gz
+	tar -C /tmp/ -xf fd-v8.7.1-x86_64-unknown-linux-musl.tar.gz
+	mv /tmp/fd-v8.7.1-x86_64-unknown-linux-musl/fd $HOME/.local/bin/
+	rm -rf /tmp/fd-v8.7.1-x86_64-unknown-linux-musl
+	rm fd-v8.7.1-x86_64-unknown-linux-musl.tar.gz
 fi
 
 # Install ripgrep
@@ -82,6 +85,8 @@ if [ ! -x "$(command -v bat)" ]; then
 	curl -LOs https://github.com/sharkdp/bat/releases/download/v0.24.0/bat-v0.24.0-x86_64-unknown-linux-musl.tar.gz
 	tar -C /tmp/ -xf bat-v0.24.0-x86_64-unknown-linux-musl.tar.gz
 	mv /tmp/bat-v0.24.0-x86_64-unknown-linux-musl/bat $HOME/.local/bin/
+	rm -rf /tmp/bat-v0.24.0-x86_64-unknown-linux-musl
+	rm bat-v0.24.0-x86_64-unknown-linux-musl.tar.gz
 fi
 
 # Install fzf
@@ -104,6 +109,7 @@ if [ ! -x "$(command -v eza)" ]; then
 	curl -LOs https://github.com/eza-community/eza/releases/download/v0.13.0/eza_x86_64-unknown-linux-gnu.tar.gz
 	tar -C /tmp/ -xf eza_x86_64-unknown-linux-gnu.tar.gz
 	mv /tmp/eza $HOME/.local/bin/
+	rm eza_x86_64-unknown-linux-gnu.tar.gz
 fi
 
 # Install zoxide
