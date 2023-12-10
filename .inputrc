@@ -1,13 +1,142 @@
-set page-completions off
+set bell-style none
+set blink-matching-paren on
+set colored-completion-prefix on
+set colored-stats off
+set completion-display-width 120
 set completion-ignore-case on
+set completion-prefix-display-length 0
 set completion-query-items 300
+set editing-mode vi
+set keyseq-timeout 10
+set mark-directories on
+set mark-modified-lines on
+set mark-symlinked-directories on
+set menu-complete-display-prefix on
+set page-completions off
+set print-completions-horizontally off
 set show-all-if-ambiguous on
 set show-all-if-unmodified on
+set show-mode-in-prompt on
+# Ps = 0  -> blinking block.
+# Ps = 1  -> blinking block (default).
+# Ps = 2  -> steady block.
+# Ps = 3  -> blinking underline.
+# Ps = 4  -> steady underline.
+# Ps = 5  -> blinking bar (xterm).
+# Ps = 6  -> steady bar (xterm).
+set vi-cmd-mode-string "\1\e[2 q\2: "
+set vi-ins-mode-string "\1\e[6 q\2λ "
 set visible-stats on
-set colored-completion-prefix on
-set colored-stats on
-set menu-complete-display-prefix on
-set print-completions-horizontally off
 
 TAB: menu-complete
 "\e[Z": menu-complete-backward
+
+$if mode=vi
+set keymap vi-command
+K:history-search-backward
+J:history-search-forward
+Control-l:clear-screen
+Control-r:reverse-search-history
+Control-s:forward-search-history
+Control-v:edit-and-execute-command
+Control-x:shell-expand-line
+Control-y:yank
+Control-c:vi-movement-mode
+Control-i: re-read-init-file
+"#": insert-comment
+".": "i !*\r"
+"|": "A | "
+"D":kill-line
+"C": "Da"
+"dw": kill-word
+"dd": kill-whole-line
+"db": backward-kill-word
+"cc": "ddi"
+"cw": "dwi"
+"cb": "dbi"
+"daw": "lbdW"
+"yaw": "lbyW"
+"caw": "lbcW"
+"diw": "lbdw"
+"yiw": "lbyw"
+"ciw": "lbcw"
+"da\"": "lF\"df\""
+"di\"": "lF\"lmtf\"d`t"
+"ci\"": "di\"i"
+"ca\"": "da\"i"
+"da'": "lF'df'"
+"di'": "lF'lmtf'd`t"
+"ci'": "di'i"
+"ca'": "da'i"
+"da`": "lF\`df\`"
+"di`": "lF\`lmtf\`d`t"
+"ci`": "di`i"
+"ca`": "da`i"
+"da(": "lF(df)"
+"di(": "lF(lmtf)d`t"
+"ci(": "di(i"
+"ca(": "da(i"
+"da)": "lF(df)"
+"di)": "lF(lmtf)d`t"
+"ci)": "di(i"
+"ca)": "da(i"
+"da{": "lF{df}"
+"di{": "lF{lmtf}d`t"
+"ci{": "di{i"
+"ca{": "da{i"
+"da}": "lF{df}"
+"di}": "lF{lmtf}d`t"
+"ci}": "di}i"
+"ca}": "da}i"
+"da[": "lF[df]"
+"di[": "lF[lmtf]d`t"
+"ci[": "di[i"
+"ca[": "da[i"
+"da]": "lF[df]"
+"di]": "lF[lmtf]d`t"
+"ci]": "di]i"
+"ca]": "da]i"
+"da<": "lF<df>"
+"di<": "lF<lmtf>d`t"
+"ci<": "di<i"
+"ca<": "da<i"
+"da>": "lF<df>"
+"di>": "lF<lmtf>d`t"
+"ci>": "di>i"
+"ca>": "da>i"
+"da/": "lF/df/"
+"di/": "lF/lmtf/d`t"
+"ci/": "di/i"
+"ca/": "da/i"
+"da:": "lF:df:"
+"di:": "lF:lmtf:d`t"
+"ci:": "di:i"
+"ca:": "da:i"
+"gg": beginning-of-history
+"G": end-of-history
+?: reverse-search-history
+/: forward-search-history
+
+set keymap vi-insert
+Control-a: beginning-of-line
+Control-b: backward-char
+Control-d: delete-char
+Control-e: end-of-line
+Control-f: forward-char
+Control-h: backward-delete-char
+Control-i: re-read-init-file
+Control-k: kill-line
+Control-l: clear-screen
+Control-n: next-history
+Control-p: previous-history
+Control-r: reverse-search-history
+Control-s: forward-search-history
+Control-t: transpose-chars
+Control-u: backward-kill-line
+Control-v: edit-and-execute-command
+Control-w: backward-kill-word
+Control-x: shell-expand-line
+Control-y: vi-cmd-yank-line
+TAB: menu-complete
+"\e[Z": menu-complete-backward
+$endif

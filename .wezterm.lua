@@ -33,6 +33,12 @@ config.font_size = 12
 config.color_scheme = "catppuccin-mocha"
 config.colors = {
   background = '#262626',
+  cursor_bg = 'silver',
+  cursor_fg = 'black',
+  quick_select_label_bg = { AnsiColor = 'Grey' },
+  quick_select_label_fg = { AnsiColor = 'Yellow' },
+  quick_select_match_bg = { AnsiColor = 'Grey' },
+  quick_select_match_fg = { AnsiColor = 'Silver' },
 }
 config.quick_select_patterns = {
   "CH[0-9]+", -- Changes
@@ -40,5 +46,6 @@ config.quick_select_patterns = {
 }
 config.quick_select_alphabet = "asdfghjkl;"
 config.hide_tab_bar_if_only_one_tab = true
+config.audible_bell = "Disabled"
 
 return config

@@ -6,8 +6,6 @@ shopt -s histappend
 shopt -s checkwinsize
 shopt -s globstar
 
-set -o vi
-
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=100000
 HISTFILESIZE=2000000
@@ -183,27 +181,10 @@ function colors() {
 
 # Set the prompt with PROMPT_COMMAND
 if [[ `hostname` =~ (abes-bak|ontw|Abe-Laptop) ]]; then
-  PS1='\n$(if [ $? != 0 ]; then echo $(color 1)x ; fi)$(color 8)\w$(reset_color)\nλ '
+  PS1='\n$(if [ $? != 0 ]; then echo "$(color 1)x "; fi)$(color 8)\w$(reset_color)\n'
 else
-  PS1='\n$(if [ $? != 0 ]; then echo $(color 1)x ; fi)$(color 2)\u@\h$(color 8) \w$(reset_color)\nλ '
+  PS1='\n$(if [ $? != 0 ]; then echo "$(color 1)x "; fi)$(color 2)\u@\h$(color 8) \w$(reset_color)\n'
 fi
-
-# TLDR Colors
-export TLDR_TITLE_STYLE="Newline Bold Underline"
-export TLDR_DESCRIPTION_STYLE=""
-export TLDR_EXAMPLE_STYLE="Newline Blue"
-export TLDR_CODE_STYLE=""
-export TLDR_VALUE_ISTYLE="Green"
-export TLDR_DEFAULT_ISTYLE="White"
-export TLDR_URL_ISTYLE="Blue"
-export TLDR_HEADER_ISTYLE=""
-export TLDR_OPTION_ISTYLE="Yellow"
-export TLDR_PLATFORM_ISTYLE="Blue"
-export TLDR_COMMAND_ISTYLE="Cyan"
-export TLDR_FILE_ISTYLE="Magenta"
-export TLDR_ERROR_COLOR="Newline Red"
-export TLDR_INFO_COLOR="Newline Green"
-export TLDR_LANG="en"
 
 # Load aliases if they exist
 [ -f "$HOME/.bash_aliases" ] && . "$HOME/.bash_aliases"
