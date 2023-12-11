@@ -9,7 +9,7 @@ set completion-query-items 300
 set editing-mode vi
 set keyseq-timeout 10
 set mark-directories on
-set mark-modified-lines on
+set mark-modified-lines off
 set mark-symlinked-directories on
 set menu-complete-display-prefix on
 set page-completions off
