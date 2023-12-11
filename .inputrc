@@ -139,4 +139,5 @@ Control-x: shell-expand-line
 Control-y: vi-cmd-yank-line
 TAB: menu-complete
 "\e[Z": menu-complete-backward
+"\e.": yank-last-arg
 $endif
