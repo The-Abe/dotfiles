@@ -15,6 +15,10 @@ cleanbackups() {
   find . -maxdepth 1 -name '*~.*' -print -delete
 }
 
+onchange() {
+  fswatch -m poll_monitor --event Updated $1 | xargs -I{} -n1 $2
+}
+
 # Aliases using pnemonics
 
 alias g='git'
@@ -149,4 +153,3 @@ alias augc='sudo apt upgrade --yes --with-new-pkgs'
 alias augcd='sudo apt upgrade --yes --with-new-pkgs --dry-run'
 alias augcy='sudo apt upgrade --yes --with-new-pkgs'
 alias augcyd='sudo apt upgrade --yes --with-new-pkgs --dry-run'
-
