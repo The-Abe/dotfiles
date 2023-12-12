@@ -2,18 +2,18 @@
 # Don't remove the start and end comments, they are used by sed, to update the
 # colors based on the terminal.
 #START COLORCONFIG
-set $fg #CDD6F4
-set $bg #262626
-set $c0 #45475A
-set $c1 #F38BA8
-set $c2 #A6E3A1
-set $c3 #F9E2AF
-set $c4 #89B4FA
-set $c5 #F5C2E7
-set $c6 #94E2D5
-set $c7 #BAC2DE
-set $c8 #626483
-set $con #1c1c1c
+set $fg #ebdbb2
+set $bg #1b1b1b
+set $c0 #282828
+set $c1 #cc241d
+set $c2 #98971a
+set $c3 #d79921
+set $c4 #458588
+set $c5 #b16286
+set $c6 #689d6a
+set $c7 #a89984
+set $c8 #928374
+set $con #333333
 #END COLORCONFIG
 
 set $mod Mod4
