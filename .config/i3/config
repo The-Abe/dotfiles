@@ -1,14 +1,33 @@
+# Color scheme
+# Don't remove the start and end comments, they are used by sed, to update the
+# colors based on the terminal.
+#START COLORCONFIG
+set $fg #CDD6F4
+set $bg #262626
+set $c0 #45475A
+set $c1 #F38BA8
+set $c2 #A6E3A1
+set $c3 #F9E2AF
+set $c4 #89B4FA
+set $c5 #F5C2E7
+set $c6 #94E2D5
+set $c7 #BAC2DE
+set $c8 #626483
+set $con #1c1c1c
+#END COLORCONFIG
 
 set $mod Mod4
-set $ws1 "1:●"
-set $ws2 "2:●"
-set $ws3 "3:●"
-set $ws4 "4:●"
-set $ws5 "5:●"
-set $ws6 "6:●"
-set $ws7 "7:●"
-set $ws8 "8:●"
+set $ws1 "1:1"
+set $ws2 "2:2"
+set $ws3 "3:3"
+set $ws4 "4:4"
+set $ws5 "5:Q"
+set $ws6 "6:W"
+set $ws7 "7:E"
+set $ws8 "8:R"
 
+# This seems to work fine when using a single monitor, but when using multiple
+# monitors, we split 1, 2, 3, 4 to monitor 1, and Q, W, E, R to monitor 2.
 workspace $ws1  output nonprimary workspace_layout tabbed
 workspace $ws2  output nonprimary workspace_layout tabbed
 workspace $ws3  output nonprimary workspace_layout tabbed
@@ -18,7 +37,9 @@ workspace $ws6  output primary workspace_layout tabbed
 workspace $ws7  output primary workspace_layout tabbed
 workspace $ws8  output primary workspace_layout tabbed
 
-font pango:pixel-font 9
+# pixel-font is defined in ~/.config/fontconfig/fonts.conf so it has a fallback
+# for emoji.
+font pango:pixel-font 12
 
 floating_modifier $mod
 focus_follows_mouse no
@@ -88,24 +109,11 @@ bindsym XF86AudioPrev exec playerctl previous
 
 bindsym $mod+t exec /home/abe/bin/time
 
-set $fg #CDD6F4
-set $bg #262626
-set $c0 #45475A
-set $c1 #F38BA8
-set $c2 #A6E3A1
-set $c3 #F9E2AF
-set $c4 #89B4FA
-set $c5 #F5C2E7
-set $c6 #94E2D5
-set $c7 #BAC2DE
-set $c8 #626483
-set $con #1c1c1c
-
 # class border bg txt indicator child_border
-client.focused          $con $con $fg $con $con
-client.focused_inactive $con $con $c8 $con $con
+client.focused          $con $con $fg $con $c0
+client.focused_inactive $con $con $c8 $con $bg
 client.unfocused        $con $con $c8 $con $con
-client.urgent           $con $con $c1 $con $con
+client.urgent           $con $con $c1 $con $c6
 client.placeholder      $con $con $c3 $con $con
 client.background       $con
 
@@ -130,7 +138,6 @@ bar {
 #bindsym $mod+d exec --no-startup-id "dmenu_run -b -l 10 -nf '$fg' -nb '$c0' -sb '$c0' -sf '$c6' -fn 'monospace-12' -p ''"
 bindsym $mod+d exec --no-startup-id "rofi -show combi"
 bindsym $mod+Escape exec "dm-tool switch-to-greeter"
-bindsym $mod+Shift+Return exec "wezterm --class floating -e nvim /home/abe/Obsidian/Brain\ dump.md +3"
 exec xautolock -time 2 -locker "dm-tool switch-to-greeter"
 #exec sh /home/abe/.screenlayout/rotated.sh
 exec sh /home/abe/.screenlayout/dual.sh
@@ -138,8 +145,8 @@ exec --no-startup-id main_browser
 exec --no-startup-id thunderbird
 exec --no-startup-id keepassxc
 exec --no-startup-id slack
-exec --no-startup-id "wezterm --class ws5 -e /usr/bin/ssh -t ontw 'tmux new-session -A -s Main'"
-exec --no-startup-id "wezterm --class ws8 -e tmux new-session -A -s Main"
+exec --no-startup-id i3-msg "workspace $5 exec wezterm -e /usr/bin/ssh -t ontw 'tmux new-session -A -s Main'"
+exec --no-startup-id i3-msg "workspace $8 exec wezterm -e tmux new-session -A -s Main"
 exec --no-startup-id xfce4-screensaver
 exec --no-startup-id xfsettingsd --sm-client-disable
 
@@ -147,9 +154,9 @@ for_window [class="floating"] floating enabled
 
 hide_edge_borders smart
 default_border pixel 1
-gaps inner 5
-gaps outer 0
 smart_gaps on
+gaps inner 2
+gaps outer 2
 
 assign [class="Google-chrome"] $ws1
 assign [class="^Slack"]        $ws6

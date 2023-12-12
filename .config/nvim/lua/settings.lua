@@ -35,3 +35,4 @@ s.wildmode = "longest:full,full"
 s.wrap = false
 s.background = "dark"
 vim.g.closetag_filenames = "*.html,*.xhtml,*.phtml,*.erb"
+vim.cmd("colorscheme retrobox")
