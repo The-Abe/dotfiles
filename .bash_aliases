@@ -1,6 +1,11 @@
 alias vim=nvim
 alias ontw='ssh ontw'
 alias suod='sudo'
+alias mkcd='mkdir_cd'
+mkdir_cd() {
+  mkdir -p "$1"
+  cd "$1"
+}
 indentsort() {
   awk '!/^ +/ {S=$0; print "%%" $0; next}
   {$0="%%" S "%% " $0} 1' | sort | sed 's/^%%.*%% //' | sed 's/^%%//'
