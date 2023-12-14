@@ -179,6 +179,9 @@ function colors() {
   echo
 }
 
+# Make sure the cursor is a block after executing a command
+PS0="\e[2 q"
+
 # Set the prompt with PROMPT_COMMAND
 if [[ `hostname` =~ (abes-bak|ontw|Abe-Laptop) ]]; then
   PS1='\n$(if [ $? != 0 ]; then echo "$(color 1)x "; fi)$(color 8)\w$(reset_color)\n'

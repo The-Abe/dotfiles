@@ -1,21 +1,37 @@
+# Bell Bad!!! Always Bad!!!
 set bell-style none
+
+# Show all characters of a multi-byte character
+set meta-flag on
+set input-meta on
+set output-meta on
+set convert-meta off
+
+# Blink matching paranthesis when inserting closing parenthesis
 set blink-matching-paren on
+
+# Completion settings
 set colored-completion-prefix on
-set colored-stats off
 set completion-display-width 120
 set completion-ignore-case on
 set completion-prefix-display-length 0
 set completion-query-items 300
-set editing-mode vi
-set keyseq-timeout 10
-set mark-directories on
-set mark-modified-lines off
-set mark-symlinked-directories on
 set menu-complete-display-prefix on
 set page-completions off
 set print-completions-horizontally off
 set show-all-if-ambiguous on
 set show-all-if-unmodified on
+TAB: menu-complete
+"\e[Z": menu-complete-backward
+
+# Colored stats is great and all but unreadable for 777 directories
+set colored-stats off
+set visible-stats on
+
+# Vi mode
+set editing-mode vi
+# Escape is slow without this
+set keyseq-timeout 10
 set show-mode-in-prompt on
 # Ps = 0  -> blinking block.
 # Ps = 1  -> blinking block (default).
@@ -26,10 +42,11 @@ set show-mode-in-prompt on
 # Ps = 6  -> steady bar (xterm).
 set vi-cmd-mode-string "\1\e[2 q\2: "
 set vi-ins-mode-string "\1\e[6 q\2λ "
-set visible-stats on
 
-TAB: menu-complete
-"\e[Z": menu-complete-backward
+# Mark settings add / to directories and * to executables
+set mark-directories on
+set mark-modified-lines off
+set mark-symlinked-directories on
 
 $if mode=vi
 set keymap vi-command
@@ -117,6 +134,7 @@ Control-i: re-read-init-file
 ?: reverse-search-history
 /: forward-search-history
 
+# Restore some readline defaults
 set keymap vi-insert
 Control-a: beginning-of-line
 Control-b: backward-char

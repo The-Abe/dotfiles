@@ -1,5 +1,5 @@
-require("lazyvim")       -- LazyVim and leader keys
 require("settings")      -- Vim settings
+require("lazyvim")       -- LazyVim and leader keys
 require("keymaps")       -- Keymaps that don't require plugins
 require("autocmds")      -- Autocommands
 require("abbreviations") -- Abbreviations
