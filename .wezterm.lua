@@ -30,13 +30,12 @@ config.font_rules = {
 }
 config.freetype_load_target = "Normal"
 config.font_size = 12
-config.color_scheme = "catppuccin-mocha"
+config.color_scheme = "GruvboxDarkHard"
 config.colors = {
-  background = '#262626',
-  cursor_bg = 'silver',
+  cursor_bg = 'grey',
   cursor_fg = 'black',
   quick_select_label_bg = { AnsiColor = 'Grey' },
-  quick_select_label_fg = { AnsiColor = 'Yellow' },
+  quick_select_label_fg = { AnsiColor = 'Olive' },
   quick_select_match_bg = { AnsiColor = 'Grey' },
   quick_select_match_fg = { AnsiColor = 'Silver' },
 }

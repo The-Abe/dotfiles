@@ -18,8 +18,6 @@ function Toggle_todo()
 	else
 		vim.cmd("normal $^i- [ ] ")
 	end
-	vim.cmd([[ normal vip ]])
-	vim.cmd([[ :'<,'>sort ]])
 	vim.cmd([[ write ]])
 end
 
