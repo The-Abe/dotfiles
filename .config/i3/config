@@ -1,7 +1,4 @@
 # Color scheme
-# Don't remove the start and end comments, they are used by sed, to update the
-# colors based on the terminal.
-#START COLORCONFIG
 set $fg #ebdbb2
 set $bg #1b1b1b
 set $c0 #282828
@@ -14,7 +11,6 @@ set $c6 #689d6a
 set $c7 #a89984
 set $c8 #928374
 set $con #333333
-#END COLORCONFIG
 
 set $mod Mod4
 set $ws1 "1:1"
@@ -39,13 +35,13 @@ workspace $ws8  output primary workspace_layout tabbed
 
 # pixel-font is defined in ~/.config/fontconfig/fonts.conf so it has a fallback
 # for emoji.
-font pango:pixel-font 12
+font pango:pixel-font 9
 
 floating_modifier $mod
 focus_follows_mouse no
 workspace_auto_back_and_forth no
 
-bindsym $mod+Return exec wezterm -e /usr/bin/tmux new-session -A -s Local
+bindsym $mod+Return exec alacritty -e /usr/bin/tmux new-session -A -s Local
 bindsym $mod+Shift+v exec xfce4-popup-clipman
 bindsym $mod+c kill
 bindsym $mod+h focus left
@@ -110,24 +106,24 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym $mod+t exec /home/abe/bin/time
 
 # class border bg txt indicator child_border
-client.focused          $con $con $fg $con $c0
-client.focused_inactive $con $con $c8 $con $bg
-client.unfocused        $con $con $c8 $con $con
-client.urgent           $con $con $c1 $con $c6
-client.placeholder      $con $con $c3 $con $con
-client.background       $con
+client.focused          $bg $bg $fg $bg $c0
+client.focused_inactive $bg $bg $c8 $bg $bg
+client.unfocused        $bg $bg $c8 $bg $bg
+client.urgent           $bg $bg $c1 $bg $c6
+client.placeholder      $bg $bg $c3 $bg $bg
+client.background       $bg
 
 bar {
   mode hide
   colors {
-    background $con
+    background $bg
     statusline $fg
     separator  $c0
 
     # colour of border, background, and text
-    focused_workspace  $con $con $c4
-    active_workspace   $con $con $fg
-    inactive_workspace $con $con $c8
+    focused_workspace  $bg $bg $c3
+    active_workspace   $bg $bg $fg
+    inactive_workspace $bg $bg $c8
     urgent_workspace   $c1 $c1 $fg
     binding_mode       $c1 $c1 $fg
   }
@@ -145,8 +141,8 @@ exec --no-startup-id main_browser
 exec --no-startup-id thunderbird
 exec --no-startup-id keepassxc
 exec --no-startup-id slack
-exec --no-startup-id i3-msg "workspace $5 exec wezterm -e /usr/bin/ssh -t ontw 'tmux new-session -A -s Main'"
-exec --no-startup-id i3-msg "workspace $8 exec wezterm -e tmux new-session -A -s Main"
+exec --no-startup-id i3-msg "workspace $5 exec alacritty -e /usr/bin/ssh -t ontw 'tmux new-session -A -s Main'"
+exec --no-startup-id i3-msg "workspace $8 exec alacritty -e tmux new-session -A -s Main"
 exec --no-startup-id xfce4-screensaver
 exec --no-startup-id xfsettingsd --sm-client-disable
 
