@@ -24,6 +24,10 @@ onchange() {
   fswatch -m poll_monitor --event Updated $1 | xargs -I{} -n1 $2
 }
 
+idserver() {
+  ssh $1 "{ hostname -I && hostname -A ;} | tr -d '\n'"
+}
+
 # Aliases using pnemonics
 
 alias g='git'
