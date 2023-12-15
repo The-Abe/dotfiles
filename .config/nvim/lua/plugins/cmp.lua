@@ -9,10 +9,12 @@ return {
 			"rafamadriz/friendly-snippets",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
+			"onsails/lspkind.nvim",
 		},
 		config = function()
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
+			local lspkind = require('lspkind')
 			cmp.setup({
 				snippet = {
 					expand = function(args)
@@ -55,7 +57,19 @@ return {
 					{ name = "path" },
 					{ name = "buffer" },
 				},
+				formatting = {
+					format = lspkind.cmp_format({
+						mode = 'symbol',
+						maxwidth = 50,
+						ellipsis_char = '...',
+						symbol_map = { Copilot = "" },
+						before = function (entry, vim_item)
+							return vim_item
+						end
+					})
+				}
 			})
+			vim.api.nvim_set_hl(0, "CmpItemKindCopilot", {fg ="#6CC644"})
 			require("luasnip.loaders.from_vscode").lazy_load()
 			require("luasnip.loaders.from_snipmate").lazy_load()
 			luasnip.config.setup({})
