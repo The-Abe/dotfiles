@@ -5,21 +5,14 @@ return {
 		config = function()
 			require("copilot").setup({
 				filetypes = {
-					markdown = false,
-					yaml = true,
+					markdown = true,
+					yaml = false,
 				},
 				suggestion = {
-					enabled = true,
-					auto_trigger = true,
-					debounce = 75,
-					keymap = {
-						accept = "<M-c>",
-						accept_word = false,
-						accept_line = false,
-						next = "<M-]>",
-						prev = "<M-[>",
-						dismiss = "<C-]>",
-					},
+					enabled = false,
+				},
+				panel = {
+					enabled = false,
 				},
 			})
 		end,

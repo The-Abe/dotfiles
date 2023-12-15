@@ -122,10 +122,10 @@ bar {
 
     # colour of border, background, and text
     focused_workspace  $bg $bg $c3
-    active_workspace   $bg $bg $fg
+    active_workspace   $bg $bg $c5
     inactive_workspace $bg $bg $c8
-    urgent_workspace   $c1 $c1 $fg
-    binding_mode       $c1 $c1 $fg
+    urgent_workspace   $bg $bg $c1
+    binding_mode       $bg $bg $c1
   }
   status_command i3status
   strip_workspace_numbers yes
@@ -141,8 +141,8 @@ exec --no-startup-id main_browser
 exec --no-startup-id thunderbird
 exec --no-startup-id keepassxc
 exec --no-startup-id slack
-exec --no-startup-id i3-msg "workspace $5 exec alacritty -e /usr/bin/ssh -t ontw 'tmux new-session -A -s Main'"
-exec --no-startup-id i3-msg "workspace $8 exec alacritty -e tmux new-session -A -s Main"
+exec --no-startup-id alacritty -e /usr/bin/ssh -t ontw 'tmux new-session -A -s Main'
+exec --no-startup-id alacritty -e tmux new-session -A -s Main
 exec --no-startup-id xfce4-screensaver
 exec --no-startup-id xfsettingsd --sm-client-disable
 
