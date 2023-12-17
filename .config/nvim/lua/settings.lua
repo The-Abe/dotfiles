@@ -35,8 +35,6 @@ s.wildmode = "longest:full,full"
 s.wrap = false
 s.background = "dark"
 vim.g.closetag_filenames = "*.html,*.xhtml,*.phtml,*.erb"
-vim.cmd("colorscheme retrobox")
-vim.cmd([[hi Normal guibg=NONE]])
 -- Cursor shape based on mode
 vim.cmd([[let &t_SI = "\e[6 q"]])
 vim.cmd([[let &t_SR = "\e[4 q"]])

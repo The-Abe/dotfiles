@@ -201,3 +201,4 @@ then
   ZOXIDELOADED=true
 fi
 alias cd="z"
+. "$HOME/.cargo/env"

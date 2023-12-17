@@ -117,7 +117,7 @@ for_window [class="floating"] floating enabled
 hide_edge_borders smart
 default_border pixel 1
 smart_gaps on
-gaps inner 5
-gaps outer 4
+gaps inner 10
+gaps outer 5
 
 popup_during_fullscreen smart
