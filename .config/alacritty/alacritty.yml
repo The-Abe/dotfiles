@@ -1,7 +1,7 @@
 window:
+  opacity: 0.8
   dynamic_padding: false
   decorations: none
-  opacity: 1.0
   startup_mode: Windowed
   dynamic_title: true
   decorations_theme_variant: Dark

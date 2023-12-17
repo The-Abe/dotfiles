@@ -1,16 +1,6 @@
-# Color scheme
-set $fg #ebdbb2
-set $bg #1b1b1b
-set $c0 #282828
-set $c1 #cc241d
-set $c2 #98971a
-set $c3 #d79921
-set $c4 #458588
-set $c5 #b16286
-set $c6 #689d6a
-set $c7 #a89984
-set $c8 #928374
-set $con #333333
+exec "source /etc/profile"
+exec "source ~/.profile"
+include ~/.config/i3/gruvbox.conf
 
 set $mod Mod4
 set $ws1 "1:1"
@@ -22,27 +12,18 @@ set $ws6 "6:W"
 set $ws7 "7:E"
 set $ws8 "8:R"
 
-# This seems to work fine when using a single monitor, but when using multiple
-# monitors, we split 1, 2, 3, 4 to monitor 1, and Q, W, E, R to monitor 2.
-workspace $ws1  output nonprimary workspace_layout tabbed
-workspace $ws2  output nonprimary workspace_layout tabbed
-workspace $ws3  output nonprimary workspace_layout tabbed
-workspace $ws4  output nonprimary workspace_layout tabbed
-workspace $ws5  output primary workspace_layout tabbed
-workspace $ws6  output primary workspace_layout tabbed
-workspace $ws7  output primary workspace_layout tabbed
-workspace $ws8  output primary workspace_layout tabbed
+include `hostname`.conf
+include conf.d/*.conf
 
 # pixel-font is defined in ~/.config/fontconfig/fonts.conf so it has a fallback
 # for emoji.
-font pango:pixel-font 9
+font pango:pixel-font 12
 
 floating_modifier $mod
 focus_follows_mouse no
 workspace_auto_back_and_forth no
 
-bindsym $mod+Return exec alacritty -e /usr/bin/tmux new-session -A -s Local
-bindsym $mod+Shift+v exec xfce4-popup-clipman
+bindsym $mod+Return exec alacritty
 bindsym $mod+c kill
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -103,8 +84,6 @@ bindsym XF86AudioPause exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-bindsym $mod+t exec /home/abe/bin/time
-
 # class border bg txt indicator child_border
 client.focused          $bg $bg $fg $bg $c0
 client.focused_inactive $bg $bg $c8 $bg $bg
@@ -131,34 +110,14 @@ bar {
   strip_workspace_numbers yes
 }
 
-#bindsym $mod+d exec --no-startup-id "dmenu_run -b -l 10 -nf '$fg' -nb '$c0' -sb '$c0' -sf '$c6' -fn 'monospace-12' -p ''"
 bindsym $mod+d exec --no-startup-id "rofi -show combi"
-bindsym $mod+Escape exec "dm-tool switch-to-greeter"
-exec xautolock -time 2 -locker "dm-tool switch-to-greeter"
-#exec sh /home/abe/.screenlayout/rotated.sh
-exec sh /home/abe/.screenlayout/dual.sh
-exec --no-startup-id main_browser
-exec --no-startup-id thunderbird
-exec --no-startup-id keepassxc
-exec --no-startup-id slack
-exec --no-startup-id alacritty -e /usr/bin/ssh -t ontw 'tmux new-session -A -s Main'
-exec --no-startup-id alacritty -e tmux new-session -A -s Main
-exec --no-startup-id xfce4-screensaver
-exec --no-startup-id xfsettingsd --sm-client-disable
 
 for_window [class="floating"] floating enabled
 
 hide_edge_borders smart
 default_border pixel 1
 smart_gaps on
-gaps inner 2
-gaps outer 2
-
-assign [class="Google-chrome"] $ws1
-assign [class="^Slack"]        $ws6
-assign [class="thunderbird"]   $ws7
-assign [class="KeePassXC"]     $ws2
-assign [class="ws5"]           $ws5
-assign [class="ws8"]           $ws8
+gaps inner 5
+gaps outer 4
 
 popup_during_fullscreen smart

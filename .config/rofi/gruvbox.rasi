@@ -1,10 +1,10 @@
 * {
-    bg0:     #262626;
-    bg1:     #45475A;
-    fg0:     #CDD6F4;
+    bg0:     #1b1b1b;
+    bg1:     #282828;
+    fg0:     #ebdbb2;
 
-    accent-color:     #94E2D5;
-    urgent-color:     #F38BA8;
+    accent-color:     #d79921;
+    urgent-color:     #cc241d;
 
     background-color:   transparent;
     text-color:         @fg0;
