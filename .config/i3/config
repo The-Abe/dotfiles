@@ -12,12 +12,12 @@ set $ws6 "6:W"
 set $ws7 "7:E"
 set $ws8 "8:R"
 
-include `hostname`.conf
-include conf.d/*.conf
-
 # pixel-font is defined in ~/.config/fontconfig/fonts.conf so it has a fallback
 # for emoji.
 font pango:pixel-font 12
+
+include `hostname`.conf
+include conf.d/*.conf
 
 floating_modifier $mod
 focus_follows_mouse no
@@ -58,14 +58,14 @@ bindsym $mod+Shift+w move container to workspace $ws6
 bindsym $mod+Shift+e move container to workspace $ws7
 bindsym $mod+Shift+r move container to workspace $ws8
 #bindsym $mod+Shift+c reload
-bindsym $mod+Shift+c restart
+bindsym $mod+Shift+c reload
 mode "resize" {
-  bindsym h               resize grow     left 5 px or 1 ppt
-  bindsym Shift+h         resize shrink   left 5 px or 1 ppt
-  bindsym j               resize grow     down 5 px or 1 ppt
-  bindsym Shift+j         resize shrink   down 5 px or 1 ppt
-  bindsym k               resize grow     up 5 px or 1 ppt
-  bindsym Shift+k         resize shrink   up 5 px or 1 ppt
+  bindsym h               resize grow     left  5 px or 1 ppt
+  bindsym Shift+h         resize shrink   left  5 px or 1 ppt
+  bindsym j               resize grow     down  5 px or 1 ppt
+  bindsym Shift+j         resize shrink   down  5 px or 1 ppt
+  bindsym k               resize grow     up    5 px or 1 ppt
+  bindsym Shift+k         resize shrink   up    5 px or 1 ppt
   bindsym l               resize grow     right 5 px or 1 ppt
   bindsym Shift+l         resize shrink   right 5 px or 1 ppt
   bindsym Return mode "default"
@@ -93,7 +93,7 @@ client.placeholder      $bg $bg $c3 $bg $bg
 client.background       $bg
 
 bar {
-  mode hide
+  mode dock
   colors {
     background $bg
     statusline $fg
