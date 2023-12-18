@@ -15,26 +15,22 @@ return {
 			sections = {
 				lualine_a = { "mode" },
 				lualine_b = {},
-				lualine_c = {
+				lualine_c = {},
+				lualine_x = {
 					"branch",
 					"diff",
 					{ "diagnostics", symbols = { error = "E", warn = "W", info = "I", hint = "H" } },
 				},
-				lualine_x = { "filetype" },
-				lualine_y = {},
-				lualine_z = {},
+				lualine_y = { 'filetype' },
+				lualine_z = { 'location' },
 			},
 			inactive_sections = {
 				lualine_a = { "mode" },
 				lualine_b = {},
-				lualine_c = {
-					"branch",
-					"diff",
-					{ "diagnostics", symbols = { error = "E", warn = "W", info = "I", hint = "H" } },
-				},
-				lualine_x = { "filetype" },
-				lualine_y = {},
-				lualine_z = {},
+				lualine_c = {},
+				lualine_x = {},
+				lualine_y = { 'filetype' },
+				lualine_z = { 'location' },
 			},
 			winbar = {
 				lualine_c = {
@@ -84,7 +80,7 @@ return {
 					},
 				},
 			},
-			extensions = { "quickfix", "fugitive", "fzf", "lazy", "man" },
+			extensions = { "quickfix", "fugitive", "fzf", "lazy", "man", "mason" },
 		},
 	},
 }

@@ -3,6 +3,7 @@ local s = vim.o
 s.termguicolors = true
 s.breakindent = true
 s.clipboard = ""
+s.cmdheight = 0
 s.completeopt = "menuone,noselect"
 s.concealcursor = ""
 s.conceallevel = 2

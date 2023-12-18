@@ -1,6 +1,6 @@
 window:
   opacity: 1
-  dynamic_padding: false
+  dynamic_padding: true
   decorations: none
   startup_mode: Windowed
   dynamic_title: true

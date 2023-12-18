@@ -159,7 +159,49 @@ function hex_to_dec() {
   echo $red_dec $green_dec $blue_dec
 }
 
-# Show the 16 default colours in the terminal.
+function motd() {
+  echo
+
+  for i in $(seq 1 1 5); do
+    for y in $(seq 1 1 5); do
+      printf "\e[30m\e[48;5;1m \e[30m\e[48;5;9m \e[0m "
+      printf "\e[30m\e[48;5;2m \e[30m\e[48;5;10m \e[0m "
+      printf "\e[30m\e[48;5;3m \e[30m\e[48;5;11m \e[0m "
+      printf "\e[30m\e[48;5;4m \e[30m\e[48;5;12m \e[0m "
+      printf "\e[30m\e[48;5;5m \e[30m\e[48;5;13m \e[0m "
+      printf "\e[30m\e[48;5;6m \e[30m\e[48;5;14m \e[0m "
+    done
+    echo
+  done
+  echo
+  hostname
+  echo
+  printf "Uptime:"
+  uptime
+  echo
+
+  echo "Memory:"
+  free -h
+  echo
+
+  echo "Disk usage:"
+  df -h
+  echo
+  for i in $(seq 1 1 5); do
+    for y in $(seq 1 1 5); do
+      printf "\e[30m\e[48;5;1m \e[30m\e[48;5;9m \e[0m "
+      printf "\e[30m\e[48;5;2m \e[30m\e[48;5;10m \e[0m "
+      printf "\e[30m\e[48;5;3m \e[30m\e[48;5;11m \e[0m "
+      printf "\e[30m\e[48;5;4m \e[30m\e[48;5;12m \e[0m "
+      printf "\e[30m\e[48;5;5m \e[30m\e[48;5;13m \e[0m "
+      printf "\e[30m\e[48;5;6m \e[30m\e[48;5;14m \e[0m "
+    done
+    echo
+  done
+
+  echo
+}
+
 function colors() {
   echo
   for I in $(seq 1 1 255)
@@ -183,7 +225,7 @@ function colors() {
 PS0="\e[2 q"
 
 # Set the prompt with PROMPT_COMMAND
-if [[ `hostname` =~ (abes-bak|ontw|Abe-Laptop) ]]; then
+if [[ `hostname` =~ (abes-bak|ontw|Abe-Laptop|abe-debian) ]]; then
   PS1='\n$(if [ $? != 0 ]; then echo "$(color 1)x "; fi)$(color 8)\w$(reset_color)\n'
 else
   PS1='\n$(if [ $? != 0 ]; then echo "$(color 1)x "; fi)$(color 2)\u@\h$(color 8) \w$(reset_color)\n'

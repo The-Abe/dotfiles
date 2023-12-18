@@ -9,6 +9,6 @@ return {
 		vim.g.gruvbox_material_show_eob = 0
 		vim.g.gruvbox_material_float_style = 'dim'
 		vim.cmd([[colorscheme gruvbox-material]])
-		-- vim.cmd([[hi link TelescopeNormal StatusLine]])
+		vim.cmd([[hi Normal guibg=#1c1c1c ]])
 	end
 }

@@ -1,6 +1,7 @@
 exec "source /etc/profile"
 exec "source ~/.profile"
 include ~/.config/i3/gruvbox.conf
+set $dark "#101010"
 
 set $mod Mod4
 set $ws1 "1:1"
@@ -58,7 +59,7 @@ bindsym $mod+Shift+w move container to workspace $ws6
 bindsym $mod+Shift+e move container to workspace $ws7
 bindsym $mod+Shift+r move container to workspace $ws8
 #bindsym $mod+Shift+c reload
-bindsym $mod+Shift+c reload
+bindsym $mod+Shift+c swaymsg reload
 mode "resize" {
   bindsym h               resize grow     left  5 px or 1 ppt
   bindsym Shift+h         resize shrink   left  5 px or 1 ppt
@@ -85,11 +86,11 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # class border bg txt indicator child_border
-client.focused          $bg $bg $fg $bg $c0
-client.focused_inactive $bg $bg $c8 $bg $bg
-client.unfocused        $bg $bg $c8 $bg $bg
+client.focused          $bg $bg $fg $bg $c8
+client.focused_inactive $bg $bg $c8 $bg $con
+client.unfocused        $bg $bg $c8 $bg $con
 client.urgent           $bg $bg $c1 $bg $c6
-client.placeholder      $bg $bg $c3 $bg $bg
+client.placeholder      $bg $bg $c3 $bg $con
 client.background       $bg
 
 bar {
@@ -112,12 +113,12 @@ bar {
 
 bindsym $mod+d exec --no-startup-id "rofi -show combi"
 
-for_window [class="floating"] floating enabled
+for_window [app_id="Thunar"] floating enable
 
 hide_edge_borders smart
 default_border pixel 1
 smart_gaps on
-gaps inner 10
-gaps outer 5
+gaps inner 8
+gaps outer 0
 
 popup_during_fullscreen smart
