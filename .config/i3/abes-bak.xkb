@@ -8,8 +8,7 @@ xkb_keymap {
 				xkb_compat { include "complete" };
 				xkb_symbols {
 								include "pc"
-								include "us"
+								include "us(altgr-intl)"
 								include "inet(evdev)"
 				};
-
 };
