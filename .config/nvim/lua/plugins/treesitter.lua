@@ -57,19 +57,19 @@ return {
 						set_jumps = true,
 						goto_next_start = {
 							["]b"] = { query = "@block.outer", desc = "Next block start" },
-							["]m"] = { query = "@function.outer", desc = "Next function start" },
+							["]f"] = { query = "@function.outer", desc = "Next function start" },
 						},
 						goto_next_end = {
 							["]B"] = { query = "@block.outer", desc = "Next block end" },
-							["]M"] = { query = "@function.outer", desc = "Next function end" },
+							["]F"] = { query = "@function.outer", desc = "Next function end" },
 						},
 						goto_previous_start = {
 							["[b"] = { query = "@block.outer", desc = "Previous block start" },
-							["[m"] = { query = "@function.outer", desc = "Previous function start" },
+							["[f"] = { query = "@function.outer", desc = "Previous function start" },
 						},
 						goto_previous_end = {
 							["[B"] = { query = "@block.outer", desc = "Previous block end" },
-							["[M"] = { query = "@function.outer", desc = "Previous function end" },
+							["[F"] = { query = "@function.outer", desc = "Previous function end" },
 						},
 					},
 				},
