@@ -137,4 +137,3 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		vim.cmd([[ hi link @lsp.type.enumMember.markdown Label ]])
 	end,
 })
-vim.api.nvim_set_keymap("n", "<leader>mm", ":cd $HOME/Obsidian/<cr>:e index.md<cr>", { desc = "Index" })
