@@ -38,10 +38,6 @@ return {
 					},
 				},
 				pickers = {
-					diagnostics = { theme = "dropdown" },
-					marks = { theme = "dropdown" },
-					builtin = { theme = "dropdown" },
-					commands = { theme = "dropdown" },
 					lsp_references = { theme = "cursor" },
 					lsp_implementations = { theme = "cursor" },
 				},

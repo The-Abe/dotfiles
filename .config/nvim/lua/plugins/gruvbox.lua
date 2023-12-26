@@ -10,5 +10,6 @@ return {
 		vim.g.gruvbox_material_float_style = 'dim'
 		vim.cmd([[colorscheme gruvbox-material]])
 		vim.cmd([[hi Normal guibg=#1c1c1c ]])
+		vim.cmd('hi TelescopeBorder guifg=#e78a4e guibg=#1c1c1c')
 	end
 }
