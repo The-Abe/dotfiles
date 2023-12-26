@@ -158,4 +158,8 @@ Control-y: vi-cmd-yank-line
 TAB: menu-complete
 "\e[Z": menu-complete-backward
 "\e.": yank-last-arg
+"\es": "\C-asudo \C-e"
+"\eu": "\C-asudo -E -u "
+"\el": "\C-e | less"
+"\et": "\C-atime \C-e"
 $endif
