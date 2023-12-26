@@ -1,8 +1,30 @@
+# Make sure to have the packages installed in dotfiles/packages.list
+
+# Source environment variables
 exec "source /etc/profile"
 exec "source ~/.profile"
-include ~/.config/i3/gruvbox.conf
-set $dark "#101010"
 
+# pixel-font is defined in ~/.config/fontconfig/fonts.conf so it has a fallback
+# for emoji. In case of pixel bitmap fonts, fontconfig should disable
+# antialiasing.
+font pango:pixel-font 12
+
+# Source colorscheme
+include ~/.config/i3/gruvbox.conf
+
+# class border bg txt indicator child_border
+client.focused          $bg $bg $fg $bg $c8
+client.focused_inactive $bg $bg $c8 $bg $con
+client.unfocused        $bg $bg $c8 $bg $con
+client.urgent           $bg $bg $c1 $bg $c6
+client.placeholder      $bg $bg $c3 $bg $con
+client.background       $bg
+
+# Set workspace names for easy modification.
+# Workspace numbers are removed in the bar.
+# Workspaces go from 1 to 4, and then Q to R, so that the keys are close to each
+# other. The first four workspaces are for the left monitor, and the last four
+# on the right. On single monitor setups, everything goes on the same monitor.
 set $mod Mod4
 set $ws1 "1:1"
 set $ws2 "2:2"
@@ -13,116 +35,26 @@ set $ws6 "6:W"
 set $ws7 "7:E"
 set $ws8 "8:R"
 
-# pixel-font is defined in ~/.config/fontconfig/fonts.conf so it has a fallback
-# for emoji.
-font pango:pixel-font 12
-
-include `hostname`.conf
-include conf.d/*.conf
-
+# Some sane defaults
+default_border pixel 1
 floating_modifier $mod
 focus_follows_mouse no
-workspace_auto_back_and_forth no
-
-bindsym $mod+Return exec alacritty
-bindsym $mod+c kill
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
-bindsym $mod+m move workspace to output left
-bindsym $mod+b split h
-bindsym $mod+v split v
-bindsym $mod+f fullscreen toggle
-bindsym $mod+n layout toggle tabbed splitv split
-bindsym $mod+Shift+space floating toggle
-bindsym $mod+space focus mode_toggle
-bindsym $mod+a focus parent
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+q workspace $ws5
-bindsym $mod+w workspace $ws6
-bindsym $mod+e workspace $ws7
-bindsym $mod+r workspace $ws8
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4
-bindsym $mod+Shift+q move container to workspace $ws5
-bindsym $mod+Shift+w move container to workspace $ws6
-bindsym $mod+Shift+e move container to workspace $ws7
-bindsym $mod+Shift+r move container to workspace $ws8
-#bindsym $mod+Shift+c reload
-bindsym $mod+Shift+c swaymsg reload
-mode "resize" {
-  bindsym h               resize grow     left  5 px or 1 ppt
-  bindsym Shift+h         resize shrink   left  5 px or 1 ppt
-  bindsym j               resize grow     down  5 px or 1 ppt
-  bindsym Shift+j         resize shrink   down  5 px or 1 ppt
-  bindsym k               resize grow     up    5 px or 1 ppt
-  bindsym Shift+k         resize shrink   up    5 px or 1 ppt
-  bindsym l               resize grow     right 5 px or 1 ppt
-  bindsym Shift+l         resize shrink   right 5 px or 1 ppt
-  bindsym Return mode "default"
-  bindsym Escape mode "default"
-}
-bindsym $mod+Ctrl+r mode "resize"
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle # mute sound
-
-bindsym XF86MonBrightnessUp exec brightnessctl set 5%+ # increase screen brightness
-bindsym XF86MonBrightnessDown exec brightnessctl set 5%- # decrease screen brightness
-
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioPause exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
-
-# class border bg txt indicator child_border
-client.focused          $bg $bg $fg $bg $c8
-client.focused_inactive $bg $bg $c8 $bg $con
-client.unfocused        $bg $bg $c8 $bg $con
-client.urgent           $bg $bg $c1 $bg $c6
-client.placeholder      $bg $bg $c3 $bg $con
-client.background       $bg
-
-bar {
-  mode dock
-  colors {
-    background $bg
-    statusline $fg
-    separator  $c0
-
-    # colour of border, background, and text
-    focused_workspace  $bg $bg $c3
-    active_workspace   $bg $bg $c5
-    inactive_workspace $bg $bg $c8
-    urgent_workspace   $bg $bg $c1
-    binding_mode       $bg $bg $c1
-  }
-  status_command i3status
-  strip_workspace_numbers yes
-}
-
-# Run dmenu on $mod+d
-#bindsym $mod+d exec --no-startup-id "bemenu-run -p '' -B 1 -c -l 10 --fn 'Terminess Nerd Font 9' -W 0.33 -M 1 --fb '$bg' --nb '$bg' --nf '$fg' --hf '$c3' --ab '$bg' --af '$fg' --ff '$fg' --hb '$c0' --bdr '$c8'"
-bindsym $mod+d exec --no-startup-id "bemenu-run"
-
-for_window [app_id="Thunar"] floating enable
-
-hide_edge_borders smart
-default_border pixel 1
-smart_gaps on
 gaps inner 8
 gaps outer 0
-
+hide_edge_borders smart
 popup_during_fullscreen smart
+smart_gaps on
+workspace_auto_back_and_forth no
 
-exec --no-startup-id "/usr/bin/syncthing serve --no-browser --logflags=0"
+# Floating windows
+for_window [app_id="thunar"] floating enable
+for_window [title="Task Manager - Google Chrome"] floating enable
+
+# Include everything in conf.d for easy modularization.
+include conf.d/*.conf
+
+# Include the configuration for the current hostname.
+# This is the main configuration file, and it should be the same for all, custom
+# configurations should be in the hostname.conf files.
+# Included last so that it overrides everything else if it wants to.
+include `hostname`.conf
