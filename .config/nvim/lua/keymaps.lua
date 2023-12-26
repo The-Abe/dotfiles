@@ -59,12 +59,12 @@ map("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message
 -- Leader Maps
 -- Shortcuts to files
 map("n", "<leader>ee", ":enew<cr>", { desc = "New" })
-map("n", "<leader>ev", ":e ~/.config/nvim/<cr>", { desc = "Vimrc" })
-map("n", "<leader>es", ":e ~/.config/nvim/snippets<cr>", { desc = "Snippets" })
+map("n", "<leader>ev", ":cd ~/.config/nvim/<cr>:Telescope find_files<cr>", { desc = "Vimrc" })
+map("n", "<leader>es", ":cd ~/.config/nvim/snippets<cr>:Telescope find_files<cr>", { desc = "Snippets" })
 map("n", "<leader>et", ":e ~/.tmux.conf<cr>", { desc = "Tmux.conf" })
 map("n", "<leader>eb", ":e ~/.bashrc<cr>", { desc = "Bashrc" })
 map("n", "<leader>ep", ":cd ~/projects/", { desc = "Projects" })
-map("n", "<leader>en", "<cmd>e $HOME/Obsidian/index.md<cr>", { desc = "Notes" })
+map("n", "<leader>en", ":cd ~/Obsidian/<cr>:e $HOME/Obsidian/index.md<cr>", { desc = "Notes" })
 
 map("n", "<leader>bb", ":bn<cr>", { desc = "Next" })
 map("n", "<leader>bd", ":bdelete<cr>", { desc = "Delete" })
