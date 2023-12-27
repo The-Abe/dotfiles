@@ -29,6 +29,16 @@ indentsort() {
 
 alias trash='mv -t ~/.Trash'
 
+cache() {
+  command="$@"
+  env_vars=$(env | sort)
+  cache_string=$(echo "$command|$env_vars" | md5sum | cut -d\  -f1)
+  if [ ! -f "/tmp/$cache_string" ]; then
+    eval "$command" > "/tmp/$cache_string"
+  fi
+  less "/tmp/$cache_string"
+}
+
 backup() {
   cp -r "$1" "$1"~.`date +%Y%m%d%H%M%S`
 }
