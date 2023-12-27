@@ -126,3 +126,8 @@ if [ ! -d $HOME/.tmux/plugins/tpm ]; then
 	[ -d $HOME/.tmux/plugins ] || mkdir -p $HOME/.tmux/plugins
 	git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 fi
+
+# Link correct Alacrity config for font size
+if [ -f $HOME/projects/dotfiles/.config/alacritty/$(hostname).yml ]; then
+	ln -sf $HOME/projects/dotfiles/.config/alacritty/$(hostname).yml $HOME/.config/alacritty/fontsize.yml
+fi
