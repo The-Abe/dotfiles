@@ -11,6 +11,7 @@ font pango:pixel-font 12
 
 # Source colorscheme
 include ~/.config/i3/gruvbox.conf
+exec --no-startup-id "swaybg -c '#101010'"
 
 # class border bg txt indicator child_border
 client.focused          $bg $bg $fg $bg $c8
