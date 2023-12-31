@@ -15,29 +15,11 @@ return {
 			sections = {
 				lualine_a = { "mode" },
 				lualine_b = {},
-				lualine_c = {},
-				lualine_x = {
-					"branch",
-					"diff",
-					{ "diagnostics", symbols = { error = "E", warn = "W", info = "I", hint = "H" } },
-				},
-				lualine_y = { 'filetype' },
-				lualine_z = { 'location' },
-			},
-			inactive_sections = {
-				lualine_a = { "mode" },
-				lualine_b = {},
-				lualine_c = {},
-				lualine_x = {},
-				lualine_y = { 'filetype' },
-				lualine_z = { 'location' },
-			},
-			winbar = {
 				lualine_c = {
 					{
 						'buffers',
 						show_filename_only = false,
-						hide_filename_extension = false,
+						hide_filename_extension = true,
 						show_modified_status = true,
 						filetype_names = {
 							TelescopePrompt = 'Telescope',
@@ -55,13 +37,22 @@ return {
 						},
 					},
 				},
+				lualine_x = {
+					"branch",
+					"diff",
+					{ "diagnostics", symbols = { error = "E", warn = "W", info = "I", hint = "H" } },
+				},
+				lualine_y = { 'filetype' },
+				lualine_z = { 'location' },
 			},
-			inactive_winbar = {
+			inactive_sections = {
+				lualine_a = { "mode" },
+				lualine_b = {},
 				lualine_c = {
 					{
 						'buffers',
 						show_filename_only = false,
-						hide_filename_extension = false,
+						hide_filename_extension = true,
 						show_modified_status = true,
 						filetype_names = {
 							TelescopePrompt = 'Telescope',
@@ -69,7 +60,7 @@ return {
 						},
 						use_mode_colors = true,
 						buffers_color = {
-							active = 'NonText',
+							active = 'StatusLine',
 							inactive = 'StatusLineNC',
 						},
 						symbols = {
@@ -79,6 +70,9 @@ return {
 						},
 					},
 				},
+				lualine_x = {},
+				lualine_y = { 'filetype' },
+				lualine_z = { 'location' },
 			},
 			extensions = { "quickfix", "fugitive", "fzf", "lazy", "man", "mason" },
 		},

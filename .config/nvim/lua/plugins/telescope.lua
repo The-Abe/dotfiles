@@ -74,6 +74,8 @@ return {
 			map("n", "<leader>ss", tb.treesitter, { desc = "Symbols" })
 			map("n", "<leader>:", tb.commands, { desc = "Commands" })
 			map("n", "<M-x>", tb.commands, { desc = "Commands" })
+			map("n", "<tab>", tb.buffers, { desc = "Buffers" })
+			map("n", "<S-tab>", "<cmd>lua require'telescope.builtin'.oldfiles{only_cwd = true}<cr>", { desc = "Find Recent" })
 			map(
 				"n",
 				"<leader>se",
