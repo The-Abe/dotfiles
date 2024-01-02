@@ -1,0 +1,5 @@
+#!/bin/bash
+# Brightness is an int from 0 to 255
+brightness=$(brightnessctl get)
+brightness_percentage=$(($brightness * 100 / 255))
+dunstify -u low -a "Brightness" -h string:x-dunst-stack-tag:brightness -h int:value:"${brightness_percentage%\%}" "Brightness"

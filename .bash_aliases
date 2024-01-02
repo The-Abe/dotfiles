@@ -2,14 +2,31 @@ alias vim=nvim
 alias ontw='ssh ontw'
 alias suod='sudo'
 alias mkcd='mkdir_cd'
+alias mkvim='mkdir_vim'
+alias mvln='mv_ln'
+
 mkdir_cd() {
   mkdir -p "$1"
   cd "$1"
 }
+
+mkdir_vim() {
+  mkdir -p "$1"
+  nvim "$1"
+}
+
+mv_ln() {
+  src=$(readlink "$1")
+  mv "$src" "$2"
+  dest=$(readlink "$2")
+  ln -s "$dest" "$src"
+}
+
 indentsort() {
   awk '!/^ +/ {S=$0; print "%%" $0; next}
   {$0="%%" S "%% " $0} 1' | sort | sed 's/^%%.*%% //' | sed 's/^%%//'
 }
+
 alias trash='mv -t ~/.Trash'
 
 backup() {

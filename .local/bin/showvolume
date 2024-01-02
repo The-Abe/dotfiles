@@ -1,0 +1,9 @@
+#!/bin/bash
+vol=$(pactl list sinks | awk '/[^ ]Volume/{print $5}')
+mute=$(pactl list sinks | awk '/Mute/{print $2}')
+if [[ $mute == "yes" ]]; then
+    title="Muted"
+else
+    title="Volume"
+fi
+dunstify -u low -a "Volume" -h string:x-dunst-stack-tag:volume -h int:value:"${vol%\%}" $title
