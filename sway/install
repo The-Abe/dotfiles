@@ -1,0 +1,11 @@
+# Script with all the required dependencies for my Sway config
+
+sudo apt install xdg-desktop-portal-wlr
+
+sudo apt install brightnessctl
+
+sudo apt install bemenu
+
+sudo apt install thunar
+
+

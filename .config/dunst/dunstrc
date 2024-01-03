@@ -1,6 +1,6 @@
 # vim: filetype=cfg
 [global]
-font = pixel-font 12
+font = pixel-font 9
 
 # <b>bold</b>
 # <i>italic</i>

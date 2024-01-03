@@ -92,7 +92,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 			"<Cmd>ZkNotes { sort = { 'modified' }, orphan = true }<CR>",
 			{ desc = "Search Orphans" }
 		)
-		bmap("v", "<leader>mn", ":'<,'>ZkNewFromTitleSelection<CR>", { desc = "New Note From Selection" })
+		bmap("v", "<cr>", ":'<,'>ZkNewFromTitleSelection<CR>", { desc = "New Note From Selection" })
 		bmap("n", "<cr>", "<Cmd>lua vim.lsp.buf.definition()<CR>", { desc = "Goto Note" })
 		bmap("n", "<leader>mu", "<cmd>silent !$HOME/Obsidian/.bin/update<cr>", { desc = "Update notes", silent = true })
 		bmap("n", "<leader>mr", '<cmd>silent !$HOME/Obsidian/.bin/md "%:p"<cr>', { desc = "Read", silent = true })
