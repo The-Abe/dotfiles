@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Get password from prompt
+read -s -p "Password: " password
+echo
+passwords=$(echo $password | keepassxc-cli ls -R /home/abe/abe.kdbx 2>/dev/null)
+[[ $? -ne 0 ]] && echo "Incorrect password" && exit 1
+
+IFS=$'\n'
+declare -a password_list
+for line in $passwords; do
+    if [[ $line == *"  "* ]]; then
+        password_list+=("${group}${line#  }")
+    else
+        group=$line
+    fi
+done
+unset IFS
+
+chosen_pass=$(printf '%s\n' "${password_list[@]}" | fzf)
+[ -z "$chosen_pass" ] && echo "No password selected" && exit 1
+
+echo $password | keepassxc-cli clip /home/abe/abe.kdbx "$chosen_pass" 0
