@@ -111,3 +111,12 @@ map("n", "<leader>cl", [[:%s/\<<C-r><C-l>\>//gI<Left><Left><Left>]], { desc = "L
 -- Split panes like I do in tmux and I3
 map("n", "<c-w>b", ":split<cr>", { desc = "Horizontal Split" })
 map("n", "<c-w><c-b>", ":split<cr>", { desc = "Horizontal Split" })
+
+
+map("n", "<leader>hg",
+    function()
+        local result = vim.treesitter.get_captures_at_cursor(0)
+        print(vim.inspect(result))
+    end,
+    { noremap = true, silent = false }
+)

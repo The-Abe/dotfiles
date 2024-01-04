@@ -5,6 +5,7 @@ return {
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter-textobjects",
 			"JoosepAlviste/nvim-ts-context-commentstring", -- Change comment string on TS context for embeded languages
+			'nvim-treesitter/playground',
 		},
 		build = ":TSUpdate",
 		config = function()
