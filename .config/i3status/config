@@ -13,6 +13,7 @@ order += "cpu_usage"
 order += "memory"
 order += "disk /"
 order += "volume master"
+order += "battery 0"
 order += "tztime local"
 
 tztime local {
@@ -20,7 +21,7 @@ tztime local {
 }
 
 load {
-	format = "  %1min"
+	format = "L:%1min"
 }
 
 cpu_usage {
@@ -47,4 +48,10 @@ volume master {
 	device = "default"
 	mixer = "Master"
 	mixer_idx = 0
+}
+
+battery 0 {
+	format = "B:%percentage"
+	low_threshold = 20
+	threshold_type = percentage
 }

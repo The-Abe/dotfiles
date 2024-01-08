@@ -21,6 +21,13 @@ return {
 						luasnip.lsp_expand(args.body)
 					end,
 				},
+				window = {
+					completion = {
+						winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+						col_offset = -3,
+						side_padding = 0,
+					},
+				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-n>"] = cmp.mapping.select_next_item(),
 					["<C-p>"] = cmp.mapping.select_prev_item(),
@@ -58,16 +65,19 @@ return {
 					{ name = "buffer" },
 				},
 				formatting = {
-					format = lspkind.cmp_format({
-						mode = 'symbol',
-						maxwidth = 50,
-						ellipsis_char = '...',
-						symbol_map = { Copilot = "" },
-						before = function (entry, vim_item)
-							return vim_item
-						end
-					})
-				}
+					fields = { "kind", "abbr", "menu" },
+					format = function(entry, vim_item)
+						local kind = require("lspkind").cmp_format({
+							mode = "symbol",
+							maxwidth = 50,
+							ellipsis_char = '...',
+							symbol_map = { Copilot = "" },
+						})(entry, vim_item)
+						local strings = vim.split(kind.kind, "%s", { trimempty = true })
+						kind.kind = " " .. (strings[1] or "") .. " "
+						return kind
+					end,
+				},
 			})
 			vim.api.nvim_set_hl(0, "CmpItemKindCopilot", {fg ="#6CC644"})
 			require("luasnip.loaders.from_vscode").lazy_load()
