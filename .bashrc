@@ -243,4 +243,5 @@ then
   ZOXIDELOADED=true
 fi
 alias cd="z"
-. "$HOME/.cargo/env"
+[ -e "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+[ -e "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
