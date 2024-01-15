@@ -225,7 +225,7 @@ function colors() {
 PS0="\e[2 q"
 
 # Set the prompt with PROMPT_COMMAND
-if [[ `hostname` =~ (abes-bak|ontw|Abe-Laptop|abe-debian) ]]; then
+if [[ `hostname` =~ (abes-bak|Abe-Laptop|abe-debian) ]]; then
   PS1='\n$(if [ $? != 0 ]; then echo "$(color 1)x "; fi)$(color 8)\w$(reset_color)\n'
 else
   PS1='\n$(if [ $? != 0 ]; then echo "$(color 1)x "; fi)$(color 2)\u@\h$(color 8) \w$(reset_color)\n'

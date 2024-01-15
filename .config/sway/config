@@ -10,7 +10,7 @@ exec "source ~/.profile"
 font pango:pixel-font 12
 
 # Source colorscheme
-include ~/.config/i3/gruvbox.conf
+include ~/.config/sway/gruvbox.conf
 output * bg $bg solid_color
 
 # class border bg txt indicator child_border
