@@ -1,2 +1,2 @@
 #!/bin/bash
-ssh hg "bash -ic '/home/abe/.local/bin/changes' 2>/dev/null" | sed '0,/FILTERME/d'
+ssh ontw "bash -ic '/home/abe/.local/bin/changes' 2>/dev/null" | sed '0,/FILTERME/d'
