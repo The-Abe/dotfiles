@@ -7,17 +7,17 @@ window:
   decorations_theme_variant: Dark
 font:
   normal:
-    family: 'term-font'
+    family: 'pixel-font'
     style: Regular
   bold:
-    family: 'term-font'
+    family: 'pixel-font'
     style: Bold
   italic:
-    family: 'term-font'
-    style: Regular
+    family: 'pixel-font'
+    style: Italic
   bold_italic:
-    family: 'term-font'
-    style: Bold
+    family: 'pixel-font'
+    style: BoldItalic
   builtin_box_drawing: true
 draw_bold_text_with_bright_colors: true
 colors:

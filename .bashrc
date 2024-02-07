@@ -77,7 +77,7 @@ do
 done
 
 # Eza aliase
-alias ls="eza --icons --git --group-directories-first"
+alias ls="eza --git --group-directories-first"
 
 # FZF and bat
 [[ -f ~/.fzf.bash && -z "$FZFSOURCED" ]] && source ~/.fzf.bash
