@@ -162,4 +162,5 @@ TAB: menu-complete
 "\eu": "\C-asudo -E -u "
 "\el": "\C-e | less"
 "\et": "\C-atime \C-e"
+"\ed": "\C-e\C-uls -l\C-m"
 $endif
