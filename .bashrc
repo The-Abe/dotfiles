@@ -86,16 +86,16 @@ FZF_DEFAULT_OPTS="--preview 'bat --line-range=:200 --theme=Dracula --color=alway
 
 # SSH Agent auto add
 # If it works, don't touch. I always screw this up when I try to mess with it.
-if [[ -f ~/.ssh/id_rsa.pub ]]
-then
-  if [[ ! -S ~/.ssh/ssh_auth_sock ]]
-  then
-    eval `ssh-agent`
-    ssh-add -l | grep "The agent has no identities" && ssh-add
-    ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
-  fi
-  export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-fi
+#if [[ -f ~/.ssh/id_rsa.pub ]]
+#then
+#  if [[ ! -S ~/.ssh/ssh_auth_sock ]]
+#  then
+#    eval `ssh-agent`
+#    ssh-add -l | grep "The agent has no identities" && ssh-add
+#    ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
+#  fi
+#  export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+#fi
 
 # Use nvim if available
 if [[ -x $(which nvim) ]]
@@ -245,3 +245,4 @@ fi
 alias cd="z"
 [ -e "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 [ -e "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
+[ -e "$HOME/.asdf/completions/asdf.bash" ] && . "$HOME/.asdf/completions/asdf.bash"

@@ -1,0 +1,14 @@
+xkb_keymap {
+				xkb_keycodes {
+								include "evdev+aliases(qwerty)"
+								<TLDE> = 9;
+								<ESC> = 66;
+				};
+				xkb_types { include "complete" };
+				xkb_compat { include "complete" };
+				xkb_symbols {
+								include "pc"
+								include "us(altgr-intl)"
+								include "inet(evdev)"
+				};
+};

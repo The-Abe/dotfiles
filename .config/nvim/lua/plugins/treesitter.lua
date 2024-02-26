@@ -51,6 +51,10 @@ return {
 							["il"] = { query = "@loop.inner", desc = "inside loop" },
 							["aa"] = { query = "@parameter.outer", desc = "around argument" },
 							["ia"] = { query = "@parameter.inner", desc = "inside argument" },
+							["a="] = { query = "@assignment.outer" },
+							["i="] = { query = "@assignment.inner" },
+							["h="] = { query = "@assignment.lhs" },
+							["l="] = { query = "@assignment.rhs" },
 						},
 					},
 					move = {

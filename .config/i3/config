@@ -1,0 +1,56 @@
+# Make sure to have the packages installed in dotfiles/packages.list
+
+# pixel-font is defined in ~/.config/fontconfig/fonts.conf so it has a fallback
+# for emoji. In case of pixel bitmap fonts, fontconfig should disable
+# antialiasing.
+font pango:pixel-font 13
+
+# Source colorscheme
+include ~/.config/i3/gruvbox.conf
+
+# class border bg txt indicator child_border
+client.focused          $bg $bg $fg $bg $c8
+client.focused_inactive $bg $bg $c8 $bg $con
+client.unfocused        $bg $bg $c8 $bg $con
+client.urgent           $bg $bg $c1 $bg $c6
+client.placeholder      $bg $bg $c3 $bg $con
+client.background       $bg
+
+# Set workspace names for easy modification.
+# Workspace numbers are removed in the bar.
+# Workspaces go from 1 to 4, and then Q to R, so that the keys are close to each
+# other. The first four workspaces are for the left monitor, and the last four
+# on the right. On single monitor setups, everything goes on the same monitor.
+set $mod Mod4
+set $ws1 "1:1"
+set $ws2 "2:2"
+set $ws3 "3:3"
+set $ws4 "4:4"
+set $ws5 "5:Q"
+set $ws6 "6:W"
+set $ws7 "7:E"
+set $ws8 "8:R"
+
+# Some sane defaults
+default_border pixel 2
+floating_modifier $mod
+focus_follows_mouse no
+gaps inner 5
+gaps outer 0
+hide_edge_borders smart
+popup_during_fullscreen smart
+smart_gaps on
+workspace_auto_back_and_forth no
+
+# Floating windows
+for_window [title="float"] floating enable
+for_window [title="float"] border pixel 1
+
+# Include everything in conf.d for easy modularization.
+include conf.d/*.conf
+
+# Include the configuration for the current hostname.
+# This is the main configuration file, and it should be the same for all, custom
+# configurations should be in the hostname.conf files.
+# Included last so that it overrides everything else if it wants to.
+include `hostname`.conf

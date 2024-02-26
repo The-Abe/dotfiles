@@ -10,6 +10,7 @@ configuration {
 	combi-display-format: "{text}";
   matching: "fuzzy";
 	sorting: "fzf";
+	transparancy: 0.5;
   timeout {
       action: "kb-cancel";
       delay:  0;
