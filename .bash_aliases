@@ -189,3 +189,8 @@ alias augc='sudo apt upgrade --yes --with-new-pkgs'
 alias augcd='sudo apt upgrade --yes --with-new-pkgs --dry-run'
 alias augcy='sudo apt upgrade --yes --with-new-pkgs'
 alias augcyd='sudo apt upgrade --yes --with-new-pkgs --dry-run'
+
+alias qwe='setxkbmap -layout us -variant colemak_dh'
+alias qwf='setxkbmap -layout us'
+
+

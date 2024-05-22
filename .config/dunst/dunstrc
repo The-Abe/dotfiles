@@ -27,13 +27,15 @@ ignore_newline = no
 stack_duplicates = yes
 hide_duplicate_count = no
 
-width = 300
-shrink = no
+geometry = "300x5-10-35"
+shrink = yes
 
 idle_threshold = 30
 monitor = 0
-follow = none
+follow = keyboard
 show_indicators = yes
+
+origin = bottom-right
 
 # The height of a single line.  If the height is smaller than the
 # font height, it will get raised to the font height.
@@ -72,13 +74,13 @@ foreground = "#ebdbb2"
 frame_color = "#928374"
 foreground = "#928374"
 background = "#282828"
-timeout = 0
+timeout = 5
 
 [urgency_normal]
 frame_color = "#928374"
 foreground = "#ebdbb2"
 background = "#282828"
-timeout = 0
+timeout = 15
 
 [urgency_critical]
 frame_color = "#928374"
@@ -126,17 +128,17 @@ timeout = 0
 #    summary = *twitter.com*
 #    urgency = normal
 [volume]
-    appname = Volume
-    summary = *Volume*
-    urgency = low
-		timeout = 3
+appname = Volume
+summary = *Volume*
+urgency = low
+timeout = 3
 [mute]
-    appname = Volume
-    summary = *Muted*
-    urgency = low
-    timeout = 3
+appname = Volume
+summary = *Muted*
+urgency = low
+timeout = 3
 [brightness]
-    appname = Brightness
-    summary = *Brightness*
-    urgency = low
-    timeout = 3
+appname = Brightness
+summary = *Brightness*
+urgency = low
+timeout = 3

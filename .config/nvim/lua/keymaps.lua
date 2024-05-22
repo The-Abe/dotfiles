@@ -17,6 +17,9 @@ map({ "n", "x", "o" }, "L", "$", opt)
 map("i", "<a-l>", "<Right>", opt)
 map("i", "<a-h>", "<Left>", opt)
 
+map("n", "<leader>w", ":w<cr>", opt)
+map("n", "<leader>q", ":q<cr>", opt)
+
 -- Sane readline defaults
 map("i", "<c-f>", "<c-o>l", opt)
 map("i", "<c-b>", "<c-o>h", opt)
@@ -27,6 +30,7 @@ map("i", "<c-y>", "<c-o>p", opt)
 map("i", "<c-d>", "<c-o>x", opt)
 map("i", "<c-a>", "<c-o>^", opt)
 map("i", "<c-e>", "<c-o>$", opt)
+map("i", "<c-h>", "<c-w>", opt)
 map("c", "<c-f>", "<right>", opt)
 map("c", "<c-b>", "<left>", opt)
 map("c", "<a-f>", "<S-right>", opt)

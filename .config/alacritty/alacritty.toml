@@ -19,19 +19,16 @@ shape = "Block"
 builtin_box_drawing = true
 
 [font.bold]
-family = "pixel-font"
+family = "term-font3"
 style = "Bold"
-
 [font.bold_italic]
-family = "pixel-font"
+family = "term-font3"
 style = "BoldItalic"
-
 [font.italic]
-family = "pixel-font"
+family = "term-font3"
 style = "Italic"
-
 [font.normal]
-family = "pixel-font"
+family = "term-font3"
 style = "Regular"
 
 [hints]
@@ -80,7 +77,6 @@ args = ["--login"]
 program = "/bin/bash"
 
 [window]
-decorations = "none"
 decorations_theme_variant = "Dark"
 dynamic_padding = true
 dynamic_title = true

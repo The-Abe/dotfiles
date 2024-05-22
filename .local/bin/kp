@@ -21,6 +21,5 @@ unset IFS
 
 chosen_pass=$(printf '%s\n' "${password_list[@]}" | /home/abe/.fzf/bin/fzf)
 [ -z "$chosen_pass" ] && echo "No password selected" && exit 1
-echo $password | keepassxc-cli clip /home/abe/abe.kdbx "$chosen_pass" 0 &
-
-sleep 0.5
+#echo $password | keepassxc-cli clip /home/abe/abe.kdbx "$chosen_pass" 0
+echo $password | keepassxc-cli show -a password /home/abe/abe.kdbx "$chosen_pass" | xsel -i -b
