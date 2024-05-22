@@ -71,7 +71,7 @@ function as() {
 alias svim="sudo -E nvim -u $HOME/.config/nvim/init.lua"
 
 # Make an alias for all users in /etc/passwd
-for SU_USER in $(grep "/bin/bash" /etc/passwd | cut -f 1 -d:)
+for SU_USER in $(grep "/bin/bash" /etc/passwd | grep -v ansible | cut -f 1 -d:)
 do
   alias $SU_USER="sudo -u $SU_USER -E /bin/bash"
 done
@@ -246,3 +246,5 @@ alias cd="z"
 [ -e "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 [ -e "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
 [ -e "$HOME/.asdf/completions/asdf.bash" ] && . "$HOME/.asdf/completions/asdf.bash"
+
+complete -C /usr/bin/terraform terraform

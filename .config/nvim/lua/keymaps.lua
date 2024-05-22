@@ -34,6 +34,8 @@ map("c", "<a-b>", "<S-left>", opt)
 map("c", "<c-d>", "<del>", opt)
 map("c", "<c-a>", "<home>", opt)
 
+map("n", "<leader>li", ":LspInfo<cr>", {desc = "Info"})
+
 -- Indentation
 map("x", "<", "<gv", opt)
 map("x", ">", ">gv", opt)

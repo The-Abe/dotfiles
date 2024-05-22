@@ -17,6 +17,7 @@ return {
 					sh = { "shfmt" },
 					sql = { "sqlfmt" },
 					yaml = { "yamlfix" },
+					xml = { "xmllint" },
 				},
 			})
 			vim.keymap.set("n", "<leader>lf", ":lua require('conform').format()<cr>", { desc = "Format Conform" })
