@@ -67,7 +67,7 @@ return {
 				formatting = {
 					fields = { "kind", "abbr", "menu" },
 					format = function(entry, vim_item)
-						local kind = require("lspkind").cmp_format({
+						local kind = lspkind.cmp_format({
 							mode = "symbol",
 							maxwidth = 50,
 							ellipsis_char = '...',

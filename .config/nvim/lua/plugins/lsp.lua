@@ -23,21 +23,6 @@ return {
 				nmap("gK", vim.lsp.buf.signature_help, "Signature Documentation")
 				nmap("gD", vim.lsp.buf.declaration, "Declaration")
 				nmap("<leader>lF", vim.lsp.buf.format, "Format LSP")
-
-				vim.api.nvim_create_autocmd({"CursorHold", "CursorHoldI"}, {
-					buffer = bufnr,
-					callback = function()
-						local opts = {
-							focusable = false,
-							close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-							border = "none",
-							source = "always",
-							prefix = " ",
-							scope = "cursor",
-						}
-						vim.diagnostic.open_float(nil, opts)
-					end,
-				})
 			end
 
 			local servers = {
@@ -50,7 +35,7 @@ return {
 			}
 
 			vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-				virtual_text = true,
+				virtual_text = false,
 				signs = true,
 				update_in_insert = false,
 				virtual_lines = false,
