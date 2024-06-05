@@ -1,4 +1,5 @@
-import = ["/home/abe/.config/alacritty/fontsize.toml", "/home/abe/.config/alacritty/gruvbox.toml"]
+import = ["/home/abe/.config/alacritty/fontsize.toml",
+	"/home/abe/.config/alacritty/gruvbox.toml"]
 ipc_socket = true
 live_config_reload = true
 working_directory = "None"
