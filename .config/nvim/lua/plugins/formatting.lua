@@ -4,22 +4,6 @@ return {
 	"godlygeek/tabular", -- Align text by delimiter
 	"tpope/vim-sleuth", -- Detect indentation
 	{
-		-- Autopairs with tabout
-		"altermo/ultimate-autopair.nvim",
-		event = { "InsertEnter" },
-		branch = "v0.6",
-		opts = {
-			close = {
-				map = "<A-'>",
-				cmap = "<A-'>",
-			},
-			tabout = {
-				enable = true,
-				hopout = true,
-			},
-		},
-	},
-	{
 		-- Vim surround alternative
 		"kylechui/nvim-surround",
 		opts = {
