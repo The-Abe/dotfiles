@@ -9,14 +9,14 @@ end
 -- Always saves on toggle
 -- Adds a timestamp on completion
 function Toggle_todo()
-	if string.match(vim.api.nvim_get_current_line(), "- %[ %]") ~= nil then
-		vim.cmd("s/- \\[ \\]/- [x] " .. vim.fn.strftime("%Y-%m-%d %H:%M") .. "/g")
-	elseif string.match(vim.api.nvim_get_current_line(), "- %[x%]") ~= nil then
-		vim.cmd([[ s/- \[x\] \d\+-\d\+-\d\+ \d\+:\d\+/- [ ]/ ]])
+	if string.match(vim.api.nvim_get_current_line(), "* %[ %]") ~= nil then
+		vim.cmd("s/* \\[ \\]/- [x] " .. vim.fn.strftime("%Y-%m-%d %H:%M") .. "/g")
+	elseif string.match(vim.api.nvim_get_current_line(), "* %[x%]") ~= nil then
+		vim.cmd([[ s/* \[x\] \d\+-\d\+-\d\+ \d\+:\d\+/* [ ]/ ]])
 	elseif string.match(vim.api.nvim_get_current_line(), "^%s*- ") ~= nil then
-		vim.cmd([[ s/- /- [ ] / ]])
+		vim.cmd([[ s/* /* [ ] / ]])
 	else
-		vim.cmd("normal $^i- [ ] ")
+		vim.cmd("normal $^i* [ ] ")
 	end
 	vim.cmd([[ write ]])
 end
@@ -39,17 +39,6 @@ function MdHeaderUp()
 	end
 end
 
--- Create a new line in markdown and consider lists
-function NewListLine()
-	if string.match(vim.api.nvim_get_current_line(), "^%s*- %[.%]") ~= nil then
-		vim.api.nvim_feedkeys("o- [ ] ", "n", false)
-	elseif string.match(vim.api.nvim_get_current_line(), "^%s*-") ~= nil then
-		vim.api.nvim_feedkeys("o- ", "n", false)
-	else
-		vim.api.nvim_feedkeys("o", "n", false)
-	end
-end
-
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "markdown" },
 	callback = function()
@@ -60,12 +49,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 			"<C-Space>",
 			"<cmd>lua Toggle_todo()<cr>",
 			{ noremap = true, silent = true, desc = "Toggle Todo Item" }
-		)
-		bmap(
-			"n",
-			"o",
-			"<cmd>lua NewListLine()<cr>",
-			{ noremap = true, silent = true, desc = "Create a new line in markdown and consider lists." }
 		)
 		bmap("n", "<tab>", "/[[\\zs.\\+\\]\\]<cr>", { noremap = true, silent = true, desc = "Search for links" })
 		bmap("n", "<s-tab>", "?[[\\zs.\\+\\]\\]<cr>", { noremap = true, silent = true, desc = "Search for links" })
@@ -126,7 +109,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		vim.cmd([[ syntax match mdTime '\v<\d{2}:\d{2}>' containedin=mdComplete ]])
 		vim.cmd([[ syntax match mdDate '\v<\d{4}-\d{2}-\d{2}>' containedin=mdComplete ]])
 		vim.cmd([[ syntax match mdUrl '\v<https?://[^ ]*>' containedin=mdComplete ]])
-		vim.cmd([[ syntax match mdComplete '\v- \[x\].*$' contains=Kayako,Change ]])
+		vim.cmd([[ syntax match mdComplete '\v* \[x\].*$' contains=Kayako,Change ]])
 		vim.cmd([[ hi link mdLink Label ]])
 		vim.cmd([[ hi link Conceal Number ]])
 		vim.cmd([[ hi link mdComplete NonText ]])

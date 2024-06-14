@@ -29,10 +29,9 @@ set colored-stats off
 set visible-stats on
 
 # Vi mode
-set editing-mode vi
+set editing-mode emacs
 # Escape is slow without this
 set keyseq-timeout 10
-set show-mode-in-prompt on
 # Ps = 0  -> blinking block.
 # Ps = 1  -> blinking block (default).
 # Ps = 2  -> steady block.
@@ -158,10 +157,10 @@ Control-y: vi-cmd-yank-line
 TAB: menu-complete
 "\e[Z": menu-complete-backward
 "\e.": yank-last-arg
+$endif
 "\es": "\C-asudo \C-e"
 "\eu": "\C-asudo -E -u "
 "\ep": "\C-e | less"
 "\et": "\C-atime \C-e"
 "\e2": "\C-e 2>&1"
 "\ed": "\C-e > /dev/null"
-$endif

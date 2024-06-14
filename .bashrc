@@ -1,3 +1,4 @@
+#!/bin/bash
 # Author: Abe van der Wielen
 # Github: https://github.com/the-abe
 # Email: abevanderwielen@gmail.com
@@ -39,14 +40,14 @@ then
 fi
 
 # Bashrc and tmuxrc alias to edit and source
-alias bashrc="$EDITOR ~/.bashrc; source ~/.bashrc"
-alias vimrc="$EDITOR ~/.config/nvim/init.lua"
-alias tmuxrc="$EDITOR ~/.tmux.conf; tmux source-file ~/.tmux.conf"
+alias bashrc="\$EDITOR ~/.bashrc; source ~/.bashrc"
+alias vimrc="\$EDITOR ~/.config/nvim/init.lua"
+alias tmuxrc="\$EDITOR ~/.tmux.conf; tmux source-file ~/.tmux.conf"
 
 # Install dotfiles locally or on a remote machine
 alias dotfiles="curl -s https://raw.githubusercontent.com/The-Abe/dotfiles/main/install | bash"
 function sshdotfiles() {
-  ssh $1 "curl -s https://raw.githubusercontent.com/The-Abe/dotfiles/main/install | bash"
+  ssh "$1" "curl -s https://raw.githubusercontent.com/The-Abe/dotfiles/main/install | bash"
 }
 
 # Sudo last command
@@ -54,27 +55,21 @@ alias sl="sudo !!"
 
 # Apt aliases
 function ai() {
-  sudo apt install $(al)
+  sudo apt install "$(al)"
 }
 function ar() {
-  sudo apt remove $(al)
+  sudo apt remove "$(al)"
 }
 function al() {
   package=$(apt list 2>/dev/null | fzf)
-  echo ${package%/*}
+  echo "${package%/*}"
 }
 function as() {
-  apt search $1 | less
+  apt search "$1" | less
 }
 
 # Sudo edit alias
-alias svim="sudo -E nvim -u $HOME/.config/nvim/init.lua"
-
-# Make an alias for all users in /etc/passwd
-for SU_USER in $(grep "/bin/bash" /etc/passwd | grep -v ansible | cut -f 1 -d:)
-do
-  alias $SU_USER="sudo -u $SU_USER -E /bin/bash"
-done
+alias svim="sudo -E nvim -u \$HOME/.config/nvim/init.lua"
 
 # Eza aliase
 alias ls="eza --git --group-directories-first"
@@ -82,7 +77,7 @@ alias ls="eza --git --group-directories-first"
 # FZF and bat
 [[ -f ~/.fzf.bash && -z "$FZFSOURCED" ]] && source ~/.fzf.bash
 FZFSOURCED=true
-FZF_DEFAULT_OPTS="--preview 'bat --line-range=:200 --theme=Dracula --color=always --style=numbers,changes {} | head -500'"
+export FZF_DEFAULT_OPTS="--preview 'bat --line-range=:200 --theme=Dracula --color=always --style=numbers,changes {} | head -500'"
 
 # SSH Agent auto add
 # If it works, don't touch. I always screw this up when I try to mess with it.
@@ -102,7 +97,8 @@ if [[ -x $(which nvim) ]]
 then
   alias vim="nvim"
   alias vi="nvim"
-  export EDITOR=$(which nvim)
+  EDITOR=$(which nvim)
+  export EDITOR
 fi
 
 # Color functions
@@ -134,7 +130,7 @@ function rgbbgcolor() {
 
 # RGB color foreground and background
 function rgbfbcolor() {
-  echo -e "$(rgbcolor $1 $2 $3)$(rgbbgcolor $4 $5 $6)"
+  echo -e "$(rgbcolor "$1" "$2" "$3")$(rgbbgcolor "$4" "$5" "$6")"
 }
 
 # Bold text
@@ -149,31 +145,19 @@ function reset_color() {
 
 # Hex color to decimal colors for rgbcolor functions
 function hex_to_dec() {
-  color=$(echo $1 | tr '[:lower:]' '[:upper:]')
-  red=$(echo $color | awk '{print substr($1,1,2)}')
-  green=$(echo $color | awk '{print substr($1,3,2)}')
-  blue=$(echo $color | awk '{print substr($1,5,2)}')
+  color=$(echo "$1" | tr '[:lower:]' '[:upper:]')
+  red=$(echo "$color" | awk '{print substr($1,1,2)}')
+  green=$(echo "$color" | awk '{print substr($1,3,2)}')
+  blue=$(echo "$color" | awk '{print substr($1,5,2)}')
   red_dec=$(echo "ibase=16; $red"|bc)
   green_dec=$(echo "ibase=16; $green"|bc)
   blue_dec=$(echo "ibase=16; $blue"|bc)
-  echo $red_dec $green_dec $blue_dec
+  echo "$red_dec" "$green_dec" "$blue_dec"
 }
 
 function motd() {
   echo
 
-  for i in $(seq 1 1 5); do
-    for y in $(seq 1 1 5); do
-      printf "\e[30m\e[48;5;1m \e[30m\e[48;5;9m \e[0m "
-      printf "\e[30m\e[48;5;2m \e[30m\e[48;5;10m \e[0m "
-      printf "\e[30m\e[48;5;3m \e[30m\e[48;5;11m \e[0m "
-      printf "\e[30m\e[48;5;4m \e[30m\e[48;5;12m \e[0m "
-      printf "\e[30m\e[48;5;5m \e[30m\e[48;5;13m \e[0m "
-      printf "\e[30m\e[48;5;6m \e[30m\e[48;5;14m \e[0m "
-    done
-    echo
-  done
-  echo
   hostname
   echo
   printf "Uptime:"
@@ -186,19 +170,6 @@ function motd() {
 
   echo "Disk usage:"
   df -h
-  echo
-  for i in $(seq 1 1 5); do
-    for y in $(seq 1 1 5); do
-      printf "\e[30m\e[48;5;1m \e[30m\e[48;5;9m \e[0m "
-      printf "\e[30m\e[48;5;2m \e[30m\e[48;5;10m \e[0m "
-      printf "\e[30m\e[48;5;3m \e[30m\e[48;5;11m \e[0m "
-      printf "\e[30m\e[48;5;4m \e[30m\e[48;5;12m \e[0m "
-      printf "\e[30m\e[48;5;5m \e[30m\e[48;5;13m \e[0m "
-      printf "\e[30m\e[48;5;6m \e[30m\e[48;5;14m \e[0m "
-    done
-    echo
-  done
-
   echo
 }
 
@@ -213,7 +184,7 @@ function colors() {
       c=0
     fi
     printf "$(color $c)\033[48;5;${I}m %-3i $(reset_color)" "$I"
-    if [[ $(($I % 8)) == 0 ]]
+    if [[ $((I % 8)) == 0 ]]
     then
       echo
     fi
@@ -225,10 +196,10 @@ function colors() {
 PS0="\e[2 q"
 
 # Set the prompt with PROMPT_COMMAND
-if [[ `hostname` =~ (abes-bak|Abe-Laptop|abe-debian|laptop-abe) ]]; then
-  PS1='\n$(if [ $? != 0 ]; then echo "$(color 1)x "; fi)$(color 8)\w$(reset_color)\n'
+if [[ $(hostname) =~ (abes-bak|Abe-Laptop|abe-debian|laptop-abe) ]]; then
+  PS1='\n$(if [ $? != 0 ]; then echo "$(color 1)x "; fi)$(color 8)\w$(reset_color)\n> '
 else
-  PS1='\n$(if [ $? != 0 ]; then echo "$(color 1)x "; fi)$(color 2)\u@\h$(color 8) \w$(reset_color)\n'
+  PS1='\n$(if [ $? != 0 ]; then echo "$(color 1)x "; fi)$(color 2)\u@\h$(color 8) \w$(reset_color)\n> '
 fi
 
 # Load aliases if they exist
