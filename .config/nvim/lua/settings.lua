@@ -25,7 +25,6 @@ s.smartcase = true
 s.spelllang = "nl,en"
 s.tabstop = 2
 s.shiftwidth = 2
-s.termguicolors = true
 s.textwidth = 80
 s.timeout = true
 s.timeoutlen = 0

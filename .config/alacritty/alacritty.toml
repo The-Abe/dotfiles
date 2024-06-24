@@ -1,5 +1,7 @@
-import = ["/home/abe/.config/alacritty/fontsize.toml",
-	"/home/abe/.config/alacritty/gruvbox.toml"]
+import = [
+	"/home/abe/.config/alacritty/fontsize.toml",
+	"/home/abe/.config/alacritty/gruvbox.toml"
+]
 ipc_socket = true
 live_config_reload = true
 working_directory = "None"
@@ -78,7 +80,7 @@ args = ["--login"]
 program = "/bin/bash"
 
 [window]
-decorations_theme_variant = "Dark"
+decorations_theme_variant = "Light"
 dynamic_padding = true
 dynamic_title = true
 opacity = 1

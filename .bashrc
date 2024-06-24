@@ -77,7 +77,10 @@ alias ls="eza --git --group-directories-first"
 # FZF and bat
 [[ -f ~/.fzf.bash && -z "$FZFSOURCED" ]] && source ~/.fzf.bash
 FZFSOURCED=true
-export FZF_DEFAULT_OPTS="--preview 'bat --line-range=:200 --theme=Dracula --color=always --style=numbers,changes {} | head -500'"
+export FZF_DEFAULT_OPTS="--preview 'bat --line-range=:200 --theme=gruvbox-light --color=always --style=numbers,changes {} | head -500'"
+
+alias cat='bat --paging=never'
+alias bat='bat --theme=gruvbox-light --color=always --style=changes'
 
 # SSH Agent auto add
 # If it works, don't touch. I always screw this up when I try to mess with it.
