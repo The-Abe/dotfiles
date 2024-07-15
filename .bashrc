@@ -84,16 +84,17 @@ alias bat='bat --theme=gruvbox-light --color=always --style=changes'
 
 # SSH Agent auto add
 # If it works, don't touch. I always screw this up when I try to mess with it.
-#if [[ -f ~/.ssh/id_rsa.pub ]]
-#then
-#  if [[ ! -S ~/.ssh/ssh_auth_sock ]]
-#  then
-#    eval `ssh-agent`
-#    ssh-add -l | grep "The agent has no identities" && ssh-add
-#    ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
-#  fi
-#  export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-#fi
+# If the public key exists and we aren't in X11
+if [[ -f ~/.ssh/id_rsa.pub && $DISPLAY == "" ]]
+then
+  if [[ ! -S ~/.ssh/ssh_auth_sock ]]
+  then
+    eval `ssh-agent`
+    ssh-add -l | grep "The agent has no identities" && ssh-add
+    ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
+  fi
+  export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+fi
 
 # Use nvim if available
 if [[ -x $(which nvim) ]]

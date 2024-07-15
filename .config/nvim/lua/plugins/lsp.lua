@@ -62,6 +62,13 @@ return {
 					})
 				end,
 			})
+			require'lspconfig'.sqlls.setup{
+				capabilities = capabilities,
+				filetypes = { 'mysql' },
+				root_dir = function(_)
+					return vim.loop.cwd()
+				end,
+			}
 		end
 	},
 }

@@ -12,6 +12,9 @@ return {
 			ruby = { 'standardrb' },
 			sh = { 'shellcheck' },
 			json = { 'jsonlint' },
+			go = { 'golangci-lint' },
+			python = { 'pylint' },
+			sql = { 'sqlfluff' },
 		}
 		local lint_auggroup = vim.api.nvim_create_augroup('lint', { clear = true })
 		vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
