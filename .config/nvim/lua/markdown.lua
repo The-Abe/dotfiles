@@ -10,7 +10,7 @@ end
 -- Adds a timestamp on completion
 function Toggle_todo()
 	if string.match(vim.api.nvim_get_current_line(), "* %[ %]") ~= nil then
-		vim.cmd("s/* \\[ \\]/- [x] " .. vim.fn.strftime("%Y-%m-%d %H:%M") .. "/g")
+		vim.cmd("s/* \\[ \\]/* [x] " .. vim.fn.strftime("%Y-%m-%d %H:%M") .. "/g")
 	elseif string.match(vim.api.nvim_get_current_line(), "* %[x%]") ~= nil then
 		vim.cmd([[ s/* \[x\] \d\+-\d\+-\d\+ \d\+:\d\+/* [ ]/ ]])
 	elseif string.match(vim.api.nvim_get_current_line(), "^%s*- ") ~= nil then
@@ -93,6 +93,11 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 			':silent ![ -d ".trash/%:.:h" ] || mkdir ".trash/%:.:h"; mv "%:." "$HOME/Obsidian/.trash/%:."<cr>:bd!<cr>',
 			{ desc = "Delete To Trash", silent = true }
 		)
+		bmap('i',
+			'<C-Enter>',
+			'<C-o>o* ',
+			{ desc = "Insert list item" }
+		)
 
 		-- Syntax highlighting stuff. Mostly for todo items and some conceal stuff for cleaner display
 		vim.cmd([[
@@ -103,28 +108,26 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 			\ contains=mdAliasedLink
 		]])
 		vim.cmd("syntax match mdAliasedLink '[^\\[\\]]\\+|' contained conceal")
-		vim.cmd("syntax match mdTitleTail '\\zs#\\ze ' conceal cchar=§")
-		vim.cmd("syntax match mdTitleStart '\\zs#\\ze#' conceal cchar=⋅")
 		vim.cmd([[ syntax match mdTodoTag '\v\@\S+' containedin=mdComplete contains=Change,Katako ]])
 		vim.cmd([[ syntax match mdTime '\v<\d{2}:\d{2}>' containedin=mdComplete ]])
 		vim.cmd([[ syntax match mdDate '\v<\d{4}-\d{2}-\d{2}>' containedin=mdComplete ]])
-		vim.cmd([[ syntax match mdUrl '\v<https?://[^ ]*>' containedin=mdComplete ]])
-		vim.cmd([[ syntax match mdComplete '\v* \[x\].*$' contains=Kayako,Change ]])
-		vim.cmd([[ hi link mdLink Label ]])
-		vim.cmd([[ hi link Conceal Number ]])
-		vim.cmd([[ hi link mdComplete NonText ]])
+		--vim.cmd([[ syntax match mdUrl '\v<https?://[^ ]*>' containedin=mdComplete ]])
+		--vim.cmd([[ syntax match mdComplete '\v* \[x\].*$' contains=Kayako,Change ]])
+		--vim.cmd([[ hi link mdLink Label ]])
+		--vim.cmd([[ hi link Conceal Number ]])
+		--vim.cmd([[ hi link mdComplete NonText ]])
 		vim.cmd([[ hi link mdTime Number ]])
 		vim.cmd([[ hi link mdDate Number ]])
-		vim.cmd([[ hi link mdUrl Keyword ]])
+		--vim.cmd([[ hi link mdUrl Keyword ]])
 		vim.cmd([[ hi link mdTodoTag Label ]])
-		--vim.cmd([[ hi link @lsp.type.enumMember.markdown Macro ]])
-		vim.cmd([[ hi! link markdownItalic TSType ]])
-		vim.cmd([[ hi! link markdownBold MarkdownH3 ]])
-		vim.cmd([[ hi! link @text.title.1 MarkdownH1 ]])
-		vim.cmd([[ hi! link @text.title.2 MarkdownH2 ]])
-		vim.cmd([[ hi! link @text.title.3 MarkdownH3 ]])
-		vim.cmd([[ hi! link @text.title.4 MarkdownH4 ]])
-		vim.cmd([[ hi! link @text.title.5 MarkdownH5 ]])
-		vim.cmd([[ hi! link @text.title.6 MarkdownH6 ]])
+		----vim.cmd([[ hi link @lsp.type.enumMember.markdown Macro ]])
+		--vim.cmd([[ hi! link markdownItalic TSType ]])
+		--vim.cmd([[ hi! link markdownBold MarkdownH3 ]])
+		--vim.cmd([[ hi! link @text.title.1 MarkdownH1 ]])
+		--vim.cmd([[ hi! link @text.title.2 MarkdownH2 ]])
+		--vim.cmd([[ hi! link @text.title.3 MarkdownH3 ]])
+		--vim.cmd([[ hi! link @text.title.4 MarkdownH4 ]])
+		--vim.cmd([[ hi! link @text.title.5 MarkdownH5 ]])
+		--vim.cmd([[ hi! link @text.title.6 MarkdownH6 ]])
 	end,
 })

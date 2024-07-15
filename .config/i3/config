@@ -3,7 +3,7 @@
 # pixel-font is defined in ~/.config/fontconfig/fonts.conf so it has a fallback
 # for emoji. In case of pixel bitmap fonts, fontconfig should disable
 # antialiasing.
-font pango:pixel-font 15
+font pango:term-font3 9
 
 # Gruvbox
 set $fg #ebdbb2
@@ -17,7 +17,7 @@ set $c5 #b16286
 set $c6 #689d6a
 set $c7 #a89984
 set $c8 #928374
-set $con #333333
+set $con #32302F
 
 # class border bg txt indicator child_border
 client.focused          $bg $bg $fg $bg $con

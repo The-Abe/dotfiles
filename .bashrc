@@ -200,9 +200,9 @@ PS0="\e[2 q"
 
 # Set the prompt with PROMPT_COMMAND
 if [[ $(hostname) =~ (abes-bak|Abe-Laptop|abe-debian|laptop-abe) ]]; then
-  PS1='\n$(if [ $? != 0 ]; then echo "$(color 1)x "; fi)$(color 8)\w$(reset_color)\n> '
+  PS1='$(tput cup "$LINES")\n$(if [ $? != 0 ]; then echo "$(color 1)x "; fi)$(color 8)\w$(reset_color)\n> '
 else
-  PS1='\n$(if [ $? != 0 ]; then echo "$(color 1)x "; fi)$(color 2)\u@\h$(color 8) \w$(reset_color)\n> '
+  PS1='$(tput cup "$LINES")\n$(if [ $? != 0 ]; then echo "$(color 1)x "; fi)$(color 2)\u@\h$(color 8) \w$(reset_color)\n> '
 fi
 
 # Load aliases if they exist

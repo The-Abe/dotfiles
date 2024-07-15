@@ -14,12 +14,11 @@ map({ "n", "x", "o" }, "H", "^", opt)
 map({ "n", "x", "o" }, "L", "$", opt)
 
 -- Left and right to skip auto inserted brackets and quotes.
-map("i", "<a-l>", "<Right>", opt)
-map("i", "<a-h>", "<Left>", opt)
+map("i", "<a-l>", "<C-o>>>", opt)
+map("i", "<a-h>", "<C-o><<", opt)
 
 map("n", "<leader>w", ":w<cr>", opt)
 map("n", "<leader>q", ":q<cr>", opt)
-
 -- Sane readline defaults
 map("i", "<c-f>", "<c-o>l", opt)
 map("i", "<c-b>", "<c-o>h", opt)
@@ -43,12 +42,6 @@ map("n", "<leader>li", ":LspInfo<cr>", {desc = "Info"})
 -- Indentation
 map("x", "<", "<gv", opt)
 map("x", ">", ">gv", opt)
-
--- Move between splits
--- map("n", "<a-h>", "<c-w>h", opt)
--- map("n", "<a-j>", "<c-w>j", opt)
--- map("n", "<a-k>", "<c-w>k", opt)
--- map("n", "<a-l>", "<c-w>l", opt)
 
 -- Buffer navigation
 map("n", "<c-l>", ":bn<cr>", opt)
