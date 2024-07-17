@@ -25,16 +25,18 @@ s.smartcase = true
 s.spelllang = "nl,en"
 s.tabstop = 2
 s.shiftwidth = 2
+s.expandtab = true
+s.smarttab = true
 s.textwidth = 80
 s.timeout = true
 s.timeoutlen = 0
--- s.timeoutlen = 300
 s.undofile = true
 s.swapfile = false
 s.updatetime = 250
 s.wildmode = "longest:full,full"
 s.wrap = false
 s.background = "dark"
+
 vim.g.closetag_filenames = "*.html,*.xhtml,*.phtml,*.erb"
 -- Cursor shape based on mode
 vim.cmd([[let &t_SI = "\e[6 q"]])

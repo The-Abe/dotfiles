@@ -86,7 +86,7 @@ map(
 	"<leader>tc",
 	':silent exec &colorcolumn!=""? "set colorcolumn=" : "set colorcolumn=+1"<cr>',
 	{ desc = "Colorcolumn" }
-, opt)
+)
 map("n", "<leader>tg", ":Copilot disable<cr>:Copilot status<cr>", { desc = "Github copilot" })
 map("n", "<leader>th", ":set hlsearch!<cr>:set hlsearch?<cr>", { desc = "Hlsearch" })
 map("n", "<leader>tl", ":set cursorline!<cr>:set cursorline?<cr>", { desc = "Cursorline" })

@@ -12,7 +12,6 @@ return {
 			ruby = { 'standardrb' },
 			sh = { 'shellcheck' },
 			json = { 'jsonlint' },
-			go = { 'golangci-lint' },
 			python = { 'pylint' },
 			sql = { 'sqlfluff' },
 		}

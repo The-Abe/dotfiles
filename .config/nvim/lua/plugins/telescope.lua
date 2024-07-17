@@ -23,8 +23,8 @@ return {
 							["<C-d>"] = false,
 						},
 					},
-					border = {},
-					borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
+					--border = {},
+					--borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
 					layout_strategy = "horizontal",
 					layout_config = {
 						horizontal = {
@@ -41,10 +41,15 @@ return {
 					lsp_references = { theme = "cursor" },
 					lsp_implementations = { theme = "cursor" },
 				},
+				extensions = {
+					media_files = {
+						filetypes = {"png", "webp", "jpg", "jpeg", "webm"},
+						find_cmd = "rg"
+					}
+				},
 			})
 			-- Enable telescope fzf native, if installed
 			pcall(require("telescope").load_extension, "fzf")
-			pcall(require("telescope").load_extension, "zk")
 			local map = vim.keymap.set
 
 			map("n", "<leader>/", function()

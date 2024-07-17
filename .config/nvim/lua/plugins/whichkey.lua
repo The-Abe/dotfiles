@@ -3,20 +3,21 @@ return {
 		-- Which key mapping preview
 		"folke/which-key.nvim",
 		event = "VeryLazy",
-		init = function()
-			require("which-key").register({
-				["<leader>b"] = { name = "Buffer" },
-				["<leader>c"] = { name = "Change" },
-				["<leader>d"] = { name = "Diff" },
-				["<leader>e"] = { name = "Edit" },
-				["<leader>h"] = { name = "Harpoon" },
-				["<leader>l"] = { name = "LSP" },
-				["<leader>m"] = { name = "Markdown" },
-				["<leader>r"] = { name = "Run" },
-				["<leader>s"] = { name = "Search" },
-				["<leader>t"] = { name = "Toggle" },
-			})
-		end,
-		opts = {},
+		opts = {
+			preset = "modern",
+			delay = 0,
+		},
+		keys = {
+			{ "<leader>b", desc = "Buffer", icon = ""},
+			{ "<leader>c", desc = "Change", icon = "" },
+			{ "<leader>d", desc = "Diff", icon = "" },
+			{ "<leader>e", desc = "Edit", icon = "" },
+			{ "<leader>h", desc = "Harpoon", icon = "󱡅" },
+			{ "<leader>l", desc = "LSP", icon = "󰛱" },
+			{ "<leader>m", desc = "Markdown", icon = "" },
+			{ "<leader>r", desc = "Run", icon = "" },
+			{ "<leader>s", desc = "Search", icon = "" },
+			{ "<leader>t", desc = "Toggle", icon = "" },
+		}
 	}
 }

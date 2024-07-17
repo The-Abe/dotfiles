@@ -39,7 +39,7 @@ return {
 				signs = true,
 				update_in_insert = false,
 				virtual_lines = false,
-				underline = true,
+				underline = false,
 				severity_sort = true,
 			})
 
