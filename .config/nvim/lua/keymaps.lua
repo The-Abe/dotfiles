@@ -17,8 +17,6 @@ map({ "n", "x", "o" }, "L", "$", opt)
 map("i", "<a-l>", "<C-o>>>", opt)
 map("i", "<a-h>", "<C-o><<", opt)
 
-map("n", "<leader>w", ":w<cr>", opt)
-map("n", "<leader>q", ":q<cr>", opt)
 -- Sane readline defaults
 map("i", "<c-f>", "<c-o>l", opt)
 map("i", "<c-b>", "<c-o>h", opt)
