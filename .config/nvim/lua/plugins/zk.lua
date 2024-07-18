@@ -143,7 +143,7 @@ return {
         opt)
       opt["desc"] = "Insert Image Link"
       map("n",
-        "<leader>mi",
+        "<leader>mI",
         ":lua require('telekasten').insert_img_link({ i=true })<CR>",
         opt)
       opt["desc"] = "Preview Image"
@@ -162,7 +162,7 @@ return {
         ":lua require('telekasten').show_tags()<CR>",
         opt)
 
-      map("i", "[[", "<ESC>:lua require('telekasten').insert_link()<CR>", opt)
+      map("n", "<leader>mi", ":lua require('telekasten').insert_link()<CR>", opt)
 
     end
   },
