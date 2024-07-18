@@ -15,34 +15,26 @@ return {
       require('telekasten').setup({
         -- Main paths
         home = '/home/abe/Obsidian',
-        dailies = '/home/abe/Obsidian/Daily',
-        weeklies = '/home/abe/Obsidian/Weekly',
+        dailies = '/home/abe/Obsidian/Todo/Daily',
+        weeklies = '/home/abe/Obsidian/Todo/Weekly',
         templates = '/home/abe/Obsidian/Templates',
 
-        --template_new_note = '/path/to/file',    -- template for new notes
-        --template_new_daily = '/path/to/file',   -- template for new daily notes
-        --template_new_weekly = '/path/to/file',  -- template for new weekly notes
+        template_new_note = '/home/abe/Obsidian/Templates/default.md',
+        template_new_daily = '/home/abe/Obsidian/Templates/daily.md',
+        template_new_weekly = '/home/abe/Obsidian/Templates/weekly.md',
+        journal_auto_open = false,
 
-        -- Image subdir for pasting
+        journal_auto_open = true,
         image_subdir = "Files",
-
-        -- File extension for note files
         extension    = ".md",
-
-        -- Generate note filenames. One of:
-        -- "title" (default) - Use title if supplied, uuid otherwise
-        -- "uuid" - Use uuid
-        -- "uuid-title" - Prefix title by uuid
-        -- "title-uuid" - Suffix title with uuid
         new_note_filename = "title",
+        filename_space_subst = "_",
         uuid_type = "%Y%m%d%H%M",
         uuid_sep = "-",
 
         follow_creates_nonexisting = true,    -- create non-existing on follow
         dailies_create_nonexisting = true,    -- create non-existing dailies
         weeklies_create_nonexisting = true,   -- create non-existing weeklies
-
-        journal_auto_open = false,
 
         -- Image link style",
         -- wiki:     ![[image name]]
@@ -116,7 +108,7 @@ return {
         opt)
       opt["desc"] = "Today"
       map("n",
-        "<leader>mT",
+        "<leader>mt",
         ":lua require('telekasten').goto_today()<CR>",
         opt)
       opt["desc"] = "This Week"

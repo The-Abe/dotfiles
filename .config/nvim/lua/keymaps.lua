@@ -61,7 +61,18 @@ map("n", "<leader>es", ":cd ~/.config/nvim/snippets<cr>:Telescope find_files<cr>
 map("n", "<leader>et", ":e ~/.tmux.conf<cr>", { desc = "Tmux.conf" })
 map("n", "<leader>eb", ":e ~/.bashrc<cr>", { desc = "Bashrc" })
 map("n", "<leader>ep", ":cd ~/projects/", { desc = "Projects" })
-map("n", "<leader>en", ":cd ~/Obsidian/<cr>:e $HOME/Obsidian/index.md<cr>", { desc = "Notes" })
+map("n", "<leader>en",
+    function()
+	vim.cmd("cd ~/Obsidian/")
+	vim.cmd("40vsplit index.md")
+	vim.cmd("wincmd l")
+	vim.cmd("rightb 60vsplit Todo/Todo.md")
+	vim.cmd("wincmd h")
+        require('telekasten').goto_today()
+	vim.cmd("split")
+        require('telekasten').goto_thisweek()
+    end
+)
 
 map("n", "<leader>bb", ":bn<cr>", { desc = "Next" })
 map("n", "<leader>bd", ":bdelete<cr>", { desc = "Delete" })
