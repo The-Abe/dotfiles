@@ -34,14 +34,15 @@ return {
 				},
 			}
 
-			vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-				virtual_text = false,
-				signs = true,
-				update_in_insert = false,
-				virtual_lines = false,
-				underline = false,
-				severity_sort = true,
-			})
+			vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+				vim.lsp.diagnostic.on_publish_diagnostics, {
+					virtual_text = false,
+					signs = true,
+					update_in_insert = true,
+					virtual_lines = false,
+					underline = false,
+				}
+			)
 
 			-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 			local capabilities = vim.lsp.protocol.make_client_capabilities()

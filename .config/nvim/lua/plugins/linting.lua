@@ -2,7 +2,8 @@ return {
 	"mfussenegger/nvim-lint",
 	event = {
 		"BufReadPre",
-		"BufNewFile"
+		"BufNewFile",
+		"InsertLeave",
 	},
 	config = function()
 		local lint = require("lint")
@@ -22,5 +23,6 @@ return {
 				lint.try_lint()
 			end,
 		})
+		vim.diagnostic.config({ virtual_text = false }, ns)
 	end,
 }
