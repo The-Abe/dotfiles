@@ -10,6 +10,7 @@ return {
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
 			"onsails/lspkind.nvim",
+			"ray-x/cmp-treesitter",
 		},
 		config = function()
 			local cmp = require("cmp")
@@ -29,29 +30,26 @@ return {
 					},
 				},
 				mapping = cmp.mapping.preset.insert({
-					["<C-n>"] = cmp.mapping.select_next_item(),
-					["<C-p>"] = cmp.mapping.select_prev_item(),
 					["<C-d>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<C-Space>"] = cmp.mapping.complete({}),
+					["<C-Space>"] = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = false}),
 					["<Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.confirm({
-								behavior = cmp.ConfirmBehavior.Replace,
-								select = false,
-							})
-						elseif luasnip.expand_or_locally_jumpable() then
-							luasnip.expand_or_jump()
-						else
-							fallback()
-						end
+							if cmp.visible() then
+								cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+							elseif luasnip.expand_or_locally_jumpable() then
+								luasnip.expand_or_jump()
+							else
+							  fallback()
+							end
 						end, { "i", "s" }),
 					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if luasnip.locally_jumpable(-1) then
-							luasnip.jump(-1)
-						else
-							fallback()
-						end
+							if cmp.visible() then
+								cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+							elseif luasnip.locally_jumpable(-1) then
+								luasnip.jump(-1)
+							else
+								fallback()
+							end
 						end, { "i", "s" }),
 				}),
 				sources = {
@@ -60,6 +58,7 @@ return {
 					{ name = "luasnip" },
 					{ name = "path" },
 					{ name = "buffer" },
+					{ name = "treesitter" },
 				},
 				formatting = {
 					fields = { "kind", "abbr", "menu" },
