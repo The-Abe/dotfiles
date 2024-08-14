@@ -19,7 +19,7 @@ return {
 			vim.keymap.set('n', '<A-3>', ':lua require("harpoon.ui").nav_file(3)<cr>', { silent = true, desc = 'Mark 3' })
 			vim.keymap.set('n', '<A-4>', ':lua require("harpoon.ui").nav_file(4)<cr>', { silent = true, desc = 'Mark 4' })
 			vim.keymap.set('n', '<A-5>', ':lua require("harpoon.ui").nav_file(5)<cr>', { silent = true, desc = 'Mark 5' })
-			vim.keymap.set('n', "<leader>hh", require('harpoon.ui').toggle_quick_menu, { silent = true, desc = 'Marks' })
+			vim.keymap.set('n', "<tab>", require('harpoon.ui').toggle_quick_menu, { silent = true, desc = 'Marks' })
 		end,
 	}
 }

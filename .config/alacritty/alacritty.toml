@@ -1,6 +1,6 @@
 import = [
-	"/home/abe/.config/alacritty/fontsize.toml",
-	"/home/abe/.config/alacritty/gruvbox.toml"
+  "/home/abe/.config/alacritty/fontsize.toml",
+  "/home/abe/.config/alacritty/tokyonight-night.toml",
 ]
 ipc_socket = true
 live_config_reload = true

@@ -224,4 +224,4 @@ alias cd="z"
 [ -e "$HOME/.asdf/completions/asdf.bash" ] && . "$HOME/.asdf/completions/asdf.bash"
 
 complete -C /usr/bin/terraform terraform
-[ -e "$HOME/.asdf/installs/rust/1.76.0/env" ] && . "$HOME/.asdf/installs/rust/1.76.0/env"
+[ -e "$HOME/.asdf/installs/rust/1.79.0/env" ] && . "$HOME/.asdf/installs/rust/1.79.0/env"

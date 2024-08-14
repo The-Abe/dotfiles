@@ -6,18 +6,18 @@
 font pango:term-font3 9
 
 # Gruvbox
-set $fg #ebdbb2
-set $bg #111111
-set $c0 #282828
-set $c1 #cc241d
-set $c2 #98971a
-set $c3 #d79921
-set $c4 #458588
-set $c5 #b16286
-set $c6 #689d6a
-set $c7 #a89984
-set $c8 #928374
-set $con #32302F
+set $fg #a9b1d6
+set $bg #1a1b26
+set $c0 #15161e
+set $c1 #f7768e
+set $c2 #9ece6a
+set $c3 #e0af68
+set $c4 #7aa2f7
+set $c5 #bb9af7
+set $c6 #7dcfff
+set $c7 #a9b1d6
+set $c8 #414868
+set $con #333333
 
 # class border bg txt indicator child_border
 client.focused          $con $con $fg $bg $con
