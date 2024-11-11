@@ -34,13 +34,13 @@ cache() {
   env_vars=$(env | sort)
   cache_string=$(echo "$command|$env_vars" | md5sum | cut -d\  -f1)
   if [ ! -f "/tmp/$cache_string" ]; then
-    eval "$command" > "/tmp/$cache_string"
+    eval "$command" >"/tmp/$cache_string"
   fi
   less "/tmp/$cache_string"
 }
 
 backup() {
-  cp -r "$1" "$1"~.`date +%Y%m%d%H%M%S`
+  cp -r "$1" "$1"~.$(date +%Y%m%d%H%M%S)
 }
 
 cleanbackups() {
@@ -193,4 +193,4 @@ alias augcyd='sudo apt upgrade --yes --with-new-pkgs --dry-run'
 alias qwe='setxkbmap -layout us -variant colemak_dh'
 alias qwf='setxkbmap -layout us'
 
-
+alias notes='nvim ~/Obsidian/index.md'

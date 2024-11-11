@@ -35,8 +35,7 @@ export COLORTERM=truecolor
 [[ -s "$HOME/.gvm/scripts/gvm" && -z "$GVM_ROOT" ]] && source "$HOME/.gvm/scripts/gvm"
 
 # Rbenv and ruby
-if [[ -x /usr/bin/rbenv && -z "$RBENV_SHELL" ]]
-then
+if [[ -x /usr/bin/rbenv && -z "$RBENV_SHELL" ]]; then
   eval "$(rbenv init -)"
 fi
 
@@ -86,11 +85,9 @@ alias bat='bat --theme=gruvbox-dark --color=always --style=changes'
 # SSH Agent auto add
 # If it works, don't touch. I always screw this up when I try to mess with it.
 # If the public key exists and we aren't in X11
-if [[ -f ~/.ssh/id_rsa.pub && $DISPLAY == "" ]]
-then
-  if [[ ! -S ~/.ssh/ssh_auth_sock ]]
-  then
-    eval `ssh-agent`
+if [[ -f ~/.ssh/id_rsa.pub && $DISPLAY == "" ]]; then
+  if [[ ! -S ~/.ssh/ssh_auth_sock ]]; then
+    eval $(ssh-agent)
     ssh-add -l | grep "The agent has no identities" && ssh-add
     ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
   fi
@@ -98,8 +95,7 @@ then
 fi
 
 # Use nvim if available
-if [[ -x $(which nvim) ]]
-then
+if [[ -x $(which nvim) ]]; then
   alias vim="nvim"
   alias vi="nvim"
   EDITOR=$(which nvim)
@@ -154,9 +150,9 @@ function hex_to_dec() {
   red=$(echo "$color" | awk '{print substr($1,1,2)}')
   green=$(echo "$color" | awk '{print substr($1,3,2)}')
   blue=$(echo "$color" | awk '{print substr($1,5,2)}')
-  red_dec=$(echo "ibase=16; $red"|bc)
-  green_dec=$(echo "ibase=16; $green"|bc)
-  blue_dec=$(echo "ibase=16; $blue"|bc)
+  red_dec=$(echo "ibase=16; $red" | bc)
+  green_dec=$(echo "ibase=16; $green" | bc)
+  blue_dec=$(echo "ibase=16; $blue" | bc)
   echo "$red_dec" "$green_dec" "$blue_dec"
 }
 
@@ -180,17 +176,14 @@ function motd() {
 
 function colors() {
   echo
-  for I in $(seq 1 1 255)
-  do
-    if [[ ${I} == 16 ]]
-    then
+  for I in $(seq 1 1 255); do
+    if [[ ${I} == 16 ]]; then
       c=15
     else
       c=0
     fi
     printf "$(color $c)\033[48;5;${I}m %-3i $(reset_color)" "$I"
-    if [[ $((I % 8)) == 0 ]]
-    then
+    if [[ $((I % 8)) == 0 ]]; then
       echo
     fi
   done
@@ -213,8 +206,7 @@ fi
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
-if [[ -x $(which zoxide) && -z "$ZOXIDELOADED" ]]
-then
+if [[ -x $(which zoxide) && -z "$ZOXIDELOADED" ]]; then
   eval "$(zoxide init --hook prompt bash)"
   ZOXIDELOADED=true
 fi
@@ -225,3 +217,5 @@ alias cd="z"
 
 complete -C /usr/bin/terraform terraform
 [ -e "$HOME/.asdf/installs/rust/1.79.0/env" ] && . "$HOME/.asdf/installs/rust/1.79.0/env"
+
+[ -d "$HOME/.asdf/installs/golang/" ] && eval $(go env)

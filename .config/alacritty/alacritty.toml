@@ -22,16 +22,16 @@ shape = "Block"
 builtin_box_drawing = true
 
 [font.bold]
-family = "term-font3"
+family = "term-font4"
 style = "Bold"
 [font.bold_italic]
-family = "term-font3"
+family = "term-font4"
 style = "BoldItalic"
 [font.italic]
-family = "term-font3"
+family = "term-font4"
 style = "Italic"
 [font.normal]
-family = "term-font3"
+family = "term-font4"
 style = "Regular"
 
 [hints]
@@ -77,7 +77,7 @@ semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
 
 [shell]
 args = ["--login"]
-program = "/bin/bash"
+program = "/bin/zsh"
 
 [window]
 decorations_theme_variant = "Light"

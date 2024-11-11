@@ -20,4 +20,4 @@ configuration {
       sorting-method:    "name";
   }
 }
-@theme "/home/abe/.config/rofi/gruvbox.rasi"
+@theme "/home/abe/.config/rofi/tokyonight.rasi"

@@ -1,0 +1,93 @@
+* {
+    bg0:     #1a1b26;
+    bg1:     #414868;
+    fg0:     #c0caf5;
+
+    accent-color:     #7aa2f7;
+    urgent-color:     #cc241d;
+
+    background-color:   transparent;
+    text-color:         @fg0;
+
+    margin:     0;
+    padding:    0;
+    spacing:    0;
+}
+
+window {
+    location:   center;
+    width:      480;
+    background-color:   @bg0;
+    y-offset : 0px;
+		border: 1px;
+		border-color: @bg1;
+}
+
+inputbar {
+    spacing:    4px;
+    padding:    4px;
+    background-color:   @bg0;
+}
+
+prompt, entry, element-icon, element-text {
+    vertical-align: 0.5;
+}
+
+entry {
+    text-color: @accent-color;
+}
+
+prompt {
+				enabled: false;
+}
+
+textbox {
+    padding:            4px;
+    background-color:   @bg1;
+}
+
+listview {
+    padding:    0;
+    lines:      8;
+    columns:    1;
+    fixed-height:   false;
+}
+
+element {
+    padding:    4px;
+    spacing:    4px;
+}
+
+element normal normal {
+    text-color: @fg0;
+}
+
+element normal urgent {
+    text-color: @urgent-color;
+}
+
+element normal active {
+    text-color: @accent-color;
+}
+
+element selected {
+    text-color: @fg0;
+}
+
+element selected normal, element selected active {
+    background-color:   @bg1;
+}
+
+element selected urgent {
+    background-color:   @bg1;
+		text-color: @urgent-color;
+}
+
+element-icon {
+    size:   0.8em;
+}
+
+element-text {
+    text-color: inherit;
+		highlight: @accent-color;
+}

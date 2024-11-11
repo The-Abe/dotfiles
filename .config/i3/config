@@ -20,12 +20,12 @@ set $c8 #414868
 set $con #333333
 
 # class border bg txt indicator child_border
-client.focused          $con $con $fg $bg $con
-client.focused_inactive $con $con $c8 $bg $bg
-client.unfocused        $con $con $c8 $bg $bg
-client.urgent           $con $con $c1 $bg $c6
-client.placeholder      $con $con $c3 $bg $bg
-client.background       $bg
+client.focused          $c0 $c0 $c4 $c0 $c0
+client.focused_inactive $c0 $c0 $c4 $c0 $c0
+client.unfocused        $c0 $c0 $c7 $c0 $c0
+client.urgent           $c0 $c0 $c1 $c0 $c6
+client.placeholder      $c0 $c0 $c3 $c0 $c0
+client.background       $c0
 
 # Set workspace names for easy modification.
 # Workspace numbers are removed in the bar.
