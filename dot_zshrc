@@ -206,9 +206,9 @@
 
     setopt PROMPT_SUBST
 
-        PROMPT='
-        %F{yellow}%~%f$PROMPT_GIT_INFO
-        %F{%(?..red)}%(?..✗ )%F{blue}❯%f '
+    PROMPT='
+%F{yellow}%~%f$PROMPT_GIT_INFO
+%F{%(?..red)}%(?..✗ )%F{blue}❯%f '
 
         RPROMPT='%F{magenta}%D{%H:%M:%S}%f'
 # }}}

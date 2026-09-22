@@ -285,10 +285,10 @@
               "key": "z"
             },
             {
-              "label": "Alacritty",
+              "label": "Kitty",
               "icon": "",
-              "editor": "~/.config/alacritty/alacritty.toml",
-              "key": "a"
+              "editor": "~/.config/kitty/kitty.conf",
+              "key": "k"
             },
             {
               "label": "Git",
