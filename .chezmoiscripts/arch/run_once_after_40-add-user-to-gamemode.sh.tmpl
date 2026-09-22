@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+{{ if not (eq .chezmoi.osRelease.id "arch" "endeavouros") -}}
+exit 0
+{{ end -}}
+
+sudo gpasswd -a {{ .chezmoi.username }} gamemode

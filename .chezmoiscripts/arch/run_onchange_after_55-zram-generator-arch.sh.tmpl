@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+{{ if not (eq .chezmoi.osRelease.id "arch" "endeavouros") -}}
+exit 0
+{{ end -}}
+
+# zram-generator config hash: {{ include "private_dot_config/systemd/system/zram-generator.conf" | sha256sum }}
+
+SOURCE_CONFIG="$HOME/.config/systemd/system/zram-generator.conf"
+TARGET_CONFIG="/etc/systemd/zram-generator.conf"
+
+if [ -f "$SOURCE_CONFIG" ]; then
+    echo "==> Syncing zram-generator config to ${TARGET_CONFIG}..."
+    sudo mkdir -p "$(dirname "$TARGET_CONFIG")"
+    sudo cp "$SOURCE_CONFIG" "$TARGET_CONFIG"
+    sudo chown root:root "$TARGET_CONFIG"
+    sudo chmod 644 "$TARGET_CONFIG"
+    sudo systemctl enable --now systemd-zram-setup@zram0.service
+fi

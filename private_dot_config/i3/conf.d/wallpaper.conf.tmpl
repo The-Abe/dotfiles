@@ -1,0 +1,5 @@
+# vim: ft=i3config
+# Wallpaper — only where the file is managed (Arch/EndeavourOS).
+{{ if eq .chezmoi.osRelease.id "arch" "endeavouros" }}
+exec_always --no-startup-id nitrogen --set-auto {{ .chezmoi.homeDir }}/.config/wallpapers/arch-gruvbox.png
+{{ end }}

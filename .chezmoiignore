@@ -1,0 +1,6 @@
+{{ if not (eq .chezmoi.osRelease.id "arch" "endeavouros") }}
+.config/wallpapers/arch-gruvbox.png
+{{ end }}
+
+.tmux/plugins/tpm/.git
+.config/nvim/.git

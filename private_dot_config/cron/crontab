@@ -1,0 +1,1 @@
+@reboot find $HOME/tmp/ -type f -delete

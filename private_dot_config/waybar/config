@@ -1,0 +1,128 @@
+{
+    "layer": "top",
+    "position": "bottom",
+    "height": 28,
+    "spacing": 4,
+    "fixed-center": true,
+    "exclusive": true,
+    "passthrough": false,
+    "ipc": true,
+    "margin-left": 0,
+    "margin-right": 0,
+
+    "modules-left": ["sway/workspaces", "custom/window"],
+    "modules-center": [],
+    "modules-right": [
+        "pulseaudio",
+        "custom/backlight",
+        "network",
+        "custom/bluetooth",
+        "battery",
+        "custom/obsidian",
+        "clock",
+        "custom/power"
+    ],
+
+    "sway/workspaces": {
+        "all-outputs": false,
+        "disable-scroll": false,
+        "format": "{name}",
+        "on-click": "activate"
+    },
+
+    "custom/window": {
+        "exec": "~/.config/sway/scripts/window.sh",
+        "interval": 1,
+        "format": "{}",
+        "tooltip": false,
+        "max-length": 70
+    },
+
+    "cpu": {
+        "interval": 2,
+        "format": "  {usage}%",
+        "on-click": "~/.config/sway/scripts/btop.sh"
+    },
+
+    "memory": {
+        "interval": 2,
+        "format": "  {percentage}%",
+        "on-click": "~/.config/sway/scripts/btop.sh"
+    },
+
+    "disk": {
+        "interval": 60,
+        "format": "  {percentage_used}%",
+        "path": "/",
+        "on-click": "thunar /",
+        "on-click-right": "~/.config/sway/scripts/df-view.sh"
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "  muted",
+        "format-icons": {
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+        "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%"
+    },
+
+    "custom/backlight": {
+        "exec": "~/.config/sway/scripts/backlight.sh",
+        "interval": 2,
+        "format": " {}%",
+        "on-click": "brightnessctl set 100%",
+        "on-click-right": "brightnessctl set 10%",
+        "on-scroll-up": "brightnessctl set +5%",
+        "on-scroll-down": "brightnessctl set 5%-"
+    },
+
+    "network": {
+        "format-wifi": " {essid}",
+        "format-ethernet": " {ifname}",
+        "format-disconnected": " offline",
+        "tooltip-format": "{ifname}: {ipaddr}",
+        "on-click": "nm-connection-editor"
+    },
+
+    "custom/bluetooth": {
+        "exec": "~/.config/sway/scripts/bluetooth.sh",
+        "interval": 5,
+        "format": "{}",
+        "on-click": "blueman-manager",
+        "on-click-right": "~/.config/sway/scripts/bluetooth.sh toggle"
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 10
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "  {capacity}%",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip-format": "{timeTo}"
+    },
+
+    "clock": {
+        "interval": 1,
+        "format": " {:%Y-%m-%d  W%V  %H:%M:%S}",
+        "tooltip-format": "{:%A, %d %B %Y}"
+    },
+
+    "custom/obsidian": {
+        "exec": "~/.config/sway/scripts/obsidian-age.sh",
+        "interval": 10,
+        "format": "{}",
+        "tooltip": false
+    },
+
+    "custom/power": {
+        "format": " 󰐥 ",
+        "on-click": "~/.config/sway/scripts/powermenu.sh",
+        "tooltip": false
+    }
+}

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+{{ if not (eq .chezmoi.osRelease.id "arch" "endeavouros") -}}
+exit 0
+{{ end -}}
+
+# Build the Colloid-Gruvbox theme (classic Gruvbox palette, dark, hard/blackness)
+# into ~/.themes and link its gtk-4.0 assets into ~/.config/gtk-4.0 so that
+# GTK3 and GTK4/libadwaita apps both pick it up.
+
+export PATH="$HOME/.local/bin:$PATH"
+
+if ! command -v sassc &>/dev/null; then
+    sudo pacman -S --needed --noconfirm sassc
+fi
+
+SRC="$HOME/.cache/colloid-gruvbox"
+if [ ! -d "$SRC/.git" ]; then
+    rm -rf "$SRC"
+    git clone --depth 1 https://github.com/vinceliuice/Colloid-gtk-theme "$SRC"
+fi
+
+"$SRC/install.sh" -d "$HOME/.themes" -t default -c dark --tweaks black -l >/dev/null
+"$SRC/install.sh" -d "$HOME/.themes" -t default -c dark --tweaks gruvbox -l >/dev/null
+
+gsettings set org.gnome.desktop.interface gtk-theme 'Colloid-Gruvbox-Dark' 2>/dev/null || true
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' 2>/dev/null || true

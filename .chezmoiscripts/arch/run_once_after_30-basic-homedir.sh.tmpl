@@ -1,0 +1,15 @@
+#!/bin/sh
+set -euo pipefail
+
+# crontab hash: {{ include "private_dot_config/cron/crontab" | sha256sum }}
+
+CRON_FILE="$HOME/.config/cron/crontab"
+
+if [ -f "$CRON_FILE" ]; then
+    crontab "$CRON_FILE"
+    echo "==> Updated user crontab via chezmoi."
+fi
+
+[ -d ~/projects ] || mkdir ~/projects
+[ -d ~/tmp ] || mkdir ~/tmp
+[ -d ~/Downloads ] || mkdir ~/Downloads

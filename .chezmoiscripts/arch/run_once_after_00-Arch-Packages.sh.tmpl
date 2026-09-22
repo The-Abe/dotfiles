@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+{{ if not (eq .chezmoi.osRelease.id "arch" "endeavouros") -}}
+exit 0
+{{ end -}}
+
+echo "==> Installing system packages via pacman..."
+
+# System & WM Base
+PACKAGES=(
+    # Window Manager & Display
+    sway
+    swaylock
+    swayidle
+    xorg-xwayland
+    waybar
+    mako
+    swaybg
+    grim
+    slurp
+    wl-clipboard
+    rofi
+    greetd
+    greetd-tuigreet
+
+    # Terminal & Shell Basics
+    alacritty
+    kitty
+    zsh
+    cron
+    yazi
+    ffmpeg
+    7zip
+    poppler
+    resvg
+    imagemagick
+    bluetui
+    
+    # Audio & Hardware
+    pipewire
+    pipewire-pulse
+    wireplumber
+    brightnessctl
+    pamixer
+    bluez
+    blueman
+
+    # Fonts
+    ttf-font-awesome
+    noto-fonts
+    ttf-jetbrains-mono-nerd
+
+    # Gaming
+    steam
+    lutris
+    gamemode
+    lib32-gamemode
+    python-protobuf
+
+    # Containers
+    docker
+    docker-compose
+    docker-buildx
+
+    # Memory compression
+    zram-generator
+
+    # GTK theming
+    sassc
+    gnome-themes-extra
+
+    tailscale
+
+    # Image viewer
+    imv
+)
+
+# Install official packages
+sudo pacman -S --needed --noconfirm "${PACKAGES[@]}"
+
+# Install AUR packages via yay if needed
+AUR_PACKAGES=(
+    # Put any AUR-only packages here (e.g., specific sway plugins, themes, etc.)
+    google-chrome
+)
+
+if [ ${#AUR_PACKAGES[@]} -gt 0 ] && command -v yay &>/dev/null; then
+    echo "==> Installing AUR packages..."
+    yay -S --needed --noconfirm "${AUR_PACKAGES[@]}"
+fi

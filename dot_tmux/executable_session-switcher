@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if ! command -v fzf >/dev/null 2>&1; then
+    printf 'session-switcher: fzf is required\n' >&2
+    exit 1
+fi
+
+sessions=$(tmux list-sessions -F '#S' 2>/dev/null || true)
+if [[ -z $sessions ]]; then
+    exit 0
+fi
+
+selected=$(printf '%s\n' "$sessions" | fzf \
+    --height=100% \
+    --layout=reverse \
+    --border \
+    --prompt='Session> ')
+
+if [[ -n $selected ]]; then
+    if [[ -n ${TMUX:-} ]]; then
+        tmux switch-client -t "=$selected"
+    else
+        tmux attach-session -t "=$selected"
+    fi
+fi

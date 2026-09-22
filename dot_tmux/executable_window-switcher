@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if ! command -v fzf >/dev/null 2>&1; then
+    printf 'window-switcher: fzf is required\n' >&2
+    exit 1
+fi
+
+windows=$(tmux list-windows -a -F '#S|#I|#W' 2>/dev/null || true)
+if [[ -z $windows ]]; then
+    exit 0
+fi
+
+selected=$(printf '%s\n' "$windows" | fzf \
+    --height=100% \
+    --layout=reverse \
+    --border \
+    --prompt='Window> ')
+
+if [[ -n $selected ]]; then
+    IFS='|' read -r session window _ <<< "$selected"
+    target="=${session}:$window"
+
+    if [[ -n ${TMUX:-} ]]; then
+        tmux switch-client -t "$target"
+    else
+        tmux attach-session -t "$target"
+    fi
+fi

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# config.toml hash: {{ include "private_dot_config/mise/config.toml" | sha256sum }}
+
+{{ if not (eq .chezmoi.osRelease.id "arch" "endeavouros") -}}
+exit 0
+{{ end -}}
+
+export PATH="$HOME/.local/bin:$PATH"
+
+if command -v mise &>/dev/null; then
+  echo "==> mise config changed, updating tools..."
+  mise install
+  mise prune --yes
+fi

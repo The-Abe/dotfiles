@@ -1,0 +1,353 @@
+{
+  "label": "Main",
+  "terminal": "kitty",
+  "editor": "kitty -e ~/.local/bin/nvim",
+  "vault": "~/Obsidian",
+  "daily_notes_folder": "Daily",
+  "items": [
+    {
+      "label": "Launch",
+      "key": "l",
+      "icon": "󰜎",
+      "items": [
+        {
+          "label": "Terminal",
+          "terminal": "~",
+          "key": "t"
+        },
+        {
+          "label": "Chrome",
+          "icon": "",
+          "exec": "/usr/bin/google-chrome",
+          "key": "w"
+        },
+        {
+          "label": "KeePassXC",
+          "icon": "",
+          "exec": "keepassxc",
+          "key": "k"
+        },
+        {
+          "label": "Slack",
+          "icon": "",
+          "exec": "slack",
+          "key": "s"
+        },
+        {
+          "label": "Obsidian",
+          "icon": "󱓧",
+          "exec": "obsidian",
+          "key": "o"
+        },
+        {
+          "label": "Discord",
+          "icon": "",
+          "exec": "discord",
+          "key": "d"
+        },
+        {
+          "label": "Lazygit",
+          "exec": "kitty -e lazygit",
+          "key": "g"
+        },
+        {
+          "label": "Lazydocker",
+          "exec": "kitty -e lazydocker",
+          "key": "y"
+        },
+        {
+          "label": "btop",
+          "exec": "kitty -e btop",
+          "key": "b"
+        }
+      ]
+    },
+    {
+      "label": "Screen",
+      "key": "s",
+      "icon": "󰍹",
+      "items": [
+        {
+          "label": "Single",
+          "exec": "~/.screenlayout/1screen.sh",
+          "key": "s"
+        },
+        {
+          "label": "Duo",
+          "exec": "~/.screenlayout/2screens.sh",
+          "key": "d"
+        },
+        {
+          "label": "Office",
+          "exec": "~/.screenlayout/3screens.sh",
+          "key": "o"
+        }
+      ]
+    },
+    {
+      "label": "Bookmarks",
+      "icon": "",
+      "key": "b",
+      "items": [
+        {
+          "label": "XAS",
+          "icon": "󰖟",
+          "exec": "xdg-open https://xas.xpressionlabs.nl/",
+          "key": "x"
+        },
+        {
+          "label": "Outlook",
+          "icon": "󰃮",
+          "exec": "xdg-open https://outlook.cloud.microsoft/calendar/view/day",
+          "key": "m"
+        },
+        {
+          "label": "Gemini",
+          "icon": "",
+          "exec": "xdg-open https://gemini.google.com/?hl=nl",
+          "key": "g"
+        },
+        {
+          "label": "YouTube",
+          "icon": "",
+          "exec": "xdg-open https://www.youtube.com/",
+          "key": "y"
+        },
+        {
+          "label": "Command Center",
+          "icon": "",
+          "exec": "xdg-open https://cc.the-a.be",
+          "key": "c"
+        },
+        {
+          "label": "OpenCode",
+          "icon": "󰒋",
+          "exec": "xdg-open https://code.the-a.be/",
+          "key": "o"
+        },
+        {
+          "label": "Personal GitHub",
+          "icon": "",
+          "exec": "xdg-open https://github.com/the-abe",
+          "key": "u"
+        },
+        {
+          "label": "Company GitHub",
+          "icon": "",
+          "exec": "xdg-open https://github.com/xpressionlabs",
+          "key": "w"
+        },
+        {
+          "label": "Kobo",
+          "icon": "",
+          "exec": "xdg-open https://www.kobo.com/nl/nl/library/collection/791d33d4-6282-4dcd-b4cd-3a27251962c3",
+          "key": "k"
+        },
+        {
+          "label":"Jira",
+          "icon": "",
+          "exec": "xdg-open https://xpression.atlassian.net/jira/dashboards/10004",
+          "key": "j"
+        },
+        {
+          "label": "Planning",
+          "icon": "",
+          "exec": "xdg-open https://xpression.atlassian.net/plugins/servlet/ac/com.reliex.activitytimeline.cloud.atlassian.connect/page-plan?project.key=CHN&project.id=10833",
+          "key": "p"
+        }
+      ]
+    },
+    {
+      "label": "Notes",
+      "icon": "",
+      "key": "n",
+      "items": [
+        {
+          "label": "Log",
+          "icon": "",
+          "note": "log",
+          "key": "l"
+        },
+        {
+          "label": "Todo",
+          "icon": "󰄱",
+          "note": "todo",
+          "key": "t"
+        }
+      ]
+    },
+    {
+      "label": "Power",
+      "key": "p",
+      "icon": "󰐥",
+      "items": [
+        {
+          "label": "Lock",
+          "icon": "󰌾",
+          "exec": "wmctl lock",
+          "key": "l"
+        },
+        {
+          "label": "Logout",
+          "icon": "󰍃",
+          "exec": "wmctl exit",
+          "key": "o"
+        },
+        {
+          "label": "Suspend",
+          "icon": "󰒲",
+          "exec": "systemctl suspend",
+          "key": "s"
+        },
+        {
+          "label": "Reboot",
+          "icon": "󰜉",
+          "exec": "systemctl reboot",
+          "key": "r"
+        },
+        {
+          "label": "Shutdown",
+          "icon": "󰐥",
+          "exec": "systemctl poweroff",
+          "key": "x"
+        }
+      ]
+    },
+    {
+      "label": "Screenshot",
+      "key": "f",
+      "icon": "󰄀",
+      "items": [
+        {
+          "label": "Area",
+          "icon": "󰆡",
+          "exec": "screenshot area",
+          "key": "a"
+        },
+        {
+          "label": "Fullscreen",
+          "icon": "󰍹",
+          "exec": "screenshot full",
+          "key": "f"
+        },
+        {
+          "label": "Launcher",
+          "icon": "󰹑",
+          "exec": "screenshot launcher",
+          "key": "l"
+        }
+      ]
+    },
+    {
+      "label": "Config",
+      "key": "c",
+      "icon": "",
+      "items": [
+        {
+          "label": "Files",
+          "icon": "󰉋",
+          "key": "f",
+          "items": [
+            {
+              "label": "Neovim",
+              "icon": "",
+              "editor": "~/.config/nvim/init.lua",
+              "key": "n"
+            },
+            {
+              "label": "Tmux",
+              "icon": "",
+              "editor": "~/.config/tmux/tmux.conf",
+              "key": "t"
+            },
+            {
+              "label": "SSH",
+              "icon": "",
+              "editor": "~/.ssh/config",
+              "key": "s"
+            },
+            {
+              "label": "Sway",
+              "icon": "",
+              "editor": "~/.config/sway/config",
+              "key": "i"
+            },
+            {
+              "label": "Waybar",
+              "icon": "",
+              "editor": "~/.config/waybar/config",
+              "key": "p"
+            },
+            {
+              "label": "Zsh",
+              "icon": "",
+              "editor": "~/.zshrc",
+              "key": "z"
+            },
+            {
+              "label": "Alacritty",
+              "icon": "",
+              "editor": "~/.config/alacritty/alacritty.toml",
+              "key": "a"
+            },
+            {
+              "label": "Git",
+              "icon": "",
+              "editor": "~/.gitconfig",
+              "key": "g"
+            },
+            {
+              "label": "Rofi-whichkey",
+              "editor": "~/.config/i3/rofi-whichkey.json",
+              "key": "r"
+            },
+            {
+              "label": "Whizsh-key",
+              "editor": "~/.config/whizsh-key/config.dsl",
+              "key": "w"
+            }
+          ]
+        },
+        {
+          "label": "Network",
+          "icon": "",
+          "exec": "nm-connection-editor",
+          "key": "n"
+        },
+        {
+          "label": "Bluetooth",
+          "icon": "",
+          "exec": "blueman-manager",
+          "key": "b"
+        },
+        {
+          "label": "Volume",
+          "icon": "",
+          "exec": "pavucontrol",
+          "key": "v"
+        },
+        {
+          "label": "Reload",
+          "icon": "",
+          "exec": "wmctl reload",
+          "key": "o"
+        }
+      ]
+    },
+    {
+      "label": "Terminal",
+      "terminal": "~",
+      "key": "t"
+    },
+    {
+      "label": "Clipboard",
+      "exec": "~/.config/sway/scripts/clipmenu.sh",
+      "key": "v"
+    },
+    {
+      "label": "Windows",
+      "exec": "rofi -show window",
+      "key": "w"
+    }
+  ]
+}

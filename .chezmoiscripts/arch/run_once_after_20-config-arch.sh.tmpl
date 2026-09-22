@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+{{ if not (eq .chezmoi.osRelease.id "arch" "endeavouros") -}}
+exit 0
+{{ end -}}
+
+chsh -s /usr/bin/zsh {{ .chezmoi.username }}
+sudo systemctl start greetd.service

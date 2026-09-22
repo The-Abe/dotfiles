@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+{{ if not (eq .chezmoi.osRelease.id "arch" "endeavouros") -}}
+exit 0
+{{ end -}}
+
+# Install mise if not present
+if ! command -v mise &>/dev/null && [ ! -f "$HOME/.local/bin/mise" ]; then
+  echo "==> Installing mise..."
+  curl -fsSL https://mise.run | sh
+fi
+
+# Ensure mise is in PATH for this script run
+export PATH="$HOME/.local/bin:$PATH"
+
+# Install all global tools from ~/.config/mise/config.toml
+echo "==> Installing global mise tools..."
+mise install
+
+echo "==> Linking mise tools for sudo use"
+sudo ln -sf {{ .chezmoi.homeDir }}/.local/share/mise/shims/* /usr/local/bin/

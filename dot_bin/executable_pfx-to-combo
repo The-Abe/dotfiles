@@ -1,0 +1,6 @@
+ #!/bin/bash
+ openssl pkcs12 -in $1 -provider legacy -provider default -nocerts -out ${1%.pfx}.enc.key
+ openssl rsa -in ${1%.pfx}.enc.key -out ${1%.pfx}.key
+ openssl pkcs12 -in $1 -provider legacy -provider default -clcerts -nokeys -out ${1%.pfx}.crt
+ openssl pkcs12 -in $1 -provider legacy -provider default -cacerts -nokeys -out ${1%.pfx}.ca
+ cat ${1%.pfx}.key ${1%.pfx}.crt ${1%.pfx}.ca > ${1%.pfx}.combo

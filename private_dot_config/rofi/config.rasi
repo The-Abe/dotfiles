@@ -1,0 +1,167 @@
+configuration {
+    modi: "drun,run,filebrowser,combi";
+    combi-modi: "drun,run";
+    font: "JetBrainsMono Nerd Font 11";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    terminal: "alacritty";
+    drun-display-format: "{icon} {name}";
+    matching: "fuzzy";
+    sort: true;
+    case-sensitive: false;
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-drun: "  Apps ";
+    display-run: "  Run ";
+    display-filebrowser: "  Files ";
+    display-combi: "  Combi ";
+    sidebar-mode: true;
+}
+
+* {
+    /* Gruvbox Dark Hard Color Palette */
+    grv-bg:       #1d2021;
+    grv-bg1:      #282828;
+    grv-bg2:      #3c3836;
+    grv-bg3:      #504945;
+    grv-fg:       #d5c4a1;
+    grv-fg1:      #fbf1c7;
+    grv-fg2:      #ebdbb2;
+    grv-fg3:      #bdae93;
+    grv-fg4:      #a89984;
+    grv-red:      #fb4934;
+    grv-green:    #b8bb26;
+    grv-yellow:   #fabd2f;
+    grv-blue:     #83a598;
+    grv-purple:   #d3869b;
+    grv-aqua:     #8ec07c;
+    grv-orange:   #fe8019;
+    grv-gray:     #928374;
+
+    background-color:   transparent;
+    text-color:         @grv-fg;
+    margin:             0;
+    padding:            0;
+    spacing:            8px;
+}
+
+window {
+    width:              680px;
+    x-offset:           0px;
+    y-offset:           0px;
+
+    background-color:   @grv-bg;
+    border:             1px;
+    border-color:       @grv-bg3;
+}
+
+mainbox {
+    background-color:   @grv-bg;
+    padding:            14px;
+    children:           [ inputbar, listview, mode-switcher ];
+}
+
+inputbar {
+    spacing:            10px;
+    padding:            13px 16px;
+    background-color:   @grv-bg1;
+    text-color:         @grv-fg1;
+    border:             1px;
+    border-color:       @grv-bg2;
+    children:           [ prompt, entry ];
+}
+
+prompt {
+    padding:            0px;
+    background-color:   transparent;
+    text-color:         @grv-orange;
+    font:               "JetBrainsMono Nerd Font Bold 11";
+}
+
+entry {
+    background-color:   transparent;
+    text-color:         @grv-fg1;
+    placeholder:        "Search...";
+    placeholder-color:  @grv-fg4;
+}
+
+listview {
+    padding:            6px 0px 2px 0px;
+    border:             0px;
+    lines:              8;
+    columns:            1;
+    background-color:   transparent;
+    fixed-height:       true;
+    cycle:              true;
+}
+
+scrollbar {
+    width:        4px;
+    border:       0px;
+    handle-width: 4px;
+    handle-color: @grv-bg3;
+    background-color: transparent;
+    margin:       0px 0px 8px 6px;
+}
+
+element {
+    padding:            9px 12px;
+    spacing:            12px;
+    background-color:   transparent;
+    text-color:         @grv-fg;
+}
+
+element normal.normal {
+    background-color:   @grv-bg;
+    text-color:         @grv-fg;
+}
+
+element selected.normal {
+    background-color:   @grv-bg3;
+    text-color:         @grv-fg1;
+}
+
+element selected.active {
+    background-color:   @grv-bg3;
+    text-color:         @grv-yellow;
+}
+
+element selected.urgent {
+    background-color:   @grv-bg3;
+    text-color:         @grv-red;
+}
+
+element alternate.normal {
+    background-color:   transparent;
+    text-color:         @grv-fg;
+}
+
+element-icon {
+    size:               24px;
+    cursor:             inherit;
+}
+
+element-text {
+    vertical-align:     0.5;
+    text-color:         inherit;
+}
+
+mode-switcher {
+    spacing:            6px;
+    padding:            6px;
+    background-color:   @grv-bg1;
+}
+
+button {
+    padding:            8px 12px;
+    background-color:   transparent;
+    text-color:         @grv-fg4;
+    vertical-align:     0.5;
+    horizontal-align:   0.5;
+}
+
+button selected {
+    background-color:   @grv-bg3;
+    text-color:         @grv-yellow;
+}

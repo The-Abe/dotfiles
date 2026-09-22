@@ -1,0 +1,78 @@
+# vim: ft=swayconfig
+# Sway config — ported from the i3 config. Gruvbox Dark Hard.
+
+# Font is defined in ~/.config/fontconfig/fonts.conf with an emoji fallback.
+font pango:JetBrainsMono Nerd Font Mono 10
+
+# ── Gruvbox Dark Hard color scheme ────────────────────────────────────────────
+set $bg  #1d2021
+set $con #3c3836
+set $fg  #ebdbb2
+set $c0  #282828
+set $c1  #cc241d
+set $c2  #98971a
+set $c3  #d79921
+set $c4  #458588
+set $c5  #b16286
+set $c6  #689d6a
+set $c7  #a89984
+set $c8  #928374
+
+# ── Window border colors ──────────────────────────────────────────────────────
+#                 border  bg    text  indicator  child_border
+client.focused          $c0  $c6  $bg   $c0        $c3
+client.focused_inactive $c0  $c0  $fg   $c0        $c8
+client.unfocused        $c0  $c0  $fg   $c0        $c8
+client.urgent           $c0  $c0  $c1   $c0        $c1
+client.placeholder      $c0  $c0  $c4   $c0        $c8
+client.background       $con
+
+# ── Modifier key ──────────────────────────────────────────────────────────────
+set $mod Mod4
+
+# ── Workspace names (Q–P run left-to-right on the keyboard) ──────────────────
+set $ws1  "1:Q"
+set $ws2  "2:W"
+set $ws3  "3:E"
+set $ws4  "4:R"
+set $ws5  "5:T"
+set $ws6  "6:Y"
+set $ws7  "7:U"
+set $ws8  "8:I"
+set $ws9  "9:O"
+set $ws10 "10:P"
+
+# ── Defaults ──────────────────────────────────────────────────────────────────
+default_border pixel 2
+floating_modifier $mod
+focus_follows_mouse no
+gaps inner 4
+gaps outer 0
+hide_edge_borders smart
+popup_during_fullscreen smart
+smart_gaps off
+workspace_auto_back_and_forth no
+
+# ── Floating rules ────────────────────────────────────────────────────────────
+# app_id matches native Wayland apps, class matches XWayland apps.
+for_window [title="float"] floating enable
+for_window [app_id="float"] floating enable
+for_window [class="float"] floating enable
+for_window [app_id="feh"] floating enable
+for_window [class="feh"] floating enable
+for_window [app_id="blueman-manager"] floating enable
+for_window [class="Blueman-manager"] floating enable
+for_window [app_id="pavucontrol"] floating enable
+for_window [class="Pavucontrol"] floating enable
+for_window [app_id="nm-connection-editor"] floating enable
+for_window [class="Nm-connection-editor"] floating enable
+for_window [app_id="flameshot"] floating enable, border none
+for_window [class="flameshot"] floating enable, border none
+for_window [app_id="gedit"] floating enable
+for_window [class="Gedit"] floating enable
+for_window [app_id="file-roller"] floating enable
+for_window [class="File-roller"] floating enable
+for_window [title="float"] border pixel 1
+
+# ── Shared config: keybindings, input, output, and startup ────────────────────
+include conf.d/*.conf

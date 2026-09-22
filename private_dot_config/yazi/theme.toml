@@ -1,0 +1,8 @@
+# Gruvbox Dark Hard
+# Base: bennyyip/gruvbox-dark flavor, overridden to the "hard" background (#1d2021).
+# vim:fileencoding=utf-8
+
+# : Flavor {{{
+[flavor]
+dark = "gruvbox-dark"
+# : }}}

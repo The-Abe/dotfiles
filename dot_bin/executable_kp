@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Get password from prompt
+source ~/.env
+if [ -z KPXC_PASSWORD ]; then
+  password=$(rofi -dmenu -p "KeePassXC Password" -password)
+else
+  password="$KPXC_PASSWORD"
+fi
+
+[ -z "$password" ] && echo "No password entered" >&2 && exit 1
+passwords=$(echo "$password" | keepassxc-cli ls -R $HOME/Obsidian/Files/abe.kdbx 2>/dev/null)
+[[ $? -ne 0 ]] && echo "Incorrect password" >&2 && exit 1
+
+IFS=$'\n'
+declare -a password_list
+for line in $passwords; do
+    if [[ $line == *"  "* ]]; then
+        password_list+=("${group}${line#  }")
+    else
+        group=$line
+    fi
+done
+unset IFS
+
+chosen_pass=$(printf '%s\n' "${password_list[@]}" | rofi -dmenu -matching fuzzy -i -p "Select entry")
+[ -z "$chosen_pass" ] && echo "No password selected" && exit 1
+if [ $XDG_SESSION_TYPE = "x11" ]
+then
+    echo "$password" | keepassxc-cli show -a password $HOME/Obsidian/Files/abe.kdbx "$chosen_pass" 2>/dev/null | xsel -b
+else
+    echo "$password" | keepassxc-cli show -a password $HOME/Obsidian/Files/abe.kdbx "$chosen_pass" 2>/dev/null | wl-copy
+fi
+exit 0

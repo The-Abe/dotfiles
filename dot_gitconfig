@@ -1,0 +1,5 @@
+[user]
+	email = abevanderwielen@gmail.com
+	name = The-Abe
+[core]
+	excludesFile = ~/.gitignore

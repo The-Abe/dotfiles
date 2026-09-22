@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+{{ if not (eq .chezmoi.osRelease.id "arch" "endeavouros") -}}
+exit 0
+{{ end -}}
+
+SOURCE_OVERRIDE="$HOME/.config/systemd/system/greetd.service.d/override.conf"
+TARGET_OVERRIDE="/etc/systemd/system/greetd.service.d/override.conf"
+
+if [ ! -f "$SOURCE_OVERRIDE" ]; then
+    exit 0
+fi
+
+if [ -f "$TARGET_OVERRIDE" ] && sudo cmp -s "$SOURCE_OVERRIDE" "$TARGET_OVERRIDE"; then
+    exit 0
+fi
+
+echo "==> Syncing greetd.service drop-in to ${TARGET_OVERRIDE}..."
+sudo mkdir -p "$(dirname "$TARGET_OVERRIDE")"
+sudo install -o root -g root -m 644 "$SOURCE_OVERRIDE" "$TARGET_OVERRIDE"
+sudo systemctl daemon-reload

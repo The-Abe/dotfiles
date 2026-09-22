@@ -1,0 +1,134 @@
+#!/usr/bin/env bash
+# vim: ft=sh
+# i3bar status script — focused on time awareness.
+# Uses Timewarrior (timew) for task tracking integration.
+# Outputs JSON per the i3bar protocol.
+
+WORKHOURS="${XDG_CONFIG_HOME:-$HOME/.config}/i3/workhours.conf"
+
+# ── i3bar protocol header ─────────────────────────────────────────────────────
+printf '{"version":1}\n[\n'
+
+# ── helpers ───────────────────────────────────────────────────────────────────
+
+# Output a single JSON block. Args: name, text, color, [urgent=false]
+block() {
+    local name="$1" text="$2" color="$3" urgent="${4:-false}"
+    printf '{"name":"%s","full_text":" %s ","color":"%s","urgent":%s}' \
+        "$name" "$text" "$color" "$urgent"
+}
+
+# Convert an ISO 8601 duration (e.g. P1DT2H30M0S) to a short human string.
+fmt_duration() {
+    local d="${1#P}" days=0 hours=0 mins=0
+    [[ "$d" == *D* ]] && { days="${d%%D*}"; d="${d#*D}"; }
+    d="${d#T}"
+    [[ "$d" == *H* ]] && { hours="${d%%H*}"; d="${d#*H}"; }
+    [[ "$d" == *M* ]] && mins="${d%%M*}"
+
+    if   (( days  > 0 )); then printf "%dd%dh"  "$days"  "$hours"
+    elif (( hours > 0 )); then printf "%dh%02dm" "$hours" "$mins"
+    else                       printf "%dm"      "$mins"
+    fi
+}
+
+# Parse HH:MM (or plain H) into total minutes.
+to_minutes() {
+    local t="$1"
+    if [[ "$t" == *:* ]]; then
+        printf '%d' $(( 10#${t%%:*} * 60 + 10#${t##*:} ))
+    else
+        printf '%d' $(( 10#$t * 60 ))
+    fi
+}
+
+# Load today's work hours from workhours.conf.
+# Sets WORK_START_MIN and WORK_END_MIN (in minutes), or leaves them empty for days off.
+load_work_hours() {
+    [[ -f "$WORKHOURS" ]] && source "$WORKHOURS"
+    local day
+    day=$(date +%a | tr '[:lower:]' '[:upper:]')  # MON, TUE, WED, ...
+    local start_var="${day}_START" end_var="${day}_END"
+    local start_val="${!start_var}" end_val="${!end_var}"
+    if [[ -n "$start_val" && -n "$end_val" ]]; then
+        WORK_START_MIN=$(to_minutes "$start_val")
+        WORK_END_MIN=$(to_minutes "$end_val")
+    else
+        WORK_START_MIN=""
+        WORK_END_MIN=""
+    fi
+}
+
+# 10-character progress bar for the workday.
+# Returns empty string on days off or outside configured hours.
+workday_bar() {
+    load_work_hours
+    [[ -z "$WORK_START_MIN" || -z "$WORK_END_MIN" ]] && return
+
+    local now_min=$(( 10#$(date +%H) * 60 + 10#$(date +%M) ))
+    local start=$WORK_START_MIN
+    local end=$WORK_END_MIN
+    local filled=0
+    (( now_min > start && now_min < end )) && \
+        filled=$(( (now_min - start) * 10 / (end - start) ))
+    (( now_min >= end )) && filled=10
+
+    local bar=""
+    for (( i=0; i<filled;  i++ )); do bar="${bar}#"; done
+    for (( i=filled; i<10; i++ )); do bar="${bar}."; done
+    printf '[%s] ' "$bar"
+}
+
+# ── main loop ─────────────────────────────────────────────────────────────────
+while true; do
+    parts=()
+
+    # ── Timewarrior: current task ─────────────────────────────────────────────
+    if timew get dom.active 2>/dev/null | grep -q '^1$'; then
+        tag=$(timew get dom.active.tag.1 2>/dev/null)
+        dur=$(fmt_duration "$(timew get dom.active.duration 2>/dev/null)")
+        parts+=("$(block timew "${tag}  ${dur}" '#f7768e')")
+    else
+        parts+=("$(block timew 'idle' '#565f89')")
+    fi
+
+    # ── Timewarrior: total tracked today ──────────────────────────────────────
+    today_total=$(timew summary :day 2>/dev/null \
+        | grep -oP '[0-9]+:[0-9]+:[0-9]+$' | tail -1)
+    if [[ -n "$today_total" ]]; then
+        parts+=("$(block today "today: ${today_total}" '#7aa2f7')")
+    fi
+
+    # ── Volume ────────────────────────────────────────────────────────────────
+    if pactl get-sink-mute @DEFAULT_SINK@ 2>/dev/null | grep -q 'yes'; then
+        parts+=("$(block vol 'vol: mute' '#565f89')")
+    else
+        vol=$(pactl get-sink-volume @DEFAULT_SINK@ 2>/dev/null \
+            | grep -oP '\d+%' | head -1)
+        parts+=("$(block vol "vol: ${vol}" '#a9b1d6')")
+    fi
+
+    # ── Battery ───────────────────────────────────────────────────────────────
+    if [[ -f /sys/class/power_supply/BAT0/capacity ]]; then
+        pct=$(< /sys/class/power_supply/BAT0/capacity)
+        status=$(< /sys/class/power_supply/BAT0/status)
+        urgent="false"
+        if   [[ "$status" == "Charging"     ]]; then bat_color='#9ece6a'; bat_text="bat: ${pct}% +"
+        elif (( pct < 10 ));                    then bat_color='#f7768e'; bat_text="bat: ${pct}%"; urgent="true"
+        elif (( pct < 30 ));                    then bat_color='#e0af68'; bat_text="bat: ${pct}%"
+        else                                         bat_color='#a9b1d6'; bat_text="bat: ${pct}%"
+        fi
+        parts+=("$(block bat "$bat_text" "$bat_color" "$urgent")")
+    fi
+
+    # ── Day + date ────────────────────────────────────────────────────────────
+    parts+=("$(block date "$(date +'%a %-d %b')" '#7dcfff')")
+
+    # ── Workday progress bar + clock ─────────────────────────────────────────
+    parts+=("$(block time "$(workday_bar)$(date +'%H:%M:%S')" '#e0af68')")
+
+    # ── Emit one JSON frame ───────────────────────────────────────────────────
+    printf '[%s],\n' "$(IFS=,; printf '%s' "${parts[*]}")"
+
+    sleep 1
+done

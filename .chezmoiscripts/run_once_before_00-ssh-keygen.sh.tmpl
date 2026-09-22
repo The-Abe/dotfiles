@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+KEY_TYPE="${SSH_KEY_TYPE:-ed25519}"
+KEY_PATH="$HOME/.ssh/id_${KEY_TYPE}"
+
+if [ -f "$KEY_PATH" ]; then
+    exit 0
+fi
+
+mkdir -p "$HOME/.ssh"
+chmod 700 "$HOME/.ssh"
+
+ssh-keygen -t "$KEY_TYPE" -f "$KEY_PATH" -N "" -C "$(whoami)@$(hostname)"
+chmod 600 "$KEY_PATH"
+chmod 644 "$KEY_PATH.pub"
+
+echo ""
+echo "==> Generated a new SSH key: $KEY_PATH"
+echo "==> Add this public key to GitHub (Settings -> SSH and GPG keys):"
+echo ""
+cat "$KEY_PATH.pub"
+echo ""
+echo "==> Then run 'chezmoi apply' again to finish (autoPush is enabled)."

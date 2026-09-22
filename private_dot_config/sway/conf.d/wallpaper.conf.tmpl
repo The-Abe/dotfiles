@@ -1,0 +1,6 @@
+# vim: ft=swayconfig
+# Wallpaper — only where the file is managed (Arch/EndeavourOS).
+# Loads after outputs.conf, so it overrides the solid fallback color.
+{{ if eq .chezmoi.osRelease.id "arch" "endeavouros" }}
+exec swaybg -i {{ .chezmoi.homeDir }}/.config/wallpapers/arch-gruvbox.png fill
+{{ end }}

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+{{ if not (eq .chezmoi.osRelease.id "arch" "endeavouros") -}}
+exit 0
+{{ end -}}
+
+# greetd config hash: {{ include "private_dot_config/greetd/config.toml" | sha256sum }}
+
+SOURCE_CONFIG="$HOME/.config/greetd/config.toml"
+TARGET_CONFIG="/etc/greetd/config.toml"
+
+if [ -f "$SOURCE_CONFIG" ]; then
+    echo "==> Syncing greetd config to /etc/greetd/config.toml..."
+    sudo mkdir -p /etc/greetd
+    sudo cp "$SOURCE_CONFIG" "$TARGET_CONFIG"
+    sudo chown root:root "$TARGET_CONFIG"
+    sudo chmod 644 "$TARGET_CONFIG"
+fi

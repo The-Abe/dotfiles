@@ -1,0 +1,80 @@
+/* waybar style — Gruvbox Dark Hard, opaque. Mirrors the polybar config. */
+
+* {
+    font-family: "JetBrainsMono Nerd Font Propo", "Noto Sans CJK JP", "Noto Color Emoji";
+    font-weight: bold;
+    font-size: 13px;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: #1d2021;
+    color: #ebdbb2;
+}
+
+/* Workspaces */
+#workspaces {
+    background-color: transparent;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    color: #a89984;
+    background-color: #282828;
+}
+
+#workspaces button.focused {
+    color: #1d2021;
+    background-color: #fe8019;
+}
+
+#workspaces button.urgent {
+    color: #1d2021;
+    background-color: #fb4934;
+}
+
+#workspaces button:hover {
+    background-color: #3c3836;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+/* Window title */
+#custom-window {
+    color: #a89984;
+    padding: 0 8px;
+}
+
+/* Right-side modules */
+#cpu          { color: #fabd2f; background-color: #282828; }
+#memory       { color: #d3869b; background-color: #282828; }
+#disk         { color: #8ec07c; background-color: #282828; }
+#pulseaudio   { color: #83a598; background-color: #282828; }
+#pulseaudio.muted { color: #fb4934; background-color: #282828; }
+#custom-backlight { color: #fabd2f; background-color: #282828; }
+#network      { color: #b8bb26; background-color: #282828; }
+#network.disconnected { color: #fb4934; background-color: #282828; }
+#custom-bluetooth { color: #83a598; background-color: #282828; }
+#battery      { color: #ebdbb2; background-color: #282828; }
+#battery.charging { color: #b8bb26; background-color: #282828; }
+#battery.warning  { color: #fabd2f; background-color: #282828; }
+#battery.critical { color: #fb4934; background-color: #282828; }
+#clock        { color: #ebdbb2; background-color: #3c3836; }
+#custom-obsidian        { color: #d3869b; background-color: #282828; }
+#custom-power { color: #fb4934; background-color: #282828; }
+
+#cpu,
+#memory,
+#disk,
+#pulseaudio,
+#custom-backlight,
+#network,
+#custom-bluetooth,
+#battery,
+#clock,
+#custom-obsidian,
+#custom-power {
+    padding: 0 8px;
+}

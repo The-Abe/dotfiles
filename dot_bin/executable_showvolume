@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Get the default sink from pactl
+current_sink=$(pactl get-default-sink)
+
+# Get the volume from pactl
+# Trim the output before the name of the current sink to get the correct values
+vol=$(pactl list sinks | sed "0,/$current_sink/d" | awk '/[^ ]Volume/{print $5}')
+mute=$(pactl list sinks | sed "0,/$current_sink/d" | awk '/Mute/{print $2}')
+if [[ $mute == "yes" ]]; then
+    title="Muted"
+else
+    title="Volume"
+fi
+notify-send -u low -a "Volume" "$title" "${vol%\%}%"

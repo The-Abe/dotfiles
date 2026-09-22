@@ -1,0 +1,5 @@
+#!/bin/bash
+# Brightness is an int from 0 to 255
+brightness_percentage=$(brightnessctl | grep -o "[0-9]\+%")
+echo $brightness_percentage
+notify-send -u low -a "Brightness" "Brightness" "${brightness_percentage%\%}%"
