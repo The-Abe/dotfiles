@@ -234,38 +234,54 @@
 
 # ── Tmux autoload ───────────────────────────────────────────── {{{
 # Automatically attach/create sessions when entering ~/projects/* or ~/.config/*.
-                                                                  autoload -U add-zsh-hook
+autoload -U add-zsh-hook
 
-                                                                  auto_tmux_projects() {
-                                                                  local session_name
+auto_tmux_projects() {
+    local session_name
 
-# Target top-level directories under ~/projects OR ~/.config
-# E.g., ~/projects/foo or ~/.config/nvim (ignores deeper paths)
-if [[ "$PWD" =~ "^$HOME/(projects|\.config)/[^/]+$" ]]; then
+    # Target top-level directories under ~/projects OR ~/.config
+    # E.g., ~/projects/foo or ~/.config/nvim (ignores deeper paths)
+    if [[ "$PWD" =~ "^$HOME/(projects|\.config)/[^/]+$" ]]; then
 
-# Prefix .config sessions to avoid name collisions (e.g. config-nvim)
-if [[ "$PWD" == "$HOME/.config/"* ]]; then
-session_name="config-$(basename "$PWD" | tr '.:' '__')"
-else
-session_name=$(basename "$PWD" | tr '.:' '__')
-fi
+    # Prefix .config sessions to avoid name collisions (e.g. config-nvim)
+    if [[ "$PWD" == "$HOME/.config/"* ]]; then
+        session_name="config-$(basename "$PWD" | tr '.:' '__')"
+    else
+        session_name=$(basename "$PWD" | tr '.:' '__')
+    fi
 
-# Ensure session exists (start detached at directory root)
-tmux has-session -t "$session_name" 2>/dev/null || tmux new-session -d -s "$session_name" -c "$PWD"
+    # Ensure session exists (start detached at directory root)
+    local created=0
+    if ! tmux has-session -t "$session_name" 2>/dev/null; then
+        tmux new-session -d -s "$session_name" -c "$PWD"
+        created=1
+    fi
 
-if [[ -n "$TMUX" ]]; then
-# Already in tmux: switch client if moving to a different session
-local current_session
-current_session=$(tmux display-message -p '#S')
+    if [[ -n "$TMUX" ]]; then
+        # Already in tmux: move this pane into the target session
+        local current_session pane_id pane
+        current_session=$(tmux display-message -p '#S')
 
-if [[ "$current_session" != "$session_name" ]]; then
-tmux switch-client -t "$session_name"
-fi
-else
-# Outside tmux: attach directly
-tmux attach-session -t "$session_name"
-fi
-fi
+        if [[ "$current_session" != "$session_name" ]]; then
+            pane_id=$(tmux display-message -p '#{pane_id}')
+
+            # Join the origin pane into the target session (PWD is left behind)
+            tmux move-pane -t "$session_name"
+
+            # Drop the placeholder pane a fresh new-session spawned
+            if (( created )); then
+                for pane in $(tmux list-panes -t "$session_name" -F '#{pane_id}'); do
+                    [[ "$pane" != "$pane_id" ]] && tmux kill-pane -t "$pane"
+                done
+            fi
+
+            tmux switch-client -t "$session_name"
+        fi
+    else
+        # Outside tmux: attach directly
+        tmux attach-session -t "$session_name"
+    fi
+    fi
 }
 
 add-zsh-hook chpwd auto_tmux_projects
