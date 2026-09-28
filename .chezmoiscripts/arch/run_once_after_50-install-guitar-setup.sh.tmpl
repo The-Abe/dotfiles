@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+{{ if not (eq .chezmoi.osRelease.id "arch" "endeavouros") -}}
+exit 0
+{{ end -}}
+
+source ~/.env
+if [[ "${GUITAR_MODE:-0}" != "1" ]]; then
+    echo "==> GUITAR_MODE not set to 1, skipping guitar setup"
+    exit 0
+fi
+
+echo "==> Installing guitar audio setup..."
+
+PACMAN_PACKAGES=(
+    guitarix
+    pipewire-jack
+    qpwgraph
+    realtime-privileges
+    carla
+)
+
+sudo pacman -S --needed --noconfirm "${PACMAN_PACKAGES[@]}"
+
+AUR_PACKAGES=(
+    gxplugins.lv2
+    neural-amp-modeler-lv2
+    ratatouille-lv2
+    tone3000-bin
+)
+
+if command -v yay &>/dev/null; then
+    yay -S --needed --noconfirm "${AUR_PACKAGES[@]}"
+fi
+
+sudo usermod -aG realtime "$USER"
+sudo usermod -aG audio "$USER"
+
+echo "==> Guitar setup complete. Log out and back in for realtime group to take effect."
