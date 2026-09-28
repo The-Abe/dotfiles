@@ -114,9 +114,37 @@ statusline.section_location = function() return '%2l:%-2v' end
 vim.pack.add { gh 'MeanderingProgrammer/render-markdown.nvim' }
 require('render-markdown').setup {
   completions = { lsp = { enabled = true } },
+  sign = {
+    enabled = false,
+  },
+  indent = {
+    enabled = true,
+    icon = '  ',
+    per_level = 2,
+  },
+  code = {
+    border = 'thick',
+  },
   heading = {
-    icons = { '1. ', '2. ', '3. ', '4. ' , '5. ', '6. ', '7. ', '8. ', '9. ' },
-    position = 'eol',
+    icons = {'§ '},
+    signs = {'1','2','3','4','5','6'},
+    position = 'inline',
+    backgrounds = {
+      'GruvboxPurpleBold',
+      'GruvboxOrangeBold',
+      'GruvboxGreenBold',
+      'GruvboxBlueBold',
+      'GruvboxYellowBold',
+      'GruvboxRedBold',
+    },
+    foregrounds = {
+      'GruvboxPurpleBold',
+      'GruvboxOrangeBold',
+      'GruvboxGreenBold',
+      'GruvboxBlueBold',
+      'GruvboxYellowBold',
+      'GruvboxRedBold',
+    },
   },
   checkbox = {
     checked = {

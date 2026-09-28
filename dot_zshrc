@@ -1,235 +1,246 @@
 # vim: set foldmethod=marker foldlevel=0 foldcolumn=2:
 
 # ── Environment ─────────────────────────────────────────────── {{{
-    export LANG=en_US.UTF-8
-        export EDITOR=nvim
-        export ZDOTDIR="${ZDOTDIR:-$HOME}"
+export LANG=en_US.UTF-8
+export EDITOR=nvim
+export ZDOTDIR="${ZDOTDIR:-$HOME}"
 # }}}
 
 # ── History ─────────────────────────────────────────────────── {{{
-    HISTFILE=~/.zsh_history
-        HISTSIZE=10000
-        SAVEHIST=10000
-        setopt APPEND_HISTORY          # append rather than overwrite history files
-        setopt SHARE_HISTORY           # share history between sessions
-        setopt INC_APPEND_HISTORY      # write immediately, not on shell exit
-        setopt HIST_IGNORE_ALL_DUPS    # drop older duplicate entries
-        setopt HIST_IGNORE_SPACE       # ignore commands starting with a space
-        setopt HIST_REDUCE_BLANKS      # strip superfluous whitespace before saving
-        setopt HIST_FIND_NO_DUPS       # skip duplicates while searching history
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt APPEND_HISTORY          # append rather than overwrite history files
+setopt SHARE_HISTORY           # share history between sessions
+setopt INC_APPEND_HISTORY      # write immediately, not on shell exit
+setopt HIST_IGNORE_ALL_DUPS    # drop older duplicate entries
+setopt HIST_IGNORE_SPACE       # ignore commands starting with a space
+setopt HIST_REDUCE_BLANKS      # strip superfluous whitespace before saving
+setopt HIST_FIND_NO_DUPS       # skip duplicates while searching history
 # }}}
 
 # ── PATH ────────────────────────────────────────────────────── {{{
 # Prepend directories only if they exist, keeping PATH clean.
-    for dir in \
-        "$HOME/bin" \
-            "$HOME/.local/bin" \
-            "/usr/local/bin" \
-            "$HOME/.config/emacs/bin" \
-            "/usr/local/go/bin" \
-            "/var/lib/flatpak/exports/share/applications" \
-            "$HOME/.opencode/bin"; do
-            [[ -d "$dir" ]] && export PATH="$dir:$PATH"
-            done
+for dir in \
+    "$HOME/bin" \
+    "$HOME/.local/bin" \
+    "/usr/local/bin" \
+    "$HOME/.config/emacs/bin" \
+    "/usr/local/go/bin" \
+    "/var/lib/flatpak/exports/share/applications" \
+    "$HOME/.opencode/bin"; do
+    [[ -d "$dir" ]] && export PATH="$dir:$PATH"
+done
 # }}}
 
 # ── Plugin manager (zinit) ──────────────────────────────────── {{{
-    ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-        [[ ! -d "$ZINIT_HOME" ]] && mkdir -p "${ZINIT_HOME%/*}"
-        [[ ! -d "$ZINIT_HOME/.git" ]] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
-            source "${ZINIT_HOME}/zinit.zsh"
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[[ ! -d "$ZINIT_HOME" ]] && mkdir -p "${ZINIT_HOME%/*}"
+[[ ! -d "$ZINIT_HOME/.git" ]] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
 
 # Completions and Oh My Zsh plugin snippets
-                zinit light zsh-users/zsh-completions
-                zinit snippet OMZP::git
-                zinit snippet OMZP::sudo
+zinit light zsh-users/zsh-completions
+zinit snippet OMZP::git
+zinit snippet OMZP::sudo
 
 # Deferred plugins (wait'0' = load after prompt is drawn)
-                zinit ice wait'0' lucid atload'_zsh_autosuggest_start'
-                zinit light zsh-users/zsh-autosuggestions
+zinit ice wait'0' lucid atload'_zsh_autosuggest_start'
+zinit light zsh-users/zsh-autosuggestions
 
-                zinit ice wait'0' lucid
-                zinit light zsh-users/zsh-syntax-highlighting
+zinit ice wait'0' lucid
+zinit light zsh-users/zsh-syntax-highlighting
 
-                zinit ice wait'0' lucid atload'enable-fzf-tab'
-                zinit light Aloxaf/fzf-tab
+zinit ice wait'0' lucid atload'enable-fzf-tab'
+zinit light Aloxaf/fzf-tab
 # }}}
 
 # ── Terminal appearance ─────────────────────────────────────── {{{
 # Colored man pages via less termcap sequences.
-    export LESS_TERMCAP_mb=$'\e[1;32m'    # blinking/bold start
-        export LESS_TERMCAP_md=$'\e[1;32m'    # bold start
-        export LESS_TERMCAP_me=$'\e[0m'       # bold/end sequence
-        export LESS_TERMCAP_se=$'\e[0m'       # standout end
-        export LESS_TERMCAP_so=$'\e[01;33m'   # standout (search highlight)
-        export LESS_TERMCAP_ue=$'\e[0m'       # underline end
-        export LESS_TERMCAP_us=$'\e[1;4;31m'  # underline start
+export LESS_TERMCAP_mb=$'\e[1;32m'    # blinking/bold start
+export LESS_TERMCAP_md=$'\e[1;32m'    # bold start
+export LESS_TERMCAP_me=$'\e[0m'       # bold/end sequence
+export LESS_TERMCAP_se=$'\e[0m'       # standout end
+export LESS_TERMCAP_so=$'\e[01;33m'   # standout (search highlight)
+export LESS_TERMCAP_ue=$'\e[0m'       # underline end
+export LESS_TERMCAP_us=$'\e[1;4;31m'  # underline start
 
 # NEWT colors for TUI applications (whiptail/dialog-based).
-        export NEWT_COLORS='
-        root=lightgray,black
-        window=lightgray,black
-        border=darkgray,black
-        title=yellow,black
-        textbox=lightgray,black
-        button=black,yellow
-        actbutton=black,blue
-        checkbox=lightgray,black
-        listbox=lightgray,black
-        actlistbox=yellow,black
-        entry=black,lightgray
-        label=yellow,black
-        disbutton=black,gray
-        compactbutton=black,lightgray
-        '
+export NEWT_COLORS='
+root=lightgray,black
+window=lightgray,black
+border=darkgray,black
+title=yellow,black
+textbox=lightgray,black
+button=black,yellow
+actbutton=black,blue
+checkbox=lightgray,black
+listbox=lightgray,black
+actlistbox=yellow,black
+entry=black,lightgray
+label=yellow,black
+disbutton=black,gray
+compactbutton=black,lightgray
+'
 # }}}
 
 # ── Pager ───────────────────────────────────────────────────── {{{
 # Prefer bat for paging; fall back to less.
-    command -v bat &>/dev/null && export PAGER=bat || export PAGER=less
+command -v bat &>/dev/null && export PAGER=bat || export PAGER=less
+
+# Man breaks formatting if Bat uses line numbers.
+# Either subtract 7 from "tput cols" for space for the numbers
+# Or max out at 120.
+# Can't set MANWIDTH to COLUMNS - 7 in zshrc, cause it'll only evaluate when
+# opening a shell.
+man() {
+  local w=$(( ${COLUMNS:-$(tput cols)} - 7 ))
+  (( w > 120 )) && w=120
+  GROFF_NO_SGR=1 MANWIDTH=$w MANPAGER="sh -c 'col -bx | bat -l man'" command man "$@"
+}
 
 # Suffix aliases: open listed file types with the pager.
-        alias -s {css,html,json,toml,js,md,patch,properties,txt,xml,yml}="$PAGER"
-        alias -s gz='gzip -l'
-        alias -s {log,out}='tail -F'
+alias -s {css,html,json,toml,js,md,patch,properties,txt,xml,yml}="$PAGER"
+alias -s gz='gzip -l'
+alias -s {log,out}='tail -F'
 # }}}
 
 # ── Shell options ───────────────────────────────────────────── {{{
 # Navigation: cd on bare directory names, maintain a directory stack.
-    setopt AUTO_CD
-        setopt AUTO_PUSHD
-        setopt PUSHD_IGNORE_DUPS
+setopt AUTO_CD
+setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
 
 # Globbing: richer patterns, match dotfiles, case-insensitive.
-        setopt EXTENDED_GLOB
-        setopt GLOB_DOTS
-        setopt NO_CASE_GLOB
+setopt EXTENDED_GLOB
+setopt GLOB_DOTS
+setopt NO_CASE_GLOB
 
 # Misc: silence the terminal bell, allow # comments on the command line.
-        setopt NO_BEEP
-        setopt INTERACTIVE_COMMENTS
+setopt NO_BEEP
+setopt INTERACTIVE_COMMENTS
 # }}}
 
 # ── Completion ──────────────────────────────────────────────── {{{
-    zstyle ':completion:*' menu no
-        zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-        zstyle ':completion:*' matcher 'm:{a-z}={A-Za-z}'   # case-insensitive matching
-        zstyle ':completion:*' group-name ' %d '
-        zstyle ':completion:*:descriptions' format '[%d]'
-        zstyle ':completion:*:warnings' format 'no matches found'
+zstyle ':completion:*' menu no
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' matcher 'm:{a-z}={A-Za-z}'   # case-insensitive matching
+zstyle ':completion:*' group-name ' %d '
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*:warnings' format 'no matches found'
 
 # fzf-tab integration: switch groups with </>, use a tmux popup.
-        zstyle ':fzf-tab:*' switch-group '<' '>'
-        zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+zstyle ':fzf-tab:*' switch-group '<' '>'
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 # }}}
 
 # ── Keybindings ─────────────────────────────────────────────── {{{
-    bindkey -e                            # emacs-style keymap
-        bindkey '^[[Z' reverse-menu-complete  # Shift-Tab: reverse completion
+bindkey -e                            # emacs-style keymap
+bindkey '^[[Z' reverse-menu-complete  # Shift-Tab: reverse completion
 
 # Ctrl-W: kill back to previous path component (treats / and . as separators).
-        backward-kill-path-component() {
-            local WORDCHARS="${WORDCHARS/\/\./}"
-                zle backward-kill-word
-        }
-    zle -N backward-kill-path-component
-        bindkey '^W' backward-kill-path-component
+backward-kill-path-component() {
+    local WORDCHARS="${WORDCHARS/\/\./}"
+    zle backward-kill-word
+}
+zle -N backward-kill-path-component
+bindkey '^W' backward-kill-path-component
 # }}}
 
 # ── Aliases ─────────────────────────────────────────────────── {{{
 # Each alias is only defined when its command exists.
-    command -v eza &>/dev/null && alias ls="eza --git --group-directories-first --icons auto"
-        command -v eza &>/dev/null && alias l="eza --git --group-directories-first --icons auto"
-        command -v eza &>/dev/null && alias ll="eza -l --git --group-directories-first --icons auto"
-        command -v eza &>/dev/null && alias la="eza -la --git --group-directories-first --icons auto"
-        command -v chezmoi &>/dev/null && alias cm="chezmoi"
-        command -v nvim &>/dev/null && alias vim="nvim"
-        command -v xclip &>/dev/null && alias copy="xclip -i -selection clip"
-        command -v wl-copy &>/dev/null && alias copy="wl-copy"
-        command -v xdg-open &>/dev/null && alias o=xdg-open
-        command -v xdg-open &>/dev/null && alias open=xdg-open
+command -v eza &>/dev/null && alias ls="eza --git --group-directories-first --icons auto"
+command -v eza &>/dev/null && alias l="eza --git --group-directories-first --icons auto"
+command -v eza &>/dev/null && alias ll="eza -l --git --group-directories-first --icons auto"
+command -v eza &>/dev/null && alias la="eza -la --git --group-directories-first --icons auto"
+command -v chezmoi &>/dev/null && alias cm="chezmoi"
+command -v nvim &>/dev/null && alias vim="nvim"
+command -v xclip &>/dev/null && alias copy="xclip -i -selection clip"
+command -v wl-copy &>/dev/null && alias copy="wl-copy"
+command -v xdg-open &>/dev/null && alias o=xdg-open
+command -v xdg-open &>/dev/null && alias open=xdg-open
 # }}}
 
 # ── Functions ───────────────────────────────────────────────── {{{
 # y: open yazi and cd to its final working directory on exit.
-    y() {
-        local tmp cwd; tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-            command yazi "$@" --cwd-file="$tmp"
-            IFS= read -r -d '' cwd < "$tmp"
-            [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd" || builtin true
-            command rm -f -- "$tmp"
-    }
+y() {
+    local tmp cwd; tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+    command yazi "$@" --cwd-file="$tmp"
+    IFS= read -r -d '' cwd < "$tmp"
+    [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd" || builtin true
+    command rm -f -- "$tmp"
+}
 
 # mcd: create a directory and cd into it.
-    mcd() {
-        mkdir -p "$1" && cd "$1"
-    }
+mcd() {
+    mkdir -p "$1" && cd "$1"
+}
 
 # cache: run a command once per timestamp, then view the cached output.
-    cache() {
-        local cache_string
-            cache_string=$(date -Ins | md5sum | cut -d\  -f1)
-            if [[ ! -f "/tmp/$cache_string" ]]; then
-                "$@" > "/tmp/$cache_string"
-                    fi
-                    less "/tmp/$cache_string"
-                    echo "/tmp/$cache_string"
-    }
+cache() {
+    local cache_string
+    cache_string=$(date -Ins | md5sum | cut -d\  -f1)
+    if [[ ! -f "/tmp/$cache_string" ]]; then
+        "$@" > "/tmp/$cache_string"
+    fi
+    less "/tmp/$cache_string"
+    echo "/tmp/$cache_string"
+}
 
 # fe: fuzzy-find a file and open it in $EDITOR.
-    fe() {
-        local file=$(fzf)
-            [[ -n "$file" ]] && $EDITOR "$file"
-    }
+fe() {
+    local file=$(fzf)
+    [[ -n "$file" ]] && $EDITOR "$file"
+}
 # }}}
 
 # ── Prompt ──────────────────────────────────────────────────── {{{
 # set_terminal_title: set the terminal/tab title.
-    set_terminal_title() {
-        print -Pn "\e]2;$1\a"
-    }
+set_terminal_title() {
+    print -Pn "\e]2;$1\a"
+}
 
 # precmd: refresh the title and capture the git branch before each prompt.
-    precmd() {
-        set_terminal_title "%1~%0(2V. │ %2v.)"
-            PROMPT_GIT_INFO=""
-            git rev-parse --is-inside-work-tree >/dev/null 2>&1 || return
-            local branch
-            branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
-            [[ -n "$branch" ]] && PROMPT_GIT_INFO=" %F{cyan}($branch)%f"
-    }
+precmd() {
+    set_terminal_title "%1~%0(2V. │ %2v.)"
+    PROMPT_GIT_INFO=""
+    git rev-parse --is-inside-work-tree >/dev/null 2>&1 || return
+    local branch
+    branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
+    [[ -n "$branch" ]] && PROMPT_GIT_INFO=" %F{cyan}($branch)%f"
+}
 
 # preexec: append the running command to the title.
-    preexec() {
-        set_terminal_title "%1~%0(2V. │ %2v.) $1"
-    }
+preexec() {
+    set_terminal_title "%1~%0(2V. │ %2v.) $1"
+}
 
-    setopt PROMPT_SUBST
+setopt PROMPT_SUBST
 
-    PROMPT='
+PROMPT='
 %F{yellow}%~%f$PROMPT_GIT_INFO
 %F{%(?..red)}%(?..✗ )%F{blue}❯%f '
 
-        RPROMPT='%F{magenta}%D{%H:%M:%S}%f'
+RPROMPT='%F{magenta}%D{%H:%M:%S}%f'
 # }}}
 
 # ── Secrets & SSH agent ─────────────────────────────────────── {{{
 # Optional GitHub token, if the file exists.
-    [[ -f ~/.github_token ]] && source ~/.github_token
+[[ -f ~/.github_token ]] && source ~/.github_token
 
 # Reuse a persistent agent socket; start a new one on first login.
-        if [[ ! -S ~/.ssh/ssh_auth_sock ]]; then
-            eval "$(ssh-agent -s)"
-                ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
-                ssh-add -l &>/dev/null || ssh-add
-                fi
-                export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+if [[ ! -S ~/.ssh/ssh_auth_sock ]]; then
+    eval "$(ssh-agent -s)"
+    ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+    ssh-add -l &>/dev/null || ssh-add
+fi
+export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 # }}}
 
 # ── Tool initialization ─────────────────────────────────────── {{{
-    command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
-        command -v fzf &>/dev/null && eval "$(fzf --zsh)"
-        command -v mise &>/dev/null && eval "$(mise activate)"
+command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
+command -v fzf &>/dev/null && eval "$(fzf --zsh)"
+command -v mise &>/dev/null && eval "$(mise activate)"
 # }}}
 
 # ── Tmux autoload ───────────────────────────────────────────── {{{
@@ -291,10 +302,10 @@ add-zsh-hook chpwd auto_tmux_projects
 # Rebuild the compdump at most once a day; otherwise skip the security check.
 autoload -Uz compinit
 if [[ ! -f ${ZDOTDIR:-$HOME}/.zcompdump ]] || [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
-compinit
-command -v acli &>/dev/null && eval "$(acli completion zsh)"
+    compinit
+    command -v acli &>/dev/null && eval "$(acli completion zsh)"
 else
-compinit -C
+    compinit -C
 fi
 
 # Replay any completions queued by deferred zinit plugins.

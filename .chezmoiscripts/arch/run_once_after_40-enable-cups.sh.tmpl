@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+{{ if not (eq .chezmoi.osRelease.id "arch" "endeavouros") -}}
+exit 0
+{{ end -}}
+
+sudo systemctl enable --now cups.service
+sudo systemctl enable --now avahi-daemon.service
+sudo systemctl enable --now ipp-usb.service
+
+if ! grep -Eq '^hosts:.*mdns' /etc/nsswitch.conf; then
+    if grep -Eq '^hosts:.*[[:space:]]resolve([[:space:]]|$)' /etc/nsswitch.conf; then
+        sudo sed -i -E 's/^(hosts:.*)([[:space:]]resolve([[:space:]]|$))/\1 mdns_minimal [NOTFOUND=return]\2/' /etc/nsswitch.conf
+    else
+        sudo sed -i -E 's/^(hosts:.*)$/\1 mdns_minimal [NOTFOUND=return]/' /etc/nsswitch.conf
+    fi
+fi
