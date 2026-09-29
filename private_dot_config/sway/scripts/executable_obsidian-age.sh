@@ -11,9 +11,9 @@ fi
 elapsed=$(( $(date +%s) - $(stat -c %Y "$file") ))
 
 if (( elapsed < 60 )); then
-  printf '  %ds\n' "$elapsed"
+  printf ' %ds\n' "$elapsed"
 elif (( elapsed < 3600 )); then
-  printf '  %dm\n' "$(( elapsed / 60 ))"
+  printf ' %dm\n' "$(( elapsed / 60 ))"
 else
-  printf '  %dh %dm\n' "$(( elapsed / 3600 ))" "$(( elapsed % 3600 / 60 ))"
+  printf ' %dh %dm\n' "$(( elapsed / 3600 ))" "$(( elapsed % 3600 / 60 ))"
 fi

@@ -1,0 +1,59 @@
+# Mako — Gruvbox Dark Hard. Opaque, sharp, matches sway/waybar/rofi.
+
+font=JetBrainsMono Nerd Font 12
+background-color=#1d2021
+text-color=#ebdbb2
+width=380
+height=130
+outer-margin=8
+margin=6
+padding=12,14
+border-size=1
+border-color=#504945
+border-radius=0
+progress-color=over #fe8019
+icons=1
+max-icon-size=32
+icon-path=/usr/share/icons/Adwaita
+icon-location=left
+icon-border-radius=0
+markup=1
+actions=1
+history=1
+max-history=15
+format=<span weight="bold" foreground="#fbf1c7">%s</span>\n<span foreground="#d5c4a1">%b</span>
+text-alignment=left
+default-timeout=5000
+ignore-timeout=1
+group-by=app-name
+max-visible=4
+layer=top
+anchor=top-right
+sort=-time
+
+on-button-left=invoke-default-action
+on-button-middle=dismiss-all
+on-button-right=dismiss
+
+[urgency=low]
+border-color=#83a598
+default-timeout=3000
+
+[urgency=normal]
+border-color=#fe8019
+
+[urgency=critical]
+border-color=#fb4934
+background-color=#282828
+default-timeout=0
+progress-color=over #fb4934
+layer=overlay
+
+[grouped]
+format=(<span foreground="#fe8019">%g</span>) <span weight="bold" foreground="#fbf1c7">%s</span>\n<span foreground="#d5c4a1">%b</span>
+
+[hidden]
+format=<span foreground="#a89984">+%h</span>
+background-color=#282828
+text-color=#a89984
+border-color=#3c3836

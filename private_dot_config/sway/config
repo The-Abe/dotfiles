@@ -72,6 +72,7 @@ for_window [app_id="gedit"] floating enable
 for_window [class="Gedit"] floating enable
 for_window [app_id="file-roller"] floating enable
 for_window [class="File-roller"] floating enable
+for_window [title="Battle.net"] floating enable
 for_window [title="float"] border pixel 1
 
 # ── Shared config: keybindings, input, output, and startup ────────────────────

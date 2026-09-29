@@ -102,14 +102,14 @@
             "critical": 10
         },
         "format": "{icon} {capacity}%",
-        "format-charging": "  {capacity}%",
+        "format-charging": " {capacity}%",
         "format-icons": ["", "", "", "", ""],
         "tooltip-format": "{timeTo}"
     },
 
     "clock": {
         "interval": 1,
-        "format": " {:%Y-%m-%d  W%V  %H:%M:%S}",
+        "format": " {:%Y-%m-%d W%V %H:%M:%S}",
         "tooltip-format": "{:%A, %d %B %Y}"
     },
 
@@ -119,10 +119,4 @@
         "format": "{}",
         "tooltip": false
     },
-
-    "custom/power": {
-        "format": " 󰐥 ",
-        "on-click": "~/.config/sway/scripts/powermenu.sh",
-        "tooltip": false
-    }
 }
