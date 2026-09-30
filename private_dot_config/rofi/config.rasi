@@ -1,7 +1,7 @@
 configuration {
     modi: "drun,run,filebrowser,combi";
     combi-modi: "drun,run";
-    font: "JetBrainsMono Nerd Font 13";
+    font: "JetBrainsMono Nerd Font 11";
     show-icons: true;
     icon-theme: "Papirus-Dark";
     terminal: "kitty";
@@ -76,7 +76,7 @@ prompt {
     padding:            0px;
     background-color:   transparent;
     text-color:         @grv-orange;
-    font:               "JetBrainsMono Nerd Font Bold 13";
+    font:               "JetBrainsMono Nerd Font Bold 11";
 }
 
 entry {

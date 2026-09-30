@@ -3,5 +3,3 @@
 	name = The-Abe
 [core]
 	excludesFile = ~/.gitignore
-[pull]
-	rebase = true
