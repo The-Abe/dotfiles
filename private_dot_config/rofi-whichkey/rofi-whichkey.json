@@ -18,7 +18,7 @@
         {
           "label": "Chrome",
           "icon": "",
-          "exec": "/usr/bin/google-chrome",
+          "exec": "google-chrome",
           "key": "w"
         },
         {
@@ -45,21 +45,6 @@
           "exec": "discord",
           "key": "d"
         },
-        {
-          "label": "Lazygit",
-          "exec": "kitty -e lazygit",
-          "key": "g"
-        },
-        {
-          "label": "Lazydocker",
-          "exec": "kitty -e lazydocker",
-          "key": "y"
-        },
-        {
-          "label": "btop",
-          "exec": "kitty -e btop",
-          "key": "b"
-        }
       ]
     },
     {
@@ -173,6 +158,12 @@
           "icon": "󰄱",
           "note": "todo",
           "key": "t"
+        },
+        {
+          "label": "Directory",
+          "icon": "󰉋",
+          "key": "n",
+          "terminal": "~/Obsidian/"
         }
       ]
     },

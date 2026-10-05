@@ -1,7 +1,7 @@
 [Default Applications]
-text/html=google-chrome.desktop
-x-scheme-handler/http=google-chrome.desktop
-x-scheme-handler/https=google-chrome.desktop
+text/html=userapp-Zen-PT3XW3.desktop
+x-scheme-handler/http=userapp-Zen-PT3XW3.desktop
+x-scheme-handler/https=userapp-Zen-PT3XW3.desktop
 x-scheme-handler/about=google-chrome.desktop
 x-scheme-handler/unknown=google-chrome.desktop
 image/png=imv.desktop
@@ -18,3 +18,23 @@ image/avif=imv.desktop
 image/heif=imv.desktop
 image/x-farbfeld=imv.desktop
 image/qoi=imv.desktop
+x-scheme-handler/chrome=userapp-Zen-PT3XW3.desktop
+application/x-extension-htm=userapp-Zen-PT3XW3.desktop
+application/x-extension-html=userapp-Zen-PT3XW3.desktop
+application/x-extension-shtml=userapp-Zen-PT3XW3.desktop
+application/xhtml+xml=userapp-Zen-PT3XW3.desktop
+application/x-extension-xhtml=userapp-Zen-PT3XW3.desktop
+application/x-extension-xht=userapp-Zen-PT3XW3.desktop
+x-scheme-handler/slack=slack.desktop
+
+[Added Associations]
+x-scheme-handler/http=userapp-Zen-PT3XW3.desktop;
+x-scheme-handler/https=userapp-Zen-PT3XW3.desktop;
+x-scheme-handler/chrome=userapp-Zen-PT3XW3.desktop;
+text/html=userapp-Zen-PT3XW3.desktop;
+application/x-extension-htm=userapp-Zen-PT3XW3.desktop;
+application/x-extension-html=userapp-Zen-PT3XW3.desktop;
+application/x-extension-shtml=userapp-Zen-PT3XW3.desktop;
+application/xhtml+xml=userapp-Zen-PT3XW3.desktop;
+application/x-extension-xhtml=userapp-Zen-PT3XW3.desktop;
+application/x-extension-xht=userapp-Zen-PT3XW3.desktop;
