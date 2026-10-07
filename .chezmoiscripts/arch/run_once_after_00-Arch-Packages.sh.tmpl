@@ -112,6 +112,7 @@ sudo pacman -S --needed --noconfirm "${PACKAGES[@]}"
 AUR_PACKAGES=(
     # Put any AUR-only packages here (e.g., specific sway plugins, themes, etc.)
     google-chrome
+    zen-browser-bin
 )
 
 if [ ${#AUR_PACKAGES[@]} -gt 0 ] && command -v yay &>/dev/null; then
