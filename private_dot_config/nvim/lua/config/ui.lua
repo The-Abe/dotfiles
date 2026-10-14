@@ -36,15 +36,25 @@ vim.pack.add { gh 'folke/which-key.nvim' }
 require('which-key').setup {
   -- Delay between pressing a key and opening which-key (milliseconds)
   delay = 0,
-  icons = { mappings = vim.g.have_nerd_font },
+  icons = {
+    mappings = vim.g.have_nerd_font,
+    rules = {
+      -- Use the mini.icons "org" glyph for all Orgmode mappings. The global
+      -- `<leader>o` root group has no buffer-local filetype, so it needs this rule too.
+      { pattern = '^org', cat = 'filetype', name = 'org' },
+      { pattern = 'date', icon = '' },
+      { pattern = '^insert', icon = '' },
+      { pattern = "^Agentic:", icon = '' },
+    },
+  },
   -- Document existing key chains
   spec = {
-    { '<leader>s', group = '[S]earch', mode = { 'n', 'v' } },
-    { '<leader>t', group = '[T]oggle' },
-    { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } }, -- Enable gitsigns recommended keymaps first
-    { '<leader>c', group = '[C]ode', mode = { 'n' } },
-    { '<leader>i', group = '[I]nsert', mode = { 'n' } },
-    { '<leader>f', group = '[F]iles', mode = { 'n' } },
+    { '<leader>s', group = 'Search', mode = { 'n', 'v' } },
+    { '<leader>t', group = 'Toggle' },
+    { '<leader>h', group = 'Git Hunk', mode = { 'n', 'v' } }, -- Enable gitsigns recommended keymaps first
+    { '<leader>c', group = 'Code', mode = { 'n' } },
+    { '<leader>i', group = 'Insert', mode = { 'n' } },
+    { '<leader>f', group = 'Files', mode = { 'n' } },
   },
 }
 
@@ -163,15 +173,37 @@ vim.pack.add {
   gh 'Dzejkop/datepicker.nvim',
 }
 
+local function insert_at_cursor(text)
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local line = vim.api.nvim_get_current_line()
+  vim.api.nvim_set_current_line(line:sub(1, col + 1) .. text .. line:sub(col + 2))
+  vim.api.nvim_win_set_cursor(0, { row, col + 1 + #text })
+end
+
 vim.keymap.set('n', '<leader>id', function()
   require('datepicker').open {
     week_start = 'monday',
-    on_select = function(d)
-      local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-      local line = vim.api.nvim_get_current_line()
-      local insert = d.iso
-      vim.api.nvim_set_current_line(line:sub(1, col + 1) .. insert .. line:sub(col + 2))
-      vim.api.nvim_win_set_cursor(0, { row, col + 1 + #insert })
-    end,
+    on_select = function(d) insert_at_cursor(d.iso) end,
   }
-end, { desc = 'Insert [D]ate' })
+end, { desc = 'Insert Date' })
+
+vim.keymap.set('n', '<leader>iD', function() insert_at_cursor(os.date '%Y-%m-%d') end, { desc = 'Insert Today' })
+vim.keymap.set('n', '<leader>it', function() insert_at_cursor(os.date '%H:%M') end, { desc = 'Insert Time' })
+vim.keymap.set('n', '<leader>iT', function() insert_at_cursor(os.date '%Y-%m-%d %H:%M') end, { desc = 'Insert DateTime' })
+
+vim.keymap.set('n', '<leader>iu', function()
+  local uuid = table.concat({
+    vim.fn.strftime '%Y%m%d',
+    string.format('%04x', math.random(0, 0xffff)),
+    string.format('%04x', math.random(0, 0xffff)),
+    string.format('%04x', math.random(0, 0xffff)),
+    string.format('%012x', math.random(0, 0xffffffffffff)),
+  }, '-')
+  insert_at_cursor(uuid)
+end, { desc = 'Insert UUID' })
+
+vim.keymap.set('n', '<leader>iw', function()
+  insert_at_cursor('[[' .. vim.fn.expand '%:t:r' .. ']]')
+end, { desc = 'Insert Wiki Link' })
+
+vim.api.nvim_set_hl(0, "WhichKeyIcon", { link = "Special" })

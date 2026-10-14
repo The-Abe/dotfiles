@@ -40,8 +40,8 @@ local function cmd(c)
   return function() vim.cmd(c) end
 end
 
-vim.keymap.set('n', '<leader>nb', cmd('ObsidianBacklinks'), opts('[B]acklinks'))
-vim.keymap.set('n', '<leader>nT', cmd('ObsidianTags'), opts('[T]ags'))
+vim.keymap.set('n', '<leader>nb', cmd('ObsidianBacklinks'), opts('Backlinks'))
+vim.keymap.set('n', '<leader>nT', cmd('ObsidianTags'), opts('Tags'))
 
 vim.api.nvim_create_autocmd('BufReadPost', {
   pattern = '*.md',
@@ -55,9 +55,9 @@ vim.api.nvim_create_autocmd('BufReadPost', {
   end,
 })
 
-local ok, wk = pcall(require, 'which-key')
-if ok then
-  wk.add({
-    { '<leader>o', group = '[O]bsidian' },
-  })
-end
+-- local ok, wk = pcall(require, 'which-key')
+-- if ok then
+--   wk.add({
+--     { '<leader>o', group = 'Obsidian' },
+--   })
+-- end

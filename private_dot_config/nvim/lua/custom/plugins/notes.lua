@@ -546,9 +546,9 @@ function M.setup()
   local ok, wk = pcall(require, "which-key")
   if ok then
     wk.add({
-      { "<leader>n", group = "[N]otes" },
-      { "<leader>nD", group = "[D]ates" },
-      { "<leader>nt", group = "[T]odo" },
+      { "<leader>n", group = "Notes", icon = "󱞁" },
+      { "<leader>nD", group = "Dates", icon = "" },
+      { "<leader>nt", group = "Todo", icon = "" },
     })
   end
 end

@@ -4,6 +4,11 @@
 export LANG=en_US.UTF-8
 export EDITOR=nvim
 export ZDOTDIR="${ZDOTDIR:-$HOME}"
+if [ -f "$HOME/.env" ]; then
+  set -a
+  source "$HOME/.env"
+  set +a
+fi
 # }}}
 
 # ── History ─────────────────────────────────────────────────── {{{

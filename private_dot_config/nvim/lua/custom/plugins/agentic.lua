@@ -7,6 +7,24 @@ require("agentic").setup({
   provider = "opencode-acp",
   position = "right",
   width = 0.4,
+  keymaps = {
+    widget = {
+      switch_provider = "<leader>as",
+      switch_model = "<leader>am",
+      change_thought_level = "<leader>at",
+      open_options = "<leader>ao",
+      select_session = "<leader>al",
+      next_session = "<leader>a]",
+      prev_session = "<leader>a[",
+      destroy_session = "<leader>aD",
+    },
+    prompt = {
+      paste_image = {
+        { "<leader>ap", mode = { "n" } },
+        { "<C-v>", mode = { "i" } },
+      },
+    },
+  },
 })
 
 -- Keymaps
@@ -21,3 +39,10 @@ map(
   end,
   {desc = "Add file or selection to context"}
 )
+
+local ok, wk = pcall(require, "which-key")
+if ok then
+  wk.add({
+    { "<leader>a", group = "AI", icon = "󰚩" },
+  })
+end

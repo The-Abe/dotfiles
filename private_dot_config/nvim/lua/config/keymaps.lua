@@ -37,7 +37,7 @@ vim.diagnostic.config {
   },
 }
 
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = '[Q]uickfix' })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Quickfix' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -49,6 +49,29 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 
 -- Folds
 vim.keymap.set('n', '<Tab>', 'za', { desc = 'Toggle fold' })
+
+-- [[ Toggle Keymaps (<leader>t prefix) ]]
+--  See also: <leader>th (inlay hints, lsp.lua), <leader>tb (git blame, gitsigns.lua),
+--            <leader>tw (git word diff, gitsigns.lua)
+
+local function toggle_opt(name, scope)
+  scope = scope or 'o'
+  vim[scope][name] = not vim[scope][name]
+  local state = vim[scope][name] and 'on' or 'off'
+  vim.notify(('Option %s: %s'):format(name, state), vim.log.levels.INFO, { title = 'Toggle' })
+end
+
+vim.keymap.set('n', '<leader>tn', function() toggle_opt 'relativenumber' end, { desc = 'Toggle relative numbers' })
+vim.keymap.set('n', '<leader>tl', function() toggle_opt('wrap', 'wo') end, { desc = 'Toggle line wrap' })
+vim.keymap.set('n', '<leader>ts', function() toggle_opt('spell', 'wo') end, { desc = 'Toggle spell check' })
+vim.keymap.set('n', '<leader>tc', function() toggle_opt('cursorline', 'wo') end, { desc = 'Toggle cursor line' })
+vim.keymap.set('n', '<leader>tt', function() toggle_opt 'list' end, { desc = 'Toggle whitespace chars' })
+vim.keymap.set('n', '<leader>ti', function() require('ibl').toggle() end, { desc = 'Toggle indent guides' })
+vim.keymap.set('n', '<leader>tv', function()
+  local vl = vim.diagnostic.config().virtual_lines
+  vim.diagnostic.config { virtual_lines = not vl }
+  vim.notify(('Diagnostic virtual lines: %s'):format(not vl and 'on' or 'off'), vim.log.levels.INFO, { title = 'Toggle' })
+end, { desc = 'Toggle diagnostic virtual lines' })
 
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
