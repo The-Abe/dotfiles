@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+# Popups run under a non-interactive shell, so ~/.zshrc's `mise activate`
+# never runs and the mise shims stay on PATH (each call costs ~0.5s).
+# Prepend the real tool dirs so tmux/fzf resolve to the actual binaries.
+for _d in "$HOME"/.local/share/mise/installs/*/latest; do
+    if [[ -d $_d ]]; then
+        PATH="$_d:$PATH"
+    fi
+done
+export PATH
+
 set -euo pipefail
 
 if ! command -v fzf >/dev/null 2>&1; then

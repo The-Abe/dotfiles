@@ -320,9 +320,11 @@ export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 # }}}
 
 # ── Tool initialization ─────────────────────────────────────── {{{
+# mise must activate first: it puts the real binary dirs ahead of the shims,
+# so the zoxide/fzf calls below don't pay the ~0.5s per-invocation shim cost.
+command -v mise &>/dev/null && eval "$(mise activate)"
 command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
 command -v fzf &>/dev/null && eval "$(fzf --zsh)"
-command -v mise &>/dev/null && eval "$(mise activate)"
 # }}}
 
 # ── Tmux autoload ───────────────────────────────────────────── {{{
@@ -382,9 +384,11 @@ add-zsh-hook chpwd auto_tmux_projects
 
 # ── Completion init ─────────────────────────────────────────── {{{
 # Rebuild the compdump at most once a day; otherwise skip the security check.
+# zcompile the dump so subsequent starts load the faster compiled .zwc.
 autoload -Uz compinit
 if [[ ! -f ${ZDOTDIR:-$HOME}/.zcompdump ]] || [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
     compinit
+    zcompile ${ZDOTDIR:-$HOME}/.zcompdump
     command -v acli &>/dev/null && eval "$(acli completion zsh)"
 else
     compinit -C
@@ -396,9 +400,12 @@ zinit cdreplay -q
 
 # ── Late-loading plugins ────────────────────────────────────── {{{
 # whizsh-key is loaded last so its space binding isn't overwritten.
+# Deferred until after the prompt is drawn (it does 70+ bindkeys and menu
+# keymap setup that otherwise blocks startup).
 #
 # Local dev source
-# source ~/projects/whizsh-key/whizsh-key.zsh
+# zinit ice wait'0' lucid; zinit light ~/projects/whizsh-key/whizsh-key.zsh
 # Release source
+zinit ice wait'0' lucid
 zinit light the-abe/whizsh-key
 # }}}

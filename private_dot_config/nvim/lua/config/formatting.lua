@@ -29,7 +29,8 @@ require('conform').setup {
     -- javascript = { "prettierd", "prettier", stop_after_first = true },
     markdown = { "prettier" },
     json = { "prettier" },
-    javascript = { "prettier" }
+    javascript = { "prettier" },
+    ruby = { "standardrb" }
   },
 }
 
