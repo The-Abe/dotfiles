@@ -1,0 +1,65 @@
+#!/bin/bash
+#
+# unpack - extract an archive into a directory, verbosely.
+#
+# Usage: unpack <archive> <output_directory>
+
+set -euo pipefail
+
+if [ $# -ne 2 ]; then
+    echo "Usage: $(basename "$0") <archive> <output_directory>" >&2
+    exit 1
+fi
+
+archive=$1
+outdir=$2
+
+if [ ! -f "$archive" ]; then
+    echo "unpack: no such file: $archive" >&2
+    exit 1
+fi
+
+mkdir -p "$outdir"
+
+extract_7z() {
+    7z x -y -bb1 "-o$2" "$1"
+}
+
+# Lowercased name used for extension matching.
+lower=$(printf '%s' "$archive" | tr '[:upper:]' '[:lower:]')
+
+case "$lower" in
+    *.tar.gz | *.tgz)
+        tar -xzvf "$archive" -C "$outdir" ;;
+    *.tar.bz2 | *.tbz2 | *.tbz)
+        tar -xjvf "$archive" -C "$outdir" ;;
+    *.tar.xz | *.txz)
+        tar -xJvf "$archive" -C "$outdir" ;;
+    *.tar.zst | *.tzst)
+        tar --zstd -xvf "$archive" -C "$outdir" ;;
+    *.tar.lz4)
+        tar --lz4 -xvf "$archive" -C "$outdir" ;;
+    *.tar.lz)
+        tar --lzip -xvf "$archive" -C "$outdir" ;;
+    *.tar)
+        tar -xvf "$archive" -C "$outdir" ;;
+    *.zip | *.jar)
+        unzip -o "$archive" -d "$outdir" ;;
+    *.7z | *.rar)
+        extract_7z "$archive" "$outdir" ;;
+    *.gz)
+        gzip -dvk -c "$archive" > "$outdir/$(basename "${archive%.gz}")" ;;
+    *.bz2)
+        bzip2 -dvk -c "$archive" > "$outdir/$(basename "${archive%.bz2}")" ;;
+    *.xz)
+        xz -dvk -c "$archive" > "$outdir/$(basename "${archive%.xz}")" ;;
+    *.zst)
+        zstd -dvk -c "$archive" > "$outdir/$(basename "${archive%.zst}")" ;;
+    *.lz4)
+        lz4 -dvk -c "$archive" > "$outdir/$(basename "${archive%.lz4}")" ;;
+    *)
+        echo "unpack: unsupported archive type: $archive" >&2
+        exit 1 ;;
+esac
+
+echo "unpack: extracted '$archive' -> '$outdir'"

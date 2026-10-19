@@ -197,6 +197,10 @@ fe() {
     local file=$(fzf)
     [[ -n "$file" ]] && $EDITOR "$file"
 }
+
+kitty-reload() {
+    kill -SIGUSR1 $(pidof kitty)
+}
 # }}}
 
 # ── Prompt ──────────────────────────────────────────────────── {{{
