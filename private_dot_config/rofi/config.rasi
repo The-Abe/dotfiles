@@ -1,21 +1,22 @@
 configuration {
-    modi: "drun,run,filebrowser,combi";
+    modi: "filebrowser,combi";
     combi-modi: "drun,run";
     font: "BigBlueTermPlus Nerd Font 9";
     show-icons: true;
     icon-theme: "Papirus-Dark";
     terminal: "kitty";
-    drun-display-format: "{icon} {name}";
+    drun-display-format: "{name}";
+    combi-display-format: "{icon} <span foreground='#928374'>{mode}</span> {text}";
     matching: "fuzzy";
     sort: true;
     case-sensitive: false;
     location: 0;
     disable-history: false;
     hide-scrollbar: true;
-    display-drun: "  Apps ";
-    display-run: "  Run ";
-    display-filebrowser: "  Files ";
-    display-combi: "  Combi ";
+    display-drun: "App";
+    display-run: "Run";
+    display-filebrowser: "Files";
+    display-combi: "Launch";
     sidebar-mode: true;
 }
 
@@ -43,11 +44,16 @@ configuration {
     text-color:         @grv-fg;
     margin:             0;
     padding:            0;
-    spacing:            8px;
+    spacing:            6px;
+}
+
+filebrowser {
+    directories-first: true;  /* Toont mappen altijd bovenaan de lijst */
+    sorting-method:    "name";  /* Sorteer op 'name' of 'mtime' (wijzigingsdatum) */
 }
 
 window {
-    width:              680px;
+    width:              500px;
     x-offset:           0px;
     y-offset:           0px;
 
@@ -58,13 +64,23 @@ window {
 
 mainbox {
     background-color:   @grv-bg;
-    padding:            14px;
-    children:           [ inputbar, listview, mode-switcher ];
+    padding:            4px;
+    children:           [ inputbar, message, listview ];
+}
+
+message {
+    padding:          6px;
+    background-color: @grv-bg1;
+}
+
+textbox {
+    text-color:         @grv-fg1;
+    font: "BigBlueTermPlus Nerd Font 9";
 }
 
 inputbar {
-    spacing:            10px;
-    padding:            13px 16px;
+    spacing:            6px;
+    padding:            6px 6px;
     background-color:   @grv-bg1;
     text-color:         @grv-fg1;
     border:             1px;
@@ -86,7 +102,7 @@ entry {
 }
 
 listview {
-    padding:            6px 0px 2px 0px;
+    padding:            0px 0px 0px 0px;
     border:             0px;
     lines:              8;
     columns:            1;
@@ -96,17 +112,17 @@ listview {
 }
 
 scrollbar {
-    width:        4px;
+    width:        6px;
     border:       0px;
-    handle-width: 4px;
+    handle-width: 6px;
     handle-color: @grv-bg3;
     background-color: transparent;
     margin:       0px 0px 8px 6px;
 }
 
 element {
-    padding:            9px 12px;
-    spacing:            12px;
+    padding:            3px 3px;
+    spacing:            0px;
     background-color:   transparent;
     text-color:         @grv-fg;
 }
@@ -139,21 +155,23 @@ element alternate.normal {
 element-icon {
     size:               24px;
     cursor:             inherit;
+    padding:            0px 6px 0px 0px;
 }
 
 element-text {
     vertical-align:     0.5;
     text-color:         inherit;
+    highlight:          @grv-orange;
 }
 
 mode-switcher {
-    spacing:            6px;
-    padding:            6px;
+    spacing:            0px;
+    padding:            0px;
     background-color:   @grv-bg1;
 }
 
 button {
-    padding:            8px 12px;
+    padding:            6px 6px;
     background-color:   transparent;
     text-color:         @grv-fg4;
     vertical-align:     0.5;

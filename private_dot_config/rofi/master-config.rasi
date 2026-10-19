@@ -100,6 +100,7 @@ element-icon {
 
 element-text {
   text-color: inherit;
+  highlight: #fe8019;
 }
 
 scrollbar {
