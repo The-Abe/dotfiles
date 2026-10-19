@@ -70,13 +70,13 @@ DEFAULT_ICONS = {
 #   which we use to color the key badges (e.g. [T] in gold).
 THEME_STR = """\
 window {
-  width: 600px;
+  width: 500px;
 }
 mainbox {
   children: [inputbar, listview];
 }
 inputbar {
-  spacing: 2px;
+  spacing: 0px;
   children: [prompt, entry];
 }
 prompt {
@@ -88,14 +88,17 @@ entry {
   text-color: @fg-color;
   placeholder-color: transparent;
   cursor-color: transparent;
+  padding: 0px;
+  spacing: 0px;
+  height: 0px;
 }
 listview {
   columns: 2;
   cycle: true;
   fixed-height: false;
   lines: 10;
-  spacing: 4px;
-  padding: 4px;
+  spacing: 0px;
+  padding: 0px;
   border: 0px;
 }
 scrollbar {
@@ -103,7 +106,8 @@ scrollbar {
   width: 0px;
 }
 element {
-  padding: 1px 8px;
+  padding: 0px;
+  spacing: 0px;
 }
 element normal.normal {
   background-color: transparent;
@@ -114,7 +118,7 @@ element selected.normal {
   text-color: @bg-color;
 }
 element-text {
-  font: "JetBrainsMono Nerd Font 13";
+  font: "BigBlueTermPlus Nerd Font 9";
   markup: true;
 }
 """
@@ -235,7 +239,7 @@ def format_option(item):
     """
     icon = get_icon(item)
     key = item["key"]
-    badge = f'<span fgcolor="{BADGE_FG}">[{key}]</span>'
+    badge = f'<span fgcolor="{BADGE_FG}">{key}</span>'
     label = item["label"]
 
     if "items" in item:
