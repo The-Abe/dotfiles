@@ -27,7 +27,7 @@ setopt HIST_FIND_NO_DUPS       # skip duplicates while searching history
 # ── PATH ────────────────────────────────────────────────────── {{{
 # Prepend directories only if they exist, keeping PATH clean.
 for dir in \
-    "$HOME/bin" \
+    "$HOME/.bin" \
     "$HOME/.local/bin" \
     "/usr/local/bin" \
     "$HOME/.config/emacs/bin" \
