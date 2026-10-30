@@ -1,0 +1,45 @@
+#!/bin/bash
+# md2pdf <file.md>
+# Markdown -> PDF via pandoc + xelatex, with ```mermaid blocks rendered to images.
+set -euo pipefail
+
+if [ $# -lt 1 ]; then
+    echo "usage: $(basename "$0") <file.md>" >&2
+    exit 1
+fi
+
+src="$1"
+out="${src%.md}.pdf"
+here="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
+
+# mermaid filter lives next to this script, else in the shared data dir
+filter=""
+for candidate in \
+    "$here/mermaid.lua" \
+    "$HOME/.local/share/md2pdf/mermaid.lua"
+do
+    [ -f "$candidate" ] && { filter="$candidate"; break; }
+done
+
+filters=()
+[ -n "$filter" ] && filters=(--lua-filter="$filter")
+
+# A4 with 2cm margins -> 17cm printable width
+export MD2PDF_LINEWIDTH_IN="${MD2PDF_LINEWIDTH_IN:-6.69}"
+
+pandoc "$src" \
+    -f gfm \
+    "${filters[@]}" \
+    -V header-includes="\usepackage{needspace}\fvset{samepage=true}" \
+    -V linkcolor:blue \
+    -V geometry:a4paper \
+    -V geometry:margin=2cm \
+    -V mainfont="DejaVu Sans" \
+    -V sansfont="DejaVu Sans" \
+    -V monofont="JetBrainsMono Nerd Font Mono" \
+    -V fontsize=11pt \
+    --pdf-engine=xelatex \
+    --highlight-style=tango \
+    -o "$out"
+
+echo "wrote $out"
