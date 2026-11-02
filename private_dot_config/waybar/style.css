@@ -1,7 +1,7 @@
 /* waybar style — Gruvbox Dark Hard, opaque. Mirrors the polybar config. */
 
 * {
-    font-family: "BigBlueTermPlus Nerd Font Propo", "Noto Sans CJK JP", "Noto Color Emoji";
+    font-family: "JetBrainsMono Nerd Font", "Noto Sans CJK JP", "Noto Color Emoji";
     font-size: 12px;
     border: none;
     border-radius: 0;

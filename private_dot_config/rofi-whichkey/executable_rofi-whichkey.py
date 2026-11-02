@@ -118,7 +118,7 @@ element selected.normal {
   text-color: @bg-color;
 }
 element-text {
-  font: "BigBlueTermPlus Nerd Font 9";
+  font: "JetBrainsMono Nerd Font 9";
   markup: true;
 }
 """

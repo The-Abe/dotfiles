@@ -234,6 +234,25 @@ mcd() {
     mkdir -p "$1" && cd "$1"
 }
 
+# ipa: like `ip a`, but without docker/virtual interfaces.
+# Extra flags are passed to ip: ipa -4, ipa -6, ipa -br
+ipa() {
+    local dev
+    local -a devs
+    # Interfaces in `ip a` order, skipping the ones docker/VM tooling adds.
+    while IFS= read -r dev; do
+        dev=${dev%%@*}  # veth1234@if2 -> veth1234
+        case $dev in
+            docker*|br-*|veth*|virbr*|tun*|tap*|wg*) continue ;;
+        esac
+        devs+=("$dev")
+    done < <(ip -o link show | awk -F': ' '{print $2}')
+    (( $#devs )) || { print -u2 'ipa: no matching interfaces'; return 1 }
+    for dev in $devs; do
+        ip "$@" addr show dev "$dev"
+    done
+}
+
 # cache: run a command once per timestamp, then view the cached output.
 cache() {
     local cache_string
