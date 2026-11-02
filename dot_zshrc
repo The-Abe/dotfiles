@@ -25,9 +25,48 @@ setopt HIST_FIND_NO_DUPS       # skip duplicates while searching history
 # }}}
 
 # ── PATH ────────────────────────────────────────────────────── {{{
+# add_path [-a|--append] <dir>...
+# Add directories to PATH, dropping any existing copies first. Prepends by
+# default; use -a/--append to put a directory at the end instead.
+#   add_path ~/.cargo/bin
+#   add_path --append /opt/foo/bin
+add_path() {
+    local append=0 dir p
+    local -a parts
+    while (( $# )); do
+        case "$1" in
+            -a|--append) append=1; shift ;;
+            --) shift; break ;;
+            -*) print -u2 "add_path: unknown option: $1"; return 2 ;;
+            *) break ;;
+        esac
+    done
+    for dir in "$@"; do
+        [[ -n "$dir" ]] || continue
+        while [[ "$dir" == */ && "$dir" != / ]]; do dir="${dir%/}"; done
+        if [[ ! -d "$dir" ]]; then
+            print -u2 "add_path: not a directory: $dir"
+            continue
+        fi
+        # Rebuild PATH without empty or duplicate entries, minus this directory.
+        parts=()
+        for p in "${(@s.:.)PATH}"; do
+            [[ -z "$p" || "$p" == "$dir" ]] && continue
+            (( ${parts[(Ie)$p]} )) || parts+=("$p")
+        done
+        if (( append )); then
+            parts+=("$dir")
+        else
+            parts=("$dir" "${parts[@]}")
+        fi
+        PATH="${(j.:.)parts}"
+    done
+    export PATH
+}
+
 # Prepend directories only if they exist, keeping PATH clean.
 for dir in \
-    "$HOME/.bin" \
+    "$HOME/bin" \
     "$HOME/.local/bin" \
     "/usr/local/bin" \
     "$HOME/.config/emacs/bin" \
@@ -164,6 +203,20 @@ command -v xclip &>/dev/null && alias copy="xclip -i -selection clip"
 command -v wl-copy &>/dev/null && alias copy="wl-copy"
 command -v xdg-open &>/dev/null && alias o=xdg-open
 command -v xdg-open &>/dev/null && alias open=xdg-open
+# }}}
+
+# ── Typos ───────────────────────────────────────────────────── {{{
+alias suod='sudo'
+alias ivm='vim'
+alias cim='vim'
+alias xranrd='xrandr'
+alias doker='docker'
+alias dmesh='dmesg'
+alias nmctl='nmcli'
+alias mime-open='mimeopen'
+alias resolve-ctl='resolvectl'
+alias arpscan='arp-scan'
+alias 'cd..'='cd ..'
 # }}}
 
 # ── Functions ───────────────────────────────────────────────── {{{
@@ -321,7 +374,7 @@ fi
 zinit cdreplay -q
 # }}}
 
-# ── Late-loading plugins ───────────────────────────────────── {{{
+# ── Late-loading plugins ────────────────────────────────────── {{{
 # whizsh-key is loaded last so its space binding isn't overwritten.
 #
 # Local dev source
