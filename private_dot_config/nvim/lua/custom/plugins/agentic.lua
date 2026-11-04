@@ -5,6 +5,13 @@ vim.pack.add {
 
 require("agentic").setup({
   provider = "opencode-acp",
+  acp_providers = {
+    ["opencode-acp"] = {
+      -- OpenCode ACP defaults to an `opencode/*` model, which requires a
+      -- separate login. Use the provider already authenticated in OpenCode.
+      initial_model = "opencode-go/gpt-5.6-luna",
+    },
+  },
   position = "right",
   width = 0.4,
   keymaps = {
