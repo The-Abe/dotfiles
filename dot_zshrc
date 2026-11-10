@@ -67,6 +67,7 @@ add_path() {
 # Prepend directories only if they exist, keeping PATH clean.
 for dir in \
     "$HOME/bin" \
+    "$HOME/.bin" \
     "$HOME/.local/bin" \
     "/usr/local/bin" \
     "$HOME/.config/emacs/bin" \
