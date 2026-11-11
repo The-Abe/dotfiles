@@ -1,41 +1,53 @@
 local M = {}
 local gh = require("config.utils").gh
 local inbox_dir = vim.fn.expand("~/Obsidian/Inbox")
-local daily_dir = vim.fn.expand("~/Obsidian/Daily")
+local weekly_dir = vim.fn.expand("~/Obsidian/Weekly")
 local templates_dir = vim.fn.expand("~/Obsidian/Templates")
 
 vim.pack.add { gh "wsdjeg/calendar.nvim" }
 
-local function build_daily_header(date)
-  date = date or os.date("*t")
-  local time = os.time(date)
-  return "# " .. os.date("%A", time) .. " " .. os.date("%Y-%m-%d", time) .. "\n"
+local function noon(date)
+  return os.time({ year = date.year, month = date.month, day = date.day, hour = 12 })
 end
 
-local function get_daily_path(date)
+local function build_weekly_header(date)
   date = date or os.date("*t")
-  local time = os.time(date)
-  local date_str = os.date("%Y-%m-%d", time)
-  local month_dir = os.date("%Y/%m", time)
-  return daily_dir .. "/" .. month_dir .. "/" .. date_str .. ".md"
+  return "# " .. os.date("%G-W%V", noon(date)) .. "\n"
 end
 
-local function get_daily_date_from_path(path)
-  local date_str = path:match("(%d%d%d%d%-%d%d%-%d%d)%.md$")
-  if not date_str then
+local weekday_names = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }
+
+local function day_heading(date)
+  date = date or os.date("*t")
+  local time = noon(date)
+  return "## " .. weekday_names[os.date("*t", time).wday] .. " " .. os.date("%Y-%m-%d", time)
+end
+
+local function get_weekly_path(date)
+  date = date or os.date("*t")
+  local week_str = os.date("%G-W%V", noon(date))
+  return weekly_dir .. "/" .. week_str:match("^(%d+)") .. "/" .. week_str .. ".md"
+end
+
+-- Returns the date table of the Monday of the ISO week encoded in the path.
+local function get_weekly_monday_from_path(path)
+  local y, w = path:match("(%d%d%d%d)%-W(%d%d)%.md$")
+  if not y then
     return nil
   end
-  local y, m, d = date_str:match("(%d%d%d%d)%-(%d%d)%-(%d%d)")
-  return { year = tonumber(y), month = tonumber(m), day = tonumber(d) }
+  local jan4 = os.date("*t", os.time({ year = tonumber(y), month = 1, day = 4, hour = 12 }))
+  local monday_offset = (jan4.wday + 5) % 7
+  local monday = os.time({ year = tonumber(y), month = 1, day = 4 - monday_offset + (tonumber(w) - 1) * 7, hour = 12 })
+  return os.date("*t", monday)
 end
 
-local function is_daily_note(path)
-  local daily_prefix = vim.fn.fnamemodify(daily_dir, ":p")
+local function is_weekly_note(path)
+  local weekly_prefix = vim.fn.fnamemodify(weekly_dir, ":p")
   local p = vim.fn.fnamemodify(path, ":p")
-  if not vim.startswith(p, daily_prefix) then
+  if not vim.startswith(p, weekly_prefix) then
     return false
   end
-  return get_daily_date_from_path(p) ~= nil
+  return get_weekly_monday_from_path(p) ~= nil
 end
 
 local function ensure_dir_exists(path)
@@ -152,18 +164,16 @@ function M.add_todo(text, date)
   end
 
   date = date or os.date("*t")
-  local daily_path = get_daily_path(date)
-  local content = read_file(daily_path)
+  local weekly_path = get_weekly_path(date)
+  local content = read_file(weekly_path)
   local timestamp = os.date("%Y-%m-%d")
   local todo_line = "- [ ] " .. text .. " [CAPTURED: " .. timestamp .. "]"
 
   if not content then
-    content = build_daily_header(date) .. "\n## Todo\n" .. todo_line
-    write_file(daily_path, content)
-  else
-    content = insert_at_section_bottom(content, "## Todo", todo_line)
-    write_file(daily_path, content)
+    content = build_weekly_header(date)
   end
+  content = insert_at_section_bottom(content, day_heading(date), todo_line)
+  write_file(weekly_path, content .. "\n")
 
   vim.notify("Added todo: " .. text)
 end
@@ -174,7 +184,7 @@ function M.new_todo(date)
       return
     end
     M.add_todo(item, date)
-    M.open_daily_at(date)
+    M.open_weekly_at(date)
   end)
 end
 
@@ -185,18 +195,16 @@ function M.add_idea(text, date)
   end
 
   date = date or os.date("*t")
-  local daily_path = get_daily_path(date)
-  local content = read_file(daily_path)
+  local weekly_path = get_weekly_path(date)
+  local content = read_file(weekly_path)
   local timestamp = os.date("%H:%M")
   local idea_line = "> [" .. timestamp .. "] " .. text
 
   if not content then
-    content = build_daily_header(date) .. "\n## Ideas\n" .. idea_line
-    write_file(daily_path, content)
-  else
-    content = insert_at_section_bottom(content, "## Ideas", idea_line)
-    write_file(daily_path, content)
+    content = build_weekly_header(date)
   end
+  content = insert_at_section_bottom(content, day_heading(date), idea_line)
+  write_file(weekly_path, content .. "\n")
 
   vim.notify("Added idea: " .. text)
 end
@@ -207,7 +215,7 @@ function M.new_idea(date)
       return
     end
     M.add_idea(idea, date)
-    M.open_daily_at(date)
+    M.open_weekly_at(date)
   end)
 end
 
@@ -218,18 +226,16 @@ function M.add_log(text, date)
   end
 
   date = date or os.date("*t")
-  local daily_path = get_daily_path(date)
-  local content = read_file(daily_path)
+  local weekly_path = get_weekly_path(date)
+  local content = read_file(weekly_path)
   local timestamp = os.date("%H:%M:%S")
   local log_line = "- " .. text .. " [CAPTURED: " .. timestamp .. "]"
 
   if not content then
-    content = build_daily_header(date) .. "\n## Log\n" .. log_line
-    write_file(daily_path, content)
-  else
-    content = insert_at_section_bottom(content, "## Log", log_line)
-    write_file(daily_path, content)
+    content = build_weekly_header(date)
   end
+  content = insert_at_section_bottom(content, day_heading(date), log_line)
+  write_file(weekly_path, content .. "\n")
 
   vim.notify("Added log: " .. text)
 end
@@ -240,7 +246,7 @@ function M.new_log(date)
       return
     end
     M.add_log(log, date)
-    M.open_daily_at(date)
+    M.open_weekly_at(date)
   end)
 end
 
@@ -291,41 +297,53 @@ function M.deadline_todo()
   })
 end
 
-local function ensure_daily_note(date)
+local function ensure_weekly_note(date)
   date = date or os.date("*t")
-  local daily_path = get_daily_path(date)
-  if not read_file(daily_path) then
-    write_file(daily_path, build_daily_header(date))
+  local weekly_path = get_weekly_path(date)
+  if not read_file(weekly_path) then
+    write_file(weekly_path, build_weekly_header(date))
   end
-  return daily_path
+  return weekly_path
 end
 
-function M.open_daily_at(date)
-  local daily_path = ensure_daily_note(date)
-  vim.cmd("edit " .. vim.fn.fnameescape(daily_path))
+local function jump_to_day(date)
+  local heading = day_heading(date)
+  for i, l in ipairs(vim.api.nvim_buf_get_lines(0, 0, -1, false)) do
+    if l == heading then
+      vim.api.nvim_win_set_cursor(0, { i, 0 })
+      return
+    end
+  end
 end
 
-function M.open_daily_split(date)
-  local daily_path = ensure_daily_note(date)
-  vim.cmd("vsplit " .. vim.fn.fnameescape(daily_path))
+function M.open_weekly_at(date)
+  date = date or os.date("*t")
+  vim.cmd("edit " .. vim.fn.fnameescape(ensure_weekly_note(date)))
+  jump_to_day(date)
 end
 
-function M.open_daily()
-  M.open_daily_at(os.date("*t"))
+function M.open_weekly_split(date)
+  date = date or os.date("*t")
+  vim.cmd("vsplit " .. vim.fn.fnameescape(ensure_weekly_note(date)))
+  jump_to_day(date)
 end
 
-local function shift_daily(offset_days)
-  local date = get_daily_date_from_path(vim.fn.expand("%:p")) or os.date("*t")
-  local time = os.time({ year = date.year, month = date.month, day = date.day, isdst = false }) + offset_days * 86400
-  M.open_daily_at(os.date("*t", time))
+function M.open_weekly()
+  M.open_weekly_at(os.date("*t"))
 end
 
-function M.next_daily()
-  shift_daily(1)
+local function shift_weekly(offset_weeks)
+  local date = get_weekly_monday_from_path(vim.fn.expand("%:p")) or os.date("*t")
+  local time = noon(date) + offset_weeks * 7 * 86400
+  M.open_weekly_at(os.date("*t", time))
 end
 
-function M.prev_daily()
-  shift_daily(-1)
+function M.next_weekly()
+  shift_weekly(1)
+end
+
+function M.prev_weekly()
+  shift_weekly(-1)
 end
 
 local calendar_origin_win = nil
@@ -361,12 +379,12 @@ local function format_date(time)
 end
 
 local function format_day_header(time)
-  return os.date("%A %Y-%m-%d", time)
+  return weekday_names[os.date("*t", time).wday] .. " " .. os.date("%Y-%m-%d", time)
 end
 
-local function scan_daily_files()
+local function scan_weekly_files()
   local files = {}
-  local handle = vim.fn.glob(daily_dir .. "/**/*.md", false, true)
+  local handle = vim.fn.glob(weekly_dir .. "/**/*.md", false, true)
   for _, path in ipairs(handle) do
     table.insert(files, path)
   end
@@ -417,7 +435,7 @@ function M.show_week()
   local prev_start = week_start - 7 * 86400
   local next_end = week_end + 7 * 86400
 
-  local files = scan_daily_files()
+  local files = scan_weekly_files()
   local tasks = extract_tagged_tasks(files, prev_start, next_end)
 
   local weeks = {
@@ -476,10 +494,10 @@ local function setup_keymaps()
 
   vim.keymap.set("n", "<leader>nc", M.new_note, opts("New note in Inbox"))
   vim.keymap.set("n", "<leader>nC", M.open_calendar, opts("Open calendar"))
-  vim.keymap.set("n", "<leader>ni", M.new_idea, opts("New idea in daily note"))
-  vim.keymap.set("n", "<leader>nl", M.new_log, opts("New log in daily note"))
-  vim.keymap.set("n", "<leader>nd", M.open_daily, opts("Open daily note"))
-  vim.keymap.set("n", "<leader>nn", M.new_todo, opts("New todo in daily note"))
+  vim.keymap.set("n", "<leader>ni", M.new_idea, opts("New idea in weekly note"))
+  vim.keymap.set("n", "<leader>nl", M.new_log, opts("New log in weekly note"))
+  vim.keymap.set("n", "<leader>nw", M.open_weekly, opts("Open weekly note"))
+  vim.keymap.set("n", "<leader>nn", M.new_todo, opts("New todo in weekly note"))
   vim.keymap.set("n", "<leader>ntd", function() M.toggle_todo("done") end, opts("Mark as done"))
   vim.keymap.set("n", "<leader>ntw", function() M.toggle_todo("waiting") end, opts("Mark as waiting"))
   vim.keymap.set("n", "<leader>nti", function() M.toggle_todo("in-progress") end, opts("Mark as in-progress"))
@@ -491,18 +509,18 @@ end
 
 function M.setup()
   ensure_dir_exists(inbox_dir)
-  ensure_dir_exists(daily_dir)
+  ensure_dir_exists(weekly_dir)
   ensure_dir_exists(templates_dir)
   setup_keymaps()
 
   require("calendar").setup({})
-  require("calendar.extensions").register("daily", {
+  require("calendar.extensions").register("weekly", {
     get = function(year, month)
       local marks = {}
-      local pattern = daily_dir .. "/" .. string.format("%04d/%02d", year, month) .. "/*.md"
-      for _, path in ipairs(vim.fn.glob(pattern, false, true)) do
-        local day = path:match("(%d%d)%.md$")
-        if day then
+      local month_prefix = string.format("%04d-%02d-", year, month)
+      for _, path in ipairs(vim.fn.glob(weekly_dir .. "/*/*.md", false, true)) do
+        local content = read_file(path) or ""
+        for day in content:gmatch("\n## %a+ " .. month_prefix .. "(%d%d)") do
           table.insert(marks, { year = year, month = month, day = tonumber(day) })
         end
       end
@@ -511,11 +529,11 @@ function M.setup()
     actions = {
       open = function(year, month, day)
         calendar_focus()
-        M.open_daily_at({ year = year, month = month, day = day })
+        M.open_weekly_at({ year = year, month = month, day = day })
       end,
       split = function(year, month, day)
         calendar_focus()
-        M.open_daily_split({ year = year, month = month, day = day })
+        M.open_weekly_split({ year = year, month = month, day = day })
       end,
       append_todo = function(year, month, day)
         calendar_focus()
@@ -532,13 +550,13 @@ function M.setup()
     },
   })
 
-  local daily_note_group = vim.api.nvim_create_augroup("NotesDailyNote", { clear = true })
+  local weekly_note_group = vim.api.nvim_create_augroup("NotesWeeklyNote", { clear = true })
   vim.api.nvim_create_autocmd({ "BufReadPost", "BufEnter" }, {
-    group = daily_note_group,
+    group = weekly_note_group,
     callback = function()
-      if is_daily_note(vim.fn.expand("%:p")) then
-        vim.keymap.set("n", "]n", M.next_daily, { buffer = true, silent = true, desc = "Next daily note" })
-        vim.keymap.set("n", "[n", M.prev_daily, { buffer = true, silent = true, desc = "Previous daily note" })
+      if is_weekly_note(vim.fn.expand("%:p")) then
+        vim.keymap.set("n", "]n", M.next_weekly, { buffer = true, silent = true, desc = "Next weekly note" })
+        vim.keymap.set("n", "[n", M.prev_weekly, { buffer = true, silent = true, desc = "Previous weekly note" })
       end
     end,
   })

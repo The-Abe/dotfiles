@@ -201,7 +201,7 @@ command -v eza &>/dev/null && alias la="eza -la --git --group-directories-first 
 command -v chezmoi &>/dev/null && alias cm="chezmoi"
 command -v nvim &>/dev/null && alias vim="nvim"
 command -v xclip &>/dev/null && alias copy="xclip -i -selection clip"
-command -v wl-copy &>/dev/null && alias copy="wl-copy"
+command -v wl-copy &>/dev/null && alias copy="wl-copy --type text/plain"
 command -v xdg-open &>/dev/null && alias o=xdg-open
 command -v xdg-open &>/dev/null && alias open=xdg-open
 # }}}
