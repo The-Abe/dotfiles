@@ -1,0 +1,15 @@
+# Layout: AOC left (landscape), AOC middle (portrait), laptop panel right.
+# External monitors are matched by serial; connector names (DVI-I-N) are not stable.
+#   left   = AOC 2770 GCNF8HA001101
+#   middle = AOC 2770 GCNF8HA001085
+profile 3screens {
+	output "AOC 2770 GCNF8HA001101" enable mode 1920x1080 transform normal position 0,420
+	output "AOC 2770 GCNF8HA001085" enable mode 1920x1080 transform 270 position 1920,0
+	output eDP-1 enable mode 1920x1200 position 3000,420
+
+	exec killall waybar
+	exec swaymsg 'output "*" bg "#32302f" solid_color'
+	exec swaymsg 'workspace "10:P" output eDP-1'
+	exec swaymsg 'workspace "9:O" output "AOC 2770 GCNF8HA001085"; workspace "8:I" output "AOC 2770 GCNF8HA001085"; workspace "7:U" output "AOC 2770 GCNF8HA001085"; workspace "6:Y" output "AOC 2770 GCNF8HA001085"'
+	exec swaymsg 'workspace "5:T" output "AOC 2770 GCNF8HA001101"; workspace "4:R" output "AOC 2770 GCNF8HA001101"; workspace "3:E" output "AOC 2770 GCNF8HA001101"; workspace "2:W" output "AOC 2770 GCNF8HA001101"; workspace "1:Q" output "AOC 2770 GCNF8HA001101"'
+}
