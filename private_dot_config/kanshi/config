@@ -4,7 +4,7 @@
 #   middle = AOC 2770 GCNF8HA001085
 profile 3screens {
 	output "AOC 2770 GCNF8HA001101" enable mode 1920x1080 transform normal position 0,420
-	output "AOC 2770 GCNF8HA001085" enable mode 1920x1080 transform 270 position 1920,0
+	output "AOC 2770 GCNF8HA001085" enable mode 1920x1080 transform 90 position 1920,0
 	output eDP-1 enable mode 1920x1200 position 3000,420
 
 	exec killall waybar
