@@ -71,6 +71,11 @@
       "rev": "2a6940af80375532e5e9e7c1f2fc6319a1b7a69d",
       "src": "https://github.com/mason-org/mason.nvim"
     },
+    "mermaid.nvim": {
+      "rev": "4da12693b3b4d63b67d07bafe8340b4abc265c70",
+      "src": "https://github.com/kevalin/mermaid.nvim",
+      "version": ">=0.0.0"
+    },
     "mini.nvim": {
       "rev": "a35f08f63b73f0ffac045cd175fb2a22e167c39c",
       "src": "https://github.com/nvim-mini/mini.nvim"

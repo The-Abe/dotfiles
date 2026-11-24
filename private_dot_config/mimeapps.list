@@ -26,6 +26,7 @@ application/xhtml+xml=userapp-Zen-PT3XW3.desktop
 application/x-extension-xhtml=userapp-Zen-PT3XW3.desktop
 application/x-extension-xht=userapp-Zen-PT3XW3.desktop
 x-scheme-handler/slack=slack.desktop
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop
 
 [Added Associations]
 x-scheme-handler/http=userapp-Zen-PT3XW3.desktop;
