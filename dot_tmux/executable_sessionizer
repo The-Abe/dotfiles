@@ -21,8 +21,12 @@ if [[ -z $selected ]]; then
     exit 0
 fi
 
-# Generate session name: replace '.' with '_' for tmux safety
-selected_name=$(basename "$selected" | tr . _)
+# Generate session name: replace '.' and ':' with '_' for tmux safety.
+# Keep in sync with auto_tmux_projects in ~/.zshrc (config- prefix for ~/.config).
+selected_name=$(basename "$selected" | tr '.:' '__')
+if [[ $selected == "$HOME/.config/"* ]]; then
+    selected_name="config-$selected_name"
+fi
 tmux_running=$(pgrep tmux)
 
 # If outside tmux, start or attach
