@@ -17,7 +17,7 @@ if ! command -v fzf >/dev/null 2>&1; then
     exit 1
 fi
 
-windows=$(tmux list-windows -a -F '#S|#I|#W' 2>/dev/null || true)
+windows=$(tmux list-windows -a -F '#S|#I|#{?@claude,#{@claude} ,}#W' 2>/dev/null || true)
 if [[ -z $windows ]]; then
     exit 0
 fi

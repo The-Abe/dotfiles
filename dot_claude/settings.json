@@ -2,7 +2,43 @@
   "model": "sonnet",
   "effortLevel": "medium",
   "theme": "dark-ansi",
+  "statusLine": {
+    "type": "command",
+    "command": "sh ~/.claude/statusline-command.sh"
+  },
   "enabledPlugins": {
     "mattpocock-skills@claude-plugins-official": true
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "tmux set -w -t \"$TMUX_PANE\" @claude '…' 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "tmux set -w -t \"$TMUX_PANE\" @claude '?' 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "tmux set -w -t \"$TMUX_PANE\" @claude '✓' 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
   }
 }
