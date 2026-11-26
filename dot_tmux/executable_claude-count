@@ -1,0 +1,4 @@
+#!/bin/sh
+# Count windows (all sessions) whose @claude state is waiting (?) or done (✓).
+tmux list-windows -a -F '#{@claude}' | grep -cxE '\?|✓'
+exit 0
