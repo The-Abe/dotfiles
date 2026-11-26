@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# usage: cwt <branch> [base]   (run from inside a project's tmux window)
+set -euo pipefail
+branch=$1; base=${2:-HEAD}
+root=$(git rev-parse --show-toplevel)
+dir="$HOME/projects/.worktrees/$(basename "$root")/${branch//\//-}"
+[[ -d $dir ]] || git worktree add -b "$branch" "$dir" "$base"
+tmux new-window -d -n "${branch//\//-}" -c "$dir" "claude"
