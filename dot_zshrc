@@ -389,7 +389,6 @@ autoload -Uz compinit
 if [[ ! -f ${ZDOTDIR:-$HOME}/.zcompdump ]] || [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
     compinit
     zcompile ${ZDOTDIR:-$HOME}/.zcompdump
-    command -v acli &>/dev/null && eval "$(acli completion zsh)"
 else
     compinit -C
 fi
